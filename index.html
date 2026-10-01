@@ -58,7 +58,8 @@
             overflow-y: auto;
             overflow-x: hidden;
             overscroll-behavior-y: contain;
-            padding-bottom: 120px; /* Важный отступ для телефонов, чтобы карточки не обрезались */
+            /* Важный отступ для телефонов, чтобы карточки не обрезались снизу */
+            padding-bottom: 120px; 
         }
         
         thead th {
@@ -237,6 +238,7 @@
     </div>
 
     <script>
+        // Механика звука
         let audioCtx = null;
         function getAudioContext() {
             if (!audioCtx) {
@@ -387,41 +389,16 @@
 8082	-	РЦ Молл, Моховая улица, 7, Челябинск, 454005	Челябинск	-	-	-	Нет	-	-
 8083	-	РЦ Молл, шоссе Металлургов, 88, Челябинск, 454052	Челябинск	-	-	-	Нет	-	-`;
 
-        // Полная база ссылок: 49 маршрутов. Включая вашу персональную ссылку для ТК 203.
+        // Полная база ссылок: 49 маршрутов. Включая восстановленные ссылки из бэкапа.
         const customRoutes = {
-            '203': 'https://yandex.ru/maps/?um=constructor%3Afbbd0b022ba16d28a9759e073e3de48d938f03a1cd710ca64ff5c6fad195da4f&source=constructorLink',
             '230': 'https://yandex.ru/maps/54/yekaterinburg/?from=mapframe&ll=60.629319%2C56.908463&mode=usermaps&source=mapframe&um=constructor%3A5104fa7b18d77875444dfad81e1c3b3a83dea27ff53f279ba413a4122c01582d&utm_source=mapframe&z=16.33',
             '228': 'https://yandex.ru/maps/54/yekaterinburg/?from=mapframe&ll=60.610110%2C56.860900&mode=usermaps&source=mapframe&um=constructor%3A6026fb18a7fe967b8e2a98c4ceb40a19fc23566b601295405d35c1a158b9f276&utm_source=mapframe&z=17',
             '227': 'https://yandex.ru/maps/54/yekaterinburg/?from=mapframe&ll=60.500749%2C56.791951&mode=usermaps&source=mapframe&um=constructor%3A04fba415c82b2ed0370f19d8bc7f1542400515b1d3befc0e7c8ad07bbfba1adf&utm_source=mapframe&z=17',
+            '203': 'https://yandex.ru/maps/54/yekaterinburg/?from=mapframe&ll=60.709980%2C56.824191&mode=usermaps&source=mapframe&um=constructor%3Abc8aa58fa6967fd36cb45dbaddf966621c8e3489e059c14e12cfbb81476a0ca4&utm_source=mapframe&z=17',
             '229': 'https://yandex.ru/maps/54/yekaterinburg/?ll=60.582759%2C56.885806&mode=usermaps&source=constructorLink&um=constructor%3A3a69d8183a94451d7f581d90c23fd3f5d1d9d52b984bd848d8f243cbd1c5a180&z=18',
             '396': 'https://yandex.ru/maps/54/yekaterinburg/?ll=60.535975%2C56.815168&mode=usermaps&source=constructorLink&um=constructor%3A76b75ff4aaa1421a3fe42cf126b8b1cd82bf5430d6c378dd71e48a7ebe024a08&z=17',
             '369': 'https://yandex.ru/maps/54/yekaterinburg/?ll=60.622557%2C56.797838&mode=usermaps&source=constructorLink&um=constructor%3A4657623263425861d33635a73b8cd62fb0eeb81e3c3b45b8c05104ec6d4f1197&z=17',
             '368': 'https://yandex.ru/maps/54/yekaterinburg/?indoorLevel=2&ll=60.631254%2C56.882798&mode=usermaps&source=constructorLink&um=constructor%3Aba5f0124bbf8fc174f2a371ea321d716de5cda19fb0ebcfb81ec96de73379bd4&z=17',
-            '176': 'https://yandex.ru/maps/11164/kamensk-uralskiy/?from=mapframe&ll=61.920244%2C56.380716&mode=usermaps&source=mapframe&um=constructor%3Abd1a7d5da68ec526e6188f7af58cc0929cc8a81daeafb4ac7d33750c451d9bc0&utm_source=mapframe&z=16',
-            '309': 'https://yandex.ru/maps/53/kurgan/?from=mapframe&ll=65.280661%2C55.426803&mode=usermaps&source=mapframe&um=constructor%3A420fafc29d9ff7845f23b3d0f5fe5d6051285ad1bda792995069c43c9404e8c3&utm_source=mapframe&z=16',
-            '317': 'https://yandex.ru/maps/1091/nizhnevartovsk/?from=mapframe&ll=76.544952%2C60.942692&mode=usermaps&source=mapframe&um=constructor%3A75800c946a3cbaed7cf8e53198910cd1c30b7095d89c3ab44f1368c7dd9652cb&utm_source=mapframe&z=16',
-            '61': 'https://yandex.ru/maps/11168/nizhniy-tagil/?from=mapframe&ll=59.961666%2C57.872355&mode=usermaps&source=mapframe&um=constructor%3Aa7378e1aef386f28ca28c65f508d8ae0f2cbb09b20b34e696e54659d3fae9f3e&utm_source=mapframe&z=16',
-            '206': 'https://yandex.ru/maps/11168/nizhniy-tagil/?from=mapframe&ll=60.016664%2C57.876045&mode=usermaps&source=mapframe&um=constructor%3A7231762167fcef11955abd3b1a59d373a8da1955be22583a84939e66165e7ac9&utm_source=mapframe&z=16',
-            '285': 'https://yandex.ru/maps/11231/noyabrsk/?from=mapframe&ll=75.456404%2C63.215521&mode=usermaps&source=mapframe&um=constructor%3A112b91bbe90364221b4cdb56516915d627a7eccb67d6c11079886677b4ac1e3a&utm_source=mapframe&z=17',
-            '42': 'https://yandex.ru/maps/50/perm/?from=mapframe&ll=56.171552%2C57.996761&mode=usermaps&source=mapframe&um=constructor%3A5f010ce5afd6535b0b18886528d936fd1b7bf8610c0c53f27ddb913c793bddbd&utm_source=mapframe&z=16',
-            '147': 'https://yandex.ru/maps/50/perm/?from=mapframe&ll=56.150251%2C57.972214&mode=usermaps&source=mapframe&um=constructor%3A5eaec7c3c73aabe8e58cefe8f133cfedc4a8190a4cd272690d42de6ce51fad03&utm_source=mapframe&z=15',
-            '235': 'https://yandex.ru/maps/50/perm/?from=mapframe&ll=56.288671%2C58.004634&mode=usermaps&source=mapframe&um=constructor%3A22984dd9fd6a1ab5351609cc78de557a7b12a3b5b2ba707f4ec6bf602f0468a5&utm_source=mapframe&z=17',
-            '297': 'https://yandex.ru/maps/50/perm/?from=mapframe&ll=56.263987%2C57.965428&mode=usermaps&source=mapframe&um=constructor%3A4e9ee4c0120c8736377edd7dd7e322d9fc13d71b1d29bc1465b247e20fda75fc&utm_source=mapframe&z=16',
-            '929455': 'https://yandex.ru/maps/?ll=55.833832%2C58.059088&mode=usermaps&source=constructorLink&um=constructor%3A110d38e8c21f29189371c4964665d40a84d9e81cfc1940cf7dc62772acad23ea&z=18',
-            '321': 'https://yandex.ru/maps/973/surgut/?from=mapframe&ll=73.372707%2C61.241015&mode=usermaps&source=mapframe&um=constructor%3A2cfca0b1d021c6435cbaeef81e04008fb7e4358926f65fe889aaf1a41826412b&utm_source=mapframe&z=15',
-            '92': 'https://yandex.ru/maps/973/surgut/?from=mapframe&ll=73.456881%2C61.255798&mode=usermaps&source=mapframe&um=constructor%3A9379333ad3cdd6f45da9d6857009830d9356b2c1c92a2b89e3951bfc7e2a3648&utm_source=mapframe&z=15',
-            '93': 'https://yandex.ru/maps/973/surgut/?from=mapframe&ll=73.349182%2C61.273897&mode=usermaps&source=mapframe&um=constructor%3Aa21541dd1e7e69ee0a840617c7c4b5922d40a407d1a897d37ad544623b3b63a9&utm_source=mapframe&z=16',
-            '411': 'https://yandex.ru/maps/973/surgut/?ll=73.368235%2C61.276036&mode=usermaps&source=constructorLink&um=constructor%3A60886fa81ee18a4a366f726a4ed5ea98b8030d9db8401993606927e644bac0ec&z=17',
-            '135': 'https://yandex.ru/maps/11175/tobolsk/?from=mapframe&ll=68.300662%2C58.222049&mode=usermaps&source=mapframe&um=constructor%3A25af0bb6c6e6288b166f38abd5de7ef050d2a890742300f98d30d80990d57b6a&utm_source=mapframe&z=17',
-            '209': 'https://yandex.ru/maps/55/tyumen/?from=mapframe&ll=65.567336%2C57.170480&mode=usermaps&source=mapframe&um=constructor%3Ade84586b0c2f001281d090ca8c5775a62b18fc94a41ab1577376ae260f731b6b&utm_source=mapframe&z=16',
-            '245': 'https://yandex.ru/maps/55/tyumen/?from=mapframe&ll=65.600741%2C57.094176&mode=usermaps&source=mapframe&um=constructor%3A04abbef82906ae05068e6836f6b08760b7073ccc16aed493712e1bbb54bfcc2f&utm_source=mapframe&z=17',
-            '91': 'https://yandex.ru/maps/55/tyumen/?from=mapframe&ll=65.544285%2C57.115267&mode=usermaps&source=mapframe&um=constructor%3A171904fd66cf680314763358254991b49c0b4f1d2b2f8877a23c7c321cb65e28&utm_source=mapframe&z=16',
-            '94': 'https://yandex.ru/maps/55/tyumen/?from=mapframe&ll=65.660714%2C57.103949&mode=usermaps&source=mapframe&um=constructor%3A58fbb1fcb1e80c35c75e82bfbe2552d111bb224a9e9de187728a98a1191d20b0&utm_source=mapframe&z=16',
-            '146': 'https://yandex.ru/maps/55/tyumen/?from=mapframe&ll=65.672489%2C57.172735&mode=usermaps&source=mapframe&um=constructor%3Ab4936975fb5b0f5594204fd2e904747317394327623d2bcf64495a9783ebc94e&utm_source=mapframe&z=17',
-            '390': 'https://yandex.ru/maps/55/tyumen/?ll=65.626385%2C57.096766&mode=usermaps&source=constructorLink&um=constructor%3A67de6668c15807d5327f6e8991f3b3490f6e8d5c41242706511b3b0f09df13e9&z=17',
-            '412': 'https://yandex.ru/maps/55/tyumen/?ll=65.569012%2C57.104090&mode=usermaps&source=constructorLink&um=constructor%3A389c846fd349914f08a0a9449f19af0fb823b54ab3cb10a2d8d60f8b3611135d&z=17',
-            '389': 'https://yandex.ru/maps/55/tyumen/?ll=65.565185%2C57.156700&mode=usermaps&source=constructorLink&um=constructor%3A26fddcbf1d22e4358f5aab3b9a6859c9fc72bff9f2a9fda524caaa8258734de8&z=18',
-            '929453': 'https://yandex.ru/maps/55/tyumen/?l=sat%2Cskl&ll=65.664636%2C57.241837&mode=usermaps&source=constructorLink&um=constructor%3A97e33d2a8be33ff982bc14cb579922fb83b7b63eb3a58743cc3e27e7e2d04ac0&z=17',
             '301': 'https://yandex.ru/maps/56/chelyabinsk/?from=mapframe&ll=61.430032%2C55.163913&mode=usermaps&source=mapframe&um=constructor%3A9d044f9f9436b17fe70f5e8b72f7b17f6e68e3bfb6ee3b08b132e1c3455e3830&utm_source=mapframe&z=16',
             '69': 'https://yandex.ru/maps/56/chelyabinsk/?from=mapframe&ll=61.349663%2C55.109058&mode=usermaps&source=mapframe&um=constructor%3Abc45b5761f5a48073b942abd8c8130f88579e07796d0999f63a64397dc646b09&utm_source=mapframe&z=16',
             '154': 'https://yandex.ru/maps/56/chelyabinsk/?from=mapframe&ll=61.376066%2C55.175693&mode=usermaps&source=mapframe&um=constructor%3Ac71bbc2e6598ee5e2cf91ca61cb3a30b52e4e03c6e67715828c0b02990872723&utm_source=mapframe&z=17',
@@ -434,8 +411,33 @@
             '337': 'https://yandex.ru/maps/56/chelyabinsk/?ll=61.287326%2C55.185661&mode=usermaps&source=constructorLink&um=constructor%3Afda451434f885d4c0133d2ddf4fa50c37c04be3398c993dde7d45d13024ba623&z=18',
             '8081': 'https://yandex.ru/maps/56/chelyabinsk/?ll=61.319655%2C55.228784&mode=usermaps&source=constructorLink&um=constructor%3Ad7a55f54033ca4e7ce263b34b24526d26263fc2ef5f6493feb70decc50bbb50b&z=17',
             '8082': 'https://yandex.ru/maps/56/chelyabinsk/?ll=61.474291%2C55.169322&mode=usermaps&source=constructorLink&um=constructor%3A0b4eb181502da3b429680f0cb09c06b7fabf135aea2e14e5a0d7a14e970c2764&z=18',
+            '209': 'https://yandex.ru/maps/55/tyumen/?from=mapframe&ll=65.567336%2C57.170480&mode=usermaps&source=mapframe&um=constructor%3Ade84586b0c2f001281d090ca8c5775a62b18fc94a41ab1577376ae260f731b6b&utm_source=mapframe&z=16',
+            '245': 'https://yandex.ru/maps/55/tyumen/?from=mapframe&ll=65.600741%2C57.094176&mode=usermaps&source=mapframe&um=constructor%3A04abbef82906ae05068e6836f6b08760b7073ccc16aed493712e1bbb54bfcc2f&utm_source=mapframe&z=17',
+            '91': 'https://yandex.ru/maps/55/tyumen/?from=mapframe&ll=65.544285%2C57.115267&mode=usermaps&source=mapframe&um=constructor%3A171904fd66cf680314763358254991b49c0b4f1d2b2f8877a23c7c321cb65e28&utm_source=mapframe&z=16',
+            '94': 'https://yandex.ru/maps/55/tyumen/?from=mapframe&ll=65.660714%2C57.103949&mode=usermaps&source=mapframe&um=constructor%3A58fbb1fcb1e80c35c75e82bfbe2552d111bb224a9e9de187728a98a1191d20b0&utm_source=mapframe&z=16',
+            '146': 'https://yandex.ru/maps/55/tyumen/?from=mapframe&ll=65.672489%2C57.172735&mode=usermaps&source=mapframe&um=constructor%3Ab4936975fb5b0f5594204fd2e904747317394327623d2bcf64495a9783ebc94e&utm_source=mapframe&z=17',
+            '390': 'https://yandex.ru/maps/55/tyumen/?ll=65.626385%2C57.096766&mode=usermaps&source=constructorLink&um=constructor%3A67de6668c15807d5327f6e8991f3b3490f6e8d5c41242706511b3b0f09df13e9&z=17',
+            '412': 'https://yandex.ru/maps/55/tyumen/?ll=65.569012%2C57.104090&mode=usermaps&source=constructorLink&um=constructor%3A389c846fd349914f08a0a9449f19af0fb823b54ab3cb10a2d8d60f8b3611135d&z=17',
+            '389': 'https://yandex.ru/maps/55/tyumen/?ll=65.565185%2C57.156700&mode=usermaps&source=constructorLink&um=constructor%3A26fddcbf1d22e4358f5aab3b9a6859c9fc72bff9f2a9fda524caaa8258734de8&z=18',
+            '929453': 'https://yandex.ru/maps/55/tyumen/?l=sat%2Cskl&ll=65.664636%2C57.241837&mode=usermaps&source=constructorLink&um=constructor%3A97e33d2a8be33ff982bc14cb579922fb83b7b63eb3a58743cc3e27e7e2d04ac0&z=17',
+            '42': 'https://yandex.ru/maps/50/perm/?from=mapframe&ll=56.171552%2C57.996761&mode=usermaps&source=mapframe&um=constructor%3A5f010ce5afd6535b0b18886528d936fd1b7bf8610c0c53f27ddb913c793bddbd&utm_source=mapframe&z=16',
+            '147': 'https://yandex.ru/maps/50/perm/?from=mapframe&ll=56.150251%2C57.972214&mode=usermaps&source=mapframe&um=constructor%3A5eaec7c3c73aabe8e58cefe8f133cfedc4a8190a4cd272690d42de6ce51fad03&utm_source=mapframe&z=15',
+            '235': 'https://yandex.ru/maps/50/perm/?from=mapframe&ll=56.288671%2C58.004634&mode=usermaps&source=mapframe&um=constructor%3A22984dd9fd6a1ab5351609cc78de557a7b12a3b5b2ba707f4ec6bf602f0468a5&utm_source=mapframe&z=17',
+            '297': 'https://yandex.ru/maps/50/perm/?from=mapframe&ll=56.263987%2C57.965428&mode=usermaps&source=mapframe&um=constructor%3A4e9ee4c0120c8736377edd7dd7e322d9fc13d71b1d29bc1465b247e20fda75fc&utm_source=mapframe&z=16',
+            '929455': 'https://yandex.ru/maps/?ll=55.833832%2C58.059088&mode=usermaps&source=constructorLink&um=constructor%3A110d38e8c21f29189371c4964665d40a84d9e81cfc1940cf7dc62772acad23ea&z=18',
+            '321': 'https://yandex.ru/maps/973/surgut/?from=mapframe&ll=73.372707%2C61.241015&mode=usermaps&source=mapframe&um=constructor%3A2cfca0b1d021c6435cbaeef81e04008fb7e4358926f65fe889aaf1a41826412b&utm_source=mapframe&z=15',
+            '92': 'https://yandex.ru/maps/973/surgut/?from=mapframe&ll=73.456881%2C61.255798&mode=usermaps&source=mapframe&um=constructor%3A9379333ad3cdd6f45da9d6857009830d9356b2c1c92a2b89e3951bfc7e2a3648&utm_source=mapframe&z=15',
+            '93': 'https://yandex.ru/maps/973/surgut/?from=mapframe&ll=73.349182%2C61.273897&mode=usermaps&source=mapframe&um=constructor%3Aa21541dd1e7e69ee0a840617c7c4b5922d40a407d1a897d37ad544623b3b63a9&utm_source=mapframe&z=16',
+            '411': 'https://yandex.ru/maps/973/surgut/?ll=73.368235%2C61.276036&mode=usermaps&source=constructorLink&um=constructor%3A60886fa81ee18a4a366f726a4ed5ea98b8030d9db8401993606927e644bac0ec&z=17',
             '343': 'https://yandex.ru/maps/11184/nefteugansk/?ll=72.641799%2C61.096643&mode=usermaps&source=constructorLink&um=constructor%3Ab0c827a1179fba90dec35be7308dc489baacff49cbc062ee3b171f53a18314a0&z=17',
             '929451': 'https://yandex.ru/maps/11184/nefteugansk/?ll=72.704967%2C61.086331&mode=usermaps&source=constructorLink&um=constructor%3A5487a542a4e2074d0ec11ccbe62d8e97b7be37a1242301135a04b0d7565c8a19&z=16',
+            '61': 'https://yandex.ru/maps/11168/nizhniy-tagil/?from=mapframe&ll=59.961666%2C57.872355&mode=usermaps&source=mapframe&um=constructor%3Aa7378e1aef386f28ca28c65f508d8ae0f2cbb09b20b34e696e54659d3fae9f3e&utm_source=mapframe&z=16',
+            '206': 'https://yandex.ru/maps/11168/nizhniy-tagil/?from=mapframe&ll=60.016664%2C57.876045&mode=usermaps&source=mapframe&um=constructor%3A7231762167fcef11955abd3b1a59d373a8da1955be22583a84939e66165e7ac9&utm_source=mapframe&z=16',
+            '176': 'https://yandex.ru/maps/11164/kamensk-uralskiy/?from=mapframe&ll=61.920244%2C56.380716&mode=usermaps&source=mapframe&um=constructor%3Abd1a7d5da68ec526e6188f7af58cc0929cc8a81daeafb4ac7d33750c451d9bc0&utm_source=mapframe&z=16',
+            '309': 'https://yandex.ru/maps/53/kurgan/?from=mapframe&ll=65.280661%2C55.426803&mode=usermaps&source=mapframe&um=constructor%3A420fafc29d9ff7845f23b3d0f5fe5d6051285ad1bda792995069c43c9404e8c3&utm_source=mapframe&z=16',
+            '317': 'https://yandex.ru/maps/1091/nizhnevartovsk/?from=mapframe&ll=76.544952%2C60.942692&mode=usermaps&source=mapframe&um=constructor%3A75800c946a3cbaed7cf8e53198910cd1c30b7095d89c3ab44f1368c7dd9652cb&utm_source=mapframe&z=16',
+            '285': 'https://yandex.ru/maps/11231/noyabrsk/?from=mapframe&ll=75.456404%2C63.215521&mode=usermaps&source=mapframe&um=constructor%3A112b91bbe90364221b4cdb56516915d627a7eccb67d6c11079886677b4ac1e3a&utm_source=mapframe&z=17',
+            '135': 'https://yandex.ru/maps/11175/tobolsk/?from=mapframe&ll=68.300662%2C58.222049&mode=usermaps&source=mapframe&um=constructor%3A25af0bb6c6e6288b166f38abd5de7ef050d2a890742300f98d30d80990d57b6a&utm_source=mapframe&z=17',
             '338': 'https://yandex.ru/maps/11212/miass/?ll=60.109846%2C55.047242&mode=usermaps&source=constructorLink&um=constructor%3A4e2e93f7768924c9d5ecf921d176605f473965befe8c9a9b0f79a848ec8f66d7&z=17',
             '100': 'https://yandex.ru/maps/57/khanty-mansiysk/?from=mapframe&ll=68.989653%2C61.003343&mode=usermaps&source=mapframe&um=constructor%3A10177e1b4f8ce81d0d58dea39400c9ace3bb3d0b3d8cba2eeb46a6b407cf7749&utm_source=mapframe&z=17'
         };
@@ -664,8 +666,8 @@
 
         function renderTable() {
             const rawSearch = searchInput.value.toLowerCase().trim();
-            // Очистка от знаков препинания (чтобы находил О'кей даже если ввести окей или окэй)
-            const cleanSearchQuery = rawSearch.replace(/['"`]/g, '').replace('окэй', 'окей');
+            // Очистка запроса от кавычек и апострофов (для поиска окей и о'кей)
+            const cleanSearchQuery = rawSearch.replace(/['"\`]/g, '').replace('окэй', 'окей');
             const filterVal = currentFilterValue;
             
             if (cleanSearchQuery) clearSearchBtn.classList.remove('hidden');
@@ -687,7 +689,7 @@
                 if (searchWords.length === 0) {
                     matchesSearch = true;
                 } else {
-                    const fullText = `${store.tk} ${store.city} ${store.address} ${brandName}`.toLowerCase().replace(/['"`]/g, '');
+                    const fullText = `${store.tk} ${store.city} ${store.address} ${brandName}`.toLowerCase().replace(/['"\`]/g, '');
                     matchesSearch = searchWords.every(word => fullText.includes(word));
                 }
                 
@@ -839,7 +841,7 @@
             renderTable(); 
             
             const rawSearch = this.value.toLowerCase().trim();
-            const cleanSearchQuery = rawSearch.replace(/['"`]/g, '').replace('окэй', 'окей');
+            const cleanSearchQuery = rawSearch.replace(/['"\`]/g, '').replace('окэй', 'окей');
             autocompleteList.innerHTML = ''; 
             
             if (!cleanSearchQuery) {
@@ -856,7 +858,7 @@
                 else if (store.address.includes("Молл")) brandName = "РЦ МОЛЛ";
                 else if (store.address.includes("Монетка") || store.tk.startsWith("92")) brandName = "МОНЕТКА";
 
-                const fullText = `${store.tk} ${store.city} ${store.address} ${brandName}`.toLowerCase().replace(/['"`]/g, '');
+                const fullText = `${store.tk} ${store.city} ${store.address} ${brandName}`.toLowerCase().replace(/['"\`]/g, '');
                 const matchesSearch = searchWords.every(word => fullText.includes(word));
                                       
                 let matchesFilter = true;
