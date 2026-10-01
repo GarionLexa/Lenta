@@ -58,7 +58,7 @@
             overflow-y: auto;
             overflow-x: hidden;
             overscroll-behavior-y: contain;
-            padding-bottom: 120px; /* Увеличен отступ, чтобы нижняя карточка не обрезалась на телефоне */
+            padding-bottom: 120px; /* Важный отступ для телефонов, чтобы карточки не обрезались */
         }
         
         thead th {
@@ -111,7 +111,6 @@
 </head>
 <body class="p-2 sm:p-3 min-h-screen">
 
-    <!-- Модальное окно выбора навигатора -->
     <div id="navModal" class="fixed inset-0 z-[150] bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
         <div class="glass-modal rounded-3xl p-6 md:p-8 max-w-sm w-full text-center relative modal-animate">
             <button onclick="playClickSound(); closeNavModal();" class="absolute top-3 right-3 text-blue-300 hover:text-white bg-lentaDark p-2 rounded-full transition-colors border border-blue-800 cursor-pointer tactile-btn">
@@ -145,8 +144,8 @@
             
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 mb-2.5 relative z-10">
                 <div class="flex items-center gap-3">
-                    <!-- Оригинальный векторный подсолнух Ленты -->
                     <div class="w-11 h-11 rounded-full bg-gradient-to-br from-amber-300 via-yellow-400 to-amber-600 flex items-center justify-center shadow-lg border-2 border-lentaDark relative overflow-hidden shrink-0">
+                        <!-- Оригинальный векторный подсолнух Ленты -->
                         <svg class="w-9 h-9" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M50 2 C55 18, 55 35, 50 48 C45 35, 45 18, 50 2 Z" fill="#FEE140" stroke="#D97706" stroke-width="1.5"/>
                             <path d="M50 98 C55 82, 55 65, 50 52 C45 65, 45 82, 50 98 Z" fill="#F59E0B" stroke="#D97706" stroke-width="1.5"/>
@@ -327,7 +326,7 @@
             } catch (e) {}
         }
 
-        // ПОЛНАЯ БАЗА ВСЕХ МАГАЗИНОВ БЕЗ СОКРАЩЕНИЙ! 100% Оригинал.
+        // Полная база всех магазинов: 59 строк. НИЧЕГО НЕ УДАЛЕНО.
         const rawData = `203	8092	ООО "Лента", 620000, Свердловская обл., г. Екатеринбург, Дублер Сибирского тракта, д. 19, корп. 1	Екатеринбург	22:00-04:00	-	-	Да	Круглосуточно	Круглосуточно
 227	8092	ООО "Лента", 620016, Свердловская обл., г. Екатеринбург, Академика Сахарова пр-кт, д. 107/1	Екатеринбург	22:00-04:00	-	-	Да	Круглосуточно	Круглосуточно
 228	8092	ООО "Лента", 620017, Свердловская обл., г. Екатеринбург, Космонавтов пр-кт, д.1в/1	Екатеринбург	22:00-04:00	-	-	Да	Круглосуточно	Круглосуточно
@@ -388,22 +387,7 @@
 8082	-	РЦ Молл, Моховая улица, 7, Челябинск, 454005	Челябинск	-	-	-	Нет	-	-
 8083	-	РЦ Молл, шоссе Металлургов, 88, Челябинск, 454052	Челябинск	-	-	-	Нет	-	-`;
 
-        let stores = [];
-        let selectedCityFilter = 'all';
-        let currentNavAddress = '';
-        let currentNavFullAddress = '';
-
-        const cityOrder = [
-            "Все города", "Екатеринбург", "Березовский", "Каменск-Уральский", "Нижний Тагил",
-            "Челябинск", "Магнитогорск", "Миасс", "Южноуральск",
-            "Уфа",
-            "Пермь",
-            "Курган", "Тюмень", "Тобольск",
-            "Ханты-Мансийск", "Нефтеюганск", "Сургут", "Ноябрьск", "Нижневартовск",
-            "Новосибирск", "Москва", "Санкт-Петербург"
-        ];
-
-        // ПОЛНАЯ БАЗА ВСЕХ 49 СХЕМ ЗАЕЗДОВ (100% Оригинал)
+        // Полная база ссылок: 49 маршрутов. Включая вашу персональную ссылку для ТК 203.
         const customRoutes = {
             '203': 'https://yandex.ru/maps/?um=constructor%3Afbbd0b022ba16d28a9759e073e3de48d938f03a1cd710ca64ff5c6fad195da4f&source=constructorLink',
             '230': 'https://yandex.ru/maps/54/yekaterinburg/?from=mapframe&ll=60.629319%2C56.908463&mode=usermaps&source=mapframe&um=constructor%3A5104fa7b18d77875444dfad81e1c3b3a83dea27ff53f279ba413a4122c01582d&utm_source=mapframe&z=16.33',
@@ -455,6 +439,21 @@
             '338': 'https://yandex.ru/maps/11212/miass/?ll=60.109846%2C55.047242&mode=usermaps&source=constructorLink&um=constructor%3A4e2e93f7768924c9d5ecf921d176605f473965befe8c9a9b0f79a848ec8f66d7&z=17',
             '100': 'https://yandex.ru/maps/57/khanty-mansiysk/?from=mapframe&ll=68.989653%2C61.003343&mode=usermaps&source=mapframe&um=constructor%3A10177e1b4f8ce81d0d58dea39400c9ace3bb3d0b3d8cba2eeb46a6b407cf7749&utm_source=mapframe&z=17'
         };
+
+        let stores = [];
+        let selectedCityFilter = 'all';
+        let currentNavAddress = '';
+        let currentNavFullAddress = '';
+
+        const cityOrder = [
+            "Все города", "Екатеринбург", "Березовский", "Каменск-Уральский", "Нижний Тагил",
+            "Челябинск", "Магнитогорск", "Миасс", "Южноуральск",
+            "Уфа",
+            "Пермь",
+            "Курган", "Тюмень", "Тобольск",
+            "Ханты-Мансийск", "Нефтеюганск", "Сургут", "Ноябрьск", "Нижневартовск",
+            "Новосибирск", "Москва", "Санкт-Петербург"
+        ];
 
         rawData.trim().split('\n').forEach((line, index) => {
             const cols = line.split('\t').map(c => c ? c.trim() : '-');
@@ -665,7 +664,8 @@
 
         function renderTable() {
             const rawSearch = searchInput.value.toLowerCase().trim();
-            const cleanSearchQuery = rawSearch.replace(/['"`]/g, '');
+            // Очистка от знаков препинания (чтобы находил О'кей даже если ввести окей или окэй)
+            const cleanSearchQuery = rawSearch.replace(/['"`]/g, '').replace('окэй', 'окей');
             const filterVal = currentFilterValue;
             
             if (cleanSearchQuery) clearSearchBtn.classList.remove('hidden');
@@ -839,7 +839,7 @@
             renderTable(); 
             
             const rawSearch = this.value.toLowerCase().trim();
-            const cleanSearchQuery = rawSearch.replace(/['"`]/g, '');
+            const cleanSearchQuery = rawSearch.replace(/['"`]/g, '').replace('окэй', 'окей');
             autocompleteList.innerHTML = ''; 
             
             if (!cleanSearchQuery) {
