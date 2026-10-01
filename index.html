@@ -26,10 +26,10 @@
         body {
             background-color: #001A3D;
             background-image: 
-                radial-gradient(circle at 20% 20%, rgba(253, 203, 5, 0.1) 0%, transparent 45%),
-                radial-gradient(circle at 80% 80%, rgba(0, 65, 130, 0.4) 0%, transparent 55%),
-                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+                radial-gradient(circle at 20% 20%, rgba(253, 203, 5, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(0, 65, 130, 0.35) 0%, transparent 50%),
+                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
             background-size: 100% 100%, 100% 100%, 20px 20px, 20px 20px;
             color: #f1f5f9;
             font-family: 'Inter', sans-serif;
@@ -37,10 +37,10 @@
         }
 
         .glass-panel {
-            background: rgba(0, 43, 94, 0.85);
+            background: rgba(0, 43, 94, 0.82);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(253, 203, 5, 0.35);
+            border: 1px solid rgba(253, 203, 5, 0.3);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15);
         }
 
@@ -53,12 +53,12 @@
         }
 
         .table-container {
-            max-height: calc(100vh - 255px);
+            max-height: calc(100vh - 270px);
             min-height: 280px;
             overflow-y: auto;
             overflow-x: hidden;
             overscroll-behavior-y: contain;
-            padding-bottom: 60px;
+            padding-bottom: 50px;
         }
         
         thead th {
@@ -111,6 +111,7 @@
 </head>
 <body class="p-2 sm:p-3 min-h-screen">
 
+    <!-- Модальное окно выбора навигатора -->
     <div id="navModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
         <div class="glass-modal rounded-3xl p-6 md:p-8 max-w-sm w-full text-center relative modal-animate">
             <button onclick="playClickSound(); closeNavModal();" class="absolute top-3 right-3 text-blue-300 hover:text-white bg-lentaDark p-2 rounded-full transition-colors border border-blue-800 cursor-pointer tactile-btn">
@@ -138,12 +139,13 @@
         </div>
     </div>
 
-    <div class="max-w-7xl mx-auto space-y-2">
+    <div class="max-w-7xl mx-auto space-y-2.5">
         <header class="glass-panel p-3 sm:p-4 rounded-2xl shadow-2xl relative overflow-hidden">
             <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-lentaYellow/15 rounded-full blur-3xl pointer-events-none"></div>
             
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2 relative z-10">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 mb-2.5 relative z-10">
                 <div class="flex items-center gap-3">
+                    <!-- Оригинальный векторный подсолнух Ленты -->
                     <div class="w-11 h-11 rounded-full bg-gradient-to-br from-amber-300 via-yellow-400 to-amber-600 flex items-center justify-center shadow-lg border-2 border-lentaDark relative overflow-hidden shrink-0">
                         <svg class="w-9 h-9" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M50 2 C55 18, 55 35, 50 48 C45 35, 45 18, 50 2 Z" fill="#FEE140" stroke="#D97706" stroke-width="1.5"/>
@@ -159,7 +161,11 @@
                         <h1 class="text-base md:text-xl font-black text-white tracking-wide uppercase flex items-center gap-2">
                             ЛЕНТА <span class="bg-lentaYellow text-lentaDark px-2 py-0.5 rounded text-xs font-bold shadow-sm">ЛОГИСТИКА</span>
                         </h1>
-                        <div class="text-[10px] md:text-xs text-blue-200 font-medium tracking-wide">Мониторинг доставок</div>
+                        <div class="flex flex-col mt-0.5">
+                            <div class="text-[10px] md:text-xs text-blue-200 font-medium tracking-wide leading-tight">Мониторинг доставок</div>
+                            <!-- Отметка авторства Дмитрия Шарова -->
+                            <div class="text-[9px] md:text-[10px] text-blue-300/80 font-medium leading-tight mt-0.5">📍 Схемы подъездов: <span class="text-lentaYellow/90 font-bold">Дмитрий Шаров</span></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -170,7 +176,7 @@
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-lentaYellow">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                         </div>
-                        <input type="text" id="searchInput" placeholder="Номер ТК, адрес, город..." 
+                        <input type="text" id="searchInput" placeholder="Номер ТК, адрес, город, О'кей..." 
                                class="bg-lentaDark/90 border-2 border-lentaDarker text-white placeholder-blue-300 text-xs md:text-sm rounded-xl focus:ring-0 focus:border-lentaYellow block w-full pl-9 pr-9 py-2 md:py-2.5 outline-none transition-all shadow-inner">
 
                         <button id="clearSearchBtn" onclick="playClickSound(); clearSearch();" class="hidden absolute right-2.5 top-2.5 text-blue-300 hover:text-lentaYellow transition-colors cursor-pointer z-40 bg-lentaDark p-1 rounded-full shadow-md border border-blue-800 tactile-btn">
@@ -214,11 +220,11 @@
             <table class="w-full text-sm text-left text-blue-100">
                 <thead class="text-xs text-blue-300 uppercase bg-lentaDark shadow-md hidden md:table-header-group">
                     <tr>
-                        <th scope="col" class="px-4 py-2 font-bold w-36">Бренд / ТК</th>
-                        <th scope="col" class="px-4 py-2 font-bold w-28">Город</th>
-                        <th scope="col" class="px-4 py-2 font-bold">Адрес и Навигация</th>
-                        <th scope="col" class="px-4 py-2 font-bold w-36">Время приёма</th>
-                        <th scope="col" class="px-4 py-2 font-bold w-28">Режим работы</th>
+                        <th scope="col" class="px-4 py-2.5 font-bold w-44">Бренд / ТК</th>
+                        <th scope="col" class="px-4 py-2.5 font-bold w-32">Город</th>
+                        <th scope="col" class="px-4 py-2.5 font-bold">Адрес и Навигация</th>
+                        <th scope="col" class="px-4 py-2.5 font-bold w-44">Время приёма</th>
+                        <th scope="col" class="px-4 py-2.5 font-bold w-32">Режим работы</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody" class="block md:table-row-group space-y-2 md:space-y-0 p-0.5 md:p-0"></tbody>
@@ -396,7 +402,7 @@
             "Новосибирск", "Москва", "Санкт-Петербург"
         ];
 
-        // Интегрирована ваша личная карта заезда для ТК 203 из конструктора Яндекса
+        // Полная база всех 49 схем (203 обновлен на пользовательский токен Дмитрия)
         const customRoutes = {
             '203': 'https://yandex.ru/maps/?um=constructor%3Afbbd0b022ba16d28a9759e073e3de48d938f03a1cd710ca64ff5c6fad195da4f&source=constructorLink',
             '230': 'https://yandex.ru/maps/54/yekaterinburg/?from=mapframe&ll=60.629319%2C56.908463&mode=usermaps&source=mapframe&um=constructor%3A5104fa7b18d77875444dfad81e1c3b3a83dea27ff53f279ba413a4122c01582d&utm_source=mapframe&z=16.33',
@@ -658,7 +664,6 @@
 
         function renderTable() {
             const rawSearch = searchInput.value.toLowerCase().trim();
-            // Очищаем поисковый запрос от кавычек и апострофов для всеядного поиска (в т.ч. Окей / О'кей)
             const cleanSearchQuery = rawSearch.replace(/['"`]/g, '');
             const filterVal = currentFilterValue;
             
@@ -673,10 +678,15 @@
             stores.forEach(store => {
                 let matchesSearch = false;
                 
+                let brandName = "ЛЕНТА";
+                if (store.address.includes("ОКЕЙ") || store.tk === "929929") brandName = "ОКЕЙ";
+                else if (store.address.includes("Молл")) brandName = "РЦ МОЛЛ";
+                else if (store.address.includes("Монетка") || store.tk.startsWith("92")) brandName = "МОНЕТКА";
+
                 if (searchWords.length === 0) {
                     matchesSearch = true;
                 } else {
-                    const fullText = `${store.tk} ${store.city} ${store.address}`.toLowerCase().replace(/['"`]/g, '');
+                    const fullText = `${store.tk} ${store.city} ${store.address} ${brandName}`.toLowerCase().replace(/['"`]/g, '');
                     matchesSearch = searchWords.every(word => fullText.includes(word));
                 }
                 
@@ -693,23 +703,23 @@
                 if (matchesSearch && matchesFilter) {
                     count++;
                     
-                    let brandName = "ЛЕНТА";
+                    let displayBrand = "ЛЕНТА";
                     let badgeClass = "bg-lentaYellow text-lentaDark border-lentaYellow shadow-lentaYellow/30";
                     let rowBorder = "border-l-lentaYellow";
                     let displayNumber = store.tk !== '-' ? `ТК ${store.tk}` : '';
 
-                    if (store.address.includes("ОКЕЙ") || store.tk === "929929") {
-                        brandName = "О'КЕЙ";
+                    if (brandName === "ОКЕЙ") {
+                        displayBrand = "О'КЕЙ";
                         badgeClass = "bg-red-600 text-white border-red-500 shadow-red-600/30";
                         rowBorder = "border-l-red-500";
                         displayNumber = "ГИПЕРМАРКЕТ";
-                    } else if (store.address.includes("Молл")) {
-                        brandName = "РЦ МОЛЛ";
+                    } else if (brandName === "РЦ МОЛЛ") {
+                        displayBrand = "РЦ МОЛЛ";
                         badgeClass = "bg-purple-600 text-white border-purple-500 shadow-purple-600/30";
                         rowBorder = "border-l-purple-500";
                         displayNumber = "СКЛАД";
-                    } else if (store.address.includes("Монетка") || store.tk.startsWith("92")) {
-                        brandName = "МОНЕТКА";
+                    } else if (brandName === "МОНЕТКА") {
+                        displayBrand = "МОНЕТКА";
                         badgeClass = "bg-orange-500 text-white border-orange-400 shadow-orange-500/30";
                         rowBorder = "border-l-orange-500";
                         displayNumber = store.tk !== '-' ? `РЦ ${store.tk}` : "РЦ";
@@ -759,7 +769,7 @@
                                 <span class="md:hidden text-[9px] text-blue-300 font-bold uppercase tracking-wider mb-0.5">Бренд и Номер</span>
                                 <div class="flex items-center gap-2 md:flex-col md:items-start md:gap-1">
                                     <span class="px-2 py-0.5 rounded text-[10px] font-black tracking-wider uppercase border shadow-sm ${badgeClass}">
-                                        ${brandName}
+                                        ${displayBrand}
                                     </span>
                                     <span class="text-xs md:text-sm font-bold text-white">${displayNumber}</span>
                                 </div>
@@ -840,7 +850,12 @@
             const searchWords = cleanSearchQuery.split(/\s+/).filter(w => w.length > 0);
 
             let suggestions = stores.filter(store => {
-                const fullText = `${store.tk} ${store.city} ${store.address}`.toLowerCase().replace(/['"`]/g, '');
+                let brandName = "ЛЕНТА";
+                if (store.address.includes("ОКЕЙ") || store.tk === "929929") brandName = "ОКЕЙ";
+                else if (store.address.includes("Молл")) brandName = "РЦ МОЛЛ";
+                else if (store.address.includes("Монетка") || store.tk.startsWith("92")) brandName = "МОНЕТКА";
+
+                const fullText = `${store.tk} ${store.city} ${store.address} ${brandName}`.toLowerCase().replace(/['"`]/g, '');
                 const matchesSearch = searchWords.every(word => fullText.includes(word));
                                       
                 let matchesFilter = true;
@@ -922,7 +937,7 @@
                 
                 function resetMic() {
                     micBtn.classList.remove('mic-pulsing', 'bg-red-600', 'border-red-400');
-                    searchInput.placeholder = "Номер ТК, адрес, город...";
+                    searchInput.placeholder = "Номер ТК, адрес, город, О'кей...";
                 }
                 
                 recognition.start();
