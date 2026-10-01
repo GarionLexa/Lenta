@@ -2,138 +2,360 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мониторинг доставок ТК ЛЕНТА</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Мониторинг доставок</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        lentaBlue: '#004182',
+                        lentaDark: '#002B5E',
+                        lentaDarker: '#001A3D',
+                        lentaYellow: '#FDCB05',
+                        lentaYellowHover: '#E5B704'
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         body {
-            background-color: #0f172a;
-            color: #e2e8f0;
+            background-color: #001A3D;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(253, 203, 5, 0.1) 0%, transparent 45%),
+                radial-gradient(circle at 80% 80%, rgba(0, 65, 130, 0.4) 0%, transparent 55%),
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 20px 20px, 20px 20px;
+            color: #f1f5f9;
             font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
+
+        .glass-panel {
+            background: rgba(0, 43, 94, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(253, 203, 5, 0.35);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+
+        .glass-modal {
+            background: rgba(0, 26, 61, 0.96);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 2px solid rgba(253, 203, 5, 0.6);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.85);
+        }
+
         .table-container {
-            max-height: calc(100vh - 200px);
-            min-height: 350px;
+            max-height: calc(100vh - 255px);
+            min-height: 280px;
             overflow-y: auto;
             overflow-x: hidden;
+            overscroll-behavior-y: contain;
+            padding-bottom: 60px;
         }
+        
         thead th {
             position: sticky;
             top: 0;
-            background-color: #1e293b;
+            background-color: #002B5E;
             z-index: 10;
         }
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: #1e293b; }
-        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #001A3D; }
+        ::-webkit-scrollbar-thumb { background: #004182; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #FDCB05; }
+        
+        .city-slider {
+            display: flex;
+            overflow-x: auto;
+            overscroll-behavior-x: touch; 
+            touch-action: pan-x; 
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            scroll-behavior: smooth;
+        }
+        .city-slider::-webkit-scrollbar { display: none; }
+
+        .tactile-btn {
+            transition: transform 0.1s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+        }
+        .tactile-btn:active {
+            transform: scale(0.93);
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.85); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .modal-animate {
+            animation: modalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes micPulse {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.9); }
+            70% { box-shadow: 0 0 0 16px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+        .mic-pulsing {
+            animation: micPulse 1.4s infinite;
+        }
     </style>
 </head>
-<body class="p-4 md:p-6">
+<body class="p-2 sm:p-3 min-h-screen">
 
-    <div class="max-w-7xl mx-auto">
-        <header class="mb-6 bg-[#004B87] p-5 rounded-xl shadow-lg border-b-4 border-[#FFC500] flex flex-col md:flex-row md:items-center justify-between gap-4 relative overflow-visible z-20">
-            <!-- Фоновый тягач -->
-            <svg class="absolute right-0 bottom-0 text-white opacity-10 w-56 h-56 translate-x-12 translate-y-10 pointer-events-none" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
-            </svg>
+    <div id="navModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="glass-modal rounded-3xl p-6 md:p-8 max-w-sm w-full text-center relative modal-animate">
+            <button onclick="playClickSound(); closeNavModal();" class="absolute top-3 right-3 text-blue-300 hover:text-white bg-lentaDark p-2 rounded-full transition-colors border border-blue-800 cursor-pointer tactile-btn">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 class="text-lg md:text-xl font-black text-white mb-1 uppercase tracking-wide">Выберите навигатор</h3>
+            <p class="text-xs text-blue-200 mb-6 font-medium">Открытие маршрута в приложении</p>
+            
+            <div class="flex flex-wrap justify-center gap-4 my-2">
+                <button onclick="playClickSound(); executeNavigation('yandex');" class="w-24 h-24 rounded-full bg-gradient-to-br from-yellow-400 to-amber-600 border-4 border-yellow-200 text-lentaDark font-black flex flex-col items-center justify-center shadow-lg shadow-yellow-500/40 tactile-btn cursor-pointer">
+                    <span class="text-2xl mb-0.5">🟡</span>
+                    <span class="text-xs uppercase tracking-wider font-extrabold text-white drop-shadow-md">Яндекс</span>
+                </button>
+                
+                <button onclick="playClickSound(); executeNavigation('2gis');" class="w-24 h-24 rounded-full bg-gradient-to-br from-emerald-400 to-green-700 border-4 border-emerald-200 text-white font-black flex flex-col items-center justify-center shadow-lg shadow-emerald-500/40 tactile-btn cursor-pointer">
+                    <span class="text-2xl mb-0.5">🟢</span>
+                    <span class="text-xs uppercase tracking-wider font-extrabold text-white drop-shadow-md">2ГИС</span>
+                </button>
+                
+                <button onclick="playClickSound(); executeNavigation('google');" class="w-24 h-24 rounded-full bg-gradient-to-br from-blue-400 to-indigo-700 border-4 border-blue-200 text-white font-black flex flex-col items-center justify-center shadow-lg shadow-blue-500/40 tactile-btn cursor-pointer">
+                    <span class="text-2xl mb-0.5">🔵</span>
+                    <span class="text-xs uppercase tracking-wider font-extrabold text-white drop-shadow-md">Google</span>
+                </button>
+            </div>
+        </div>
+    </div>
 
-            <div class="flex items-center gap-4 relative z-10">
-                <div class="bg-white p-2 rounded-full shadow-md shrink-0">
-                    <svg class="w-8 h-8 text-[#FFC500]" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2c-.6 0-1.2.3-1.6.8-.4-.5-1-.8-1.6-.8-1.4 0-2.5 1.1-2.5 2.5 0 .3.1.6.2.8C5.2 5.1 4 6.4 4 8c0 .7.3 1.3.7 1.8-.7.4-1.2 1.1-1.2 2 0 1.1.7 1.9 1.6 2.3-.3.4-.5 1-.5 1.6 0 1.5 1.1 2.7 2.5 2.9-.1.3-.2.6-.2.9 0 1.4 1.1 2.5 2.5 2.5.6 0 1.2-.3 1.6-.8.4.5 1 .8 1.6.8 1.4 0 2.5-1.1 2.5-2.5 0-.3-.1-.6-.2-.8 1.3-.4 2.5-1.7 2.5-3.3 0-.7-.3-1.3-.7-1.8.7-.4 1.2-1.1 1.2-2 0-1.1-.7-1.9-1.6-2.3.3-.4.5-1 .5-1.6 0-1.5-1.1-2.7-2.5-2.9.1-.3.2-.6.2-.9 0-1.4-1.1-2.5-2.5-2.5zm0 5.5c2.5 0 4.5 2 4.5 4.5s-2 4.5-4.5 4.5-4.5-2-4.5-4.5 2-4.5 4.5-4.5z"/>
-                        <circle cx="12" cy="12" r="3.5" fill="#004B87"/>
-                    </svg>
-                </div>
-                <div>
-                    <h1 class="text-2xl font-black text-white tracking-wide uppercase">ЛЕНТА</h1>
-                    <div class="text-xs text-[#FFC500] font-bold uppercase tracking-wider">Логистика &bull; Мониторинг</div>
+    <div class="max-w-7xl mx-auto space-y-2">
+        <header class="glass-panel p-3 sm:p-4 rounded-2xl shadow-2xl relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-lentaYellow/15 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2 relative z-10">
+                <div class="flex items-center gap-3">
+                    <div class="w-11 h-11 rounded-full bg-gradient-to-br from-amber-300 via-yellow-400 to-amber-600 flex items-center justify-center shadow-lg border-2 border-lentaDark relative overflow-hidden shrink-0">
+                        <svg class="w-9 h-9" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M50 2 C55 18, 55 35, 50 48 C45 35, 45 18, 50 2 Z" fill="#FEE140" stroke="#D97706" stroke-width="1.5"/>
+                            <path d="M50 98 C55 82, 55 65, 50 52 C45 65, 45 82, 50 98 Z" fill="#F59E0B" stroke="#D97706" stroke-width="1.5"/>
+                            <path d="M2 50 C18 45, 35 45, 48 50 C35 55, 18 55, 2 50 Z" fill="#FEE140" stroke="#D97706" stroke-width="1.5"/>
+                            <path d="M98 50 C82 45, 65 45, 52 50 C65 55, 82 55, 98 50 Z" fill="#F59E0B" stroke="#D97706" stroke-width="1.5"/>
+                            <circle cx="50" cy="50" r="18" fill="#78350F"/>
+                            <circle cx="50" cy="50" r="14" fill="#451A03"/>
+                            <circle cx="50" cy="50" r="8" fill="#1E1B4B"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-base md:text-xl font-black text-white tracking-wide uppercase flex items-center gap-2">
+                            ЛЕНТА <span class="bg-lentaYellow text-lentaDark px-2 py-0.5 rounded text-xs font-bold shadow-sm">ЛОГИСТИКА</span>
+                        </h1>
+                        <div class="text-[10px] md:text-xs text-blue-200 font-medium tracking-wide">Мониторинг доставок</div>
+                    </div>
                 </div>
             </div>
             
-            <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto relative z-20 mt-2 md:mt-0">
-                <div class="relative w-full sm:w-80">
-                    <input type="text" id="searchInput" placeholder="Поиск ТК, города, адреса..." 
-                           class="bg-white/10 border border-white/20 text-white placeholder-white/60 text-sm rounded-lg focus:ring-[#FFC500] focus:border-[#FFC500] block w-full p-2.5 outline-none transition-colors backdrop-blur-sm pr-10">
-                    
-                    <!-- Крестик очистки поиска -->
-                    <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-2.5 text-white/50 hover:text-white transition-colors cursor-pointer z-30">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 relative z-30 mb-2">
+                <div class="relative sm:col-span-8 flex items-center gap-2">
+                    <div class="relative flex-1">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-lentaYellow">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        </div>
+                        <input type="text" id="searchInput" placeholder="Номер ТК, адрес, город..." 
+                               class="bg-lentaDark/90 border-2 border-lentaDarker text-white placeholder-blue-300 text-xs md:text-sm rounded-xl focus:ring-0 focus:border-lentaYellow block w-full pl-9 pr-9 py-2 md:py-2.5 outline-none transition-all shadow-inner">
+
+                        <button id="clearSearchBtn" onclick="playClickSound(); clearSearch();" class="hidden absolute right-2.5 top-2.5 text-blue-300 hover:text-lentaYellow transition-colors cursor-pointer z-40 bg-lentaDark p-1 rounded-full shadow-md border border-blue-800 tactile-btn">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
+                    </div>
+
+                    <button id="voiceSearchBtn" onclick="playClickSound(); startVoiceSearch();" class="bg-lentaDark hover:bg-lentaBlue border-2 border-blue-700 text-blue-200 w-10 h-10 md:w-11 md:h-11 rounded-xl transition-all shadow-lg flex items-center justify-center shrink-0 cursor-pointer tactile-btn" title="Голосовой поиск">
+                        <svg id="micIcon" class="w-5 h-5 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path></svg>
                     </button>
 
-                    <!-- Выпадающий список адресов (расширен на 60vh) -->
-                    <div id="autocompleteList" class="absolute z-50 w-full bg-white rounded-lg shadow-2xl hidden max-h-[60vh] overflow-y-auto mt-2 border border-slate-200 text-left">
-                    </div>
+                    <div id="autocompleteList" class="absolute z-[100] w-[calc(100%-3.5rem)] glass-panel rounded-xl hidden max-h-[40vh] overflow-y-auto mt-1 text-left text-white top-full left-0 shadow-2xl"></div>
                 </div>
                 
-                <select id="filter24" class="bg-white/10 border border-white/20 text-white text-sm rounded-lg focus:ring-[#FFC500] focus:border-[#FFC500] block w-full sm:w-48 p-2.5 outline-none transition-colors backdrop-blur-sm">
-                    <option value="all" class="text-slate-800">Все режимы работы</option>
-                    <option value="24/7" class="text-slate-800">Круглосуточные</option>
-                    <option value="limited" class="text-slate-800">С ограничением</option>
-                </select>
+                <div class="sm:col-span-4 relative z-20">
+                    <div class="relative w-full">
+                        <button id="customFilterBtn" onclick="playClickSound()" class="bg-lentaDark/90 border-2 border-lentaDarker text-white text-xs md:text-sm rounded-xl focus:ring-0 focus:border-lentaYellow w-full py-2 md:py-2.5 px-3 outline-none transition-all shadow-inner flex justify-between items-center text-left cursor-pointer tactile-btn">
+                            <span id="customFilterText">Все режимы работы</span>
+                            <svg class="h-4 w-4 text-lentaYellow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        
+                        <div id="customFilterList" class="absolute z-50 w-full glass-panel rounded-xl hidden flex-col mt-1 text-left text-white overflow-hidden shadow-2xl border border-blue-800/50">
+                            <div class="filter-option px-3.5 py-2 hover:bg-lentaBlue cursor-pointer transition-colors border-b border-blue-800/30 text-xs" data-value="all">Все режимы работы</div>
+                            <div class="filter-option px-3.5 py-2 hover:bg-lentaBlue cursor-pointer transition-colors border-b border-blue-800/30 text-xs" data-value="24/7">Круглосуточные</div>
+                            <div class="filter-option px-3.5 py-2 hover:bg-lentaBlue cursor-pointer transition-colors text-xs" data-value="limited">С ограничением</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative z-10 pt-1 border-t border-blue-800/60">
+                <div class="text-[10px] uppercase font-bold tracking-wider text-blue-200 mb-1 flex items-center justify-between">
+                    <span>📍 Города маршрута</span>
+                    <span id="cityCounter" class="text-lentaYellow font-bold">Все города</span>
+                </div>
+                <div id="citySlider" class="city-slider gap-1.5 py-0.5 text-xs"></div>
             </div>
         </header>
 
-        <div class="bg-slate-800 rounded-xl shadow-lg border border-slate-700 table-container relative z-10">
-            <table class="w-full text-sm text-left text-slate-300">
-                <thead class="text-xs text-slate-400 uppercase bg-slate-800/90 backdrop-blur hidden md:table-header-group">
+        <div class="table-container relative z-10">
+            <table class="w-full text-sm text-left text-blue-100">
+                <thead class="text-xs text-blue-300 uppercase bg-lentaDark shadow-md hidden md:table-header-group">
                     <tr>
-                        <th scope="col" class="px-6 py-4 font-semibold w-48">Магазин / Рейс</th>
-                        <th scope="col" class="px-6 py-4 font-semibold w-40">Город</th>
-                        <th scope="col" class="px-6 py-4 font-semibold">Адрес</th>
-                        <th scope="col" class="px-6 py-4 font-semibold w-40">Окно РЦ 1</th>
-                        <th scope="col" class="px-6 py-4 font-semibold w-32">Окно РЦ 2</th>
-                        <th scope="col" class="px-6 py-4 font-semibold w-32">Режим</th>
+                        <th scope="col" class="px-4 py-2 font-bold w-36">Бренд / ТК</th>
+                        <th scope="col" class="px-4 py-2 font-bold w-28">Город</th>
+                        <th scope="col" class="px-4 py-2 font-bold">Адрес и Навигация</th>
+                        <th scope="col" class="px-4 py-2 font-bold w-36">Время приёма</th>
+                        <th scope="col" class="px-4 py-2 font-bold w-28">Режим работы</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody" class="block md:table-row-group md:divide-y md:divide-slate-700/50 p-2 md:p-0">
-                    <!-- Заполняется JS -->
-                </tbody>
+                <tbody id="tableBody" class="block md:table-row-group space-y-2 md:space-y-0 p-0.5 md:p-0"></tbody>
             </table>
         </div>
         
-        <div class="mt-4 text-sm text-slate-500 flex justify-between font-medium px-2">
-            <span id="rowCount">Загрузка данных...</span>
-            <span>Маршрут: 8092</span>
+        <div class="text-[11px] text-blue-300 flex justify-between font-semibold px-2">
+            <span id="rowCount" class="bg-lentaDark px-2.5 py-1 rounded-lg border border-lentaBlue shadow-inner">Загрузка данных...</span>
+            <span class="bg-lentaDark px-2.5 py-1 rounded-lg border border-lentaBlue shadow-inner">Маршрут: 8092</span>
         </div>
     </div>
 
     <script>
-        const rawData = `203	8092	ООО "Лента", 620000, Свердловская обл., г. Екатеринбург, Дублер Сибирского тракта, д. 19, корп. 1	Екатеринбург	22:00-04:00	04:00-09:00	-	Да	Круглосуточно	Круглосуточно
-227	8092	ООО "Лента", 620016, Свердловская обл., г. Екатеринбург, Академика Сахарова пр-кт, д. 107/1	Екатеринбург	22:00-04:00	04:00-09:00	-	Да	Круглосуточно	Круглосуточно
-228	8092	ООО "Лента", 620017, Свердловская обл., г. Екатеринбург, Космонавтов пр-кт, д.1в/1	Екатеринбург	22:00-04:00	04:00-09:00	-	Да	Круглосуточно	Круглосуточно
-229	8092	ООО "Лента", 620039, Свердловская обл., г. Екатеринбург, ул. 22 Партсъезда, д. 2	Екатеринбург	22:00-04:00	04:00-09:00	-	Да	Круглосуточно	Круглосуточно
-230	8092	ООО "Лента", 620057, Свердловская обл., г. Екатеринбург, ул.Таганская, д.60, А	Екатеринбург	07:00-12:00	12:00-17:00	-	Нет	08:00	24:00
+        let audioCtx = null;
+        function getAudioContext() {
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (AudioContext) audioCtx = new AudioContext();
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        ['click', 'touchstart', 'touchend', 'touchmove', 'keydown', 'pointerdown', 'scroll', 'wheel', 'mousemove'].forEach(evt => {
+            document.addEventListener(evt, () => {
+                getAudioContext();
+            }, { passive: true });
+        });
+
+        function playClickSound() {
+            try {
+                const ctx = getAudioContext();
+                if (!ctx) return;
+                if (ctx.state === 'suspended') ctx.resume();
+
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(450, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.05);
+                
+                gain.gain.setValueAtTime(0.2, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+                
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.05);
+            } catch (e) {}
+        }
+
+        let lastScrollTickTime = 0;
+        let lastScrollTop = 0;
+        let accumulatedScrollDist = 0;
+        
+        function playTickSound(scrollSpeed = 1) {
+            try {
+                const now = Date.now();
+                if (scrollSpeed < 0.2) return;
+
+                accumulatedScrollDist += scrollSpeed * 12;
+                const threshold = Math.max(60, Math.min(220, 220 / (scrollSpeed * 0.5)));
+                
+                if (accumulatedScrollDist < threshold) return;
+                if (now - lastScrollTickTime < 40) return;
+
+                accumulatedScrollDist = 0;
+                lastScrollTickTime = now;
+                
+                const ctx = getAudioContext();
+                if (!ctx) return;
+                if (ctx.state === 'suspended') ctx.resume();
+
+                const osc = ctx.createOscillator();
+                const osc2 = ctx.createOscillator();
+                const gain = ctx.createGain();
+
+                osc.type = 'square';
+                osc2.type = 'sawtooth';
+
+                osc.frequency.setValueAtTime(240, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(50, ctx.currentTime + 0.02);
+
+                osc2.frequency.setValueAtTime(480, ctx.currentTime);
+                osc2.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + 0.02);
+                
+                gain.gain.setValueAtTime(0.05, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.02);
+                
+                osc.connect(gain);
+                osc2.connect(gain);
+                gain.connect(ctx.destination);
+
+                osc.start();
+                osc2.start();
+                osc.stop(ctx.currentTime + 0.02);
+                osc2.stop(ctx.currentTime + 0.02);
+            } catch (e) {}
+        }
+
+        const rawData = `203	8092	ООО "Лента", 620000, Свердловская обл., г. Екатеринбург, Дублер Сибирского тракта, д. 19, корп. 1	Екатеринбург	22:00-04:00	-	-	Да	Круглосуточно	Круглосуточно
+227	8092	ООО "Лента", 620016, Свердловская обл., г. Екатеринбург, Академика Сахарова пр-кт, д. 107/1	Екатеринбург	22:00-04:00	-	-	Да	Круглосуточно	Круглосуточно
+228	8092	ООО "Лента", 620017, Свердловская обл., г. Екатеринбург, Космонавтов пр-кт, д.1в/1	Екатеринбург	22:00-04:00	-	-	Да	Круглосуточно	Круглосуточно
+229	8092	ООО "Лента", 620039, Свердловская обл., г. Екатеринбург, ул. 22 Партсъезда, д. 2	Екатеринбург	22:00-04:00	-	-	Да	Круглосуточно	Круглосуточно
+230	8092	ООО "Лента", 620057, Свердловская обл., г. Екатеринбург, ул.Таганская, д.60, А	Екатеринбург	07:00-12:00	-	-	Нет	08:00	24:00
 176	8092	ООО "Лента", 623430 Свердловская обл., г. Каменск-Уральский, ул. Суворова, д. 48	Каменск-Уральский	08:00-13:00	-	-	Да	Круглосуточно	Круглосуточно
-309	8092	ООО "Лента", 640003, Курганская обл., г. Курган, ул. Коли Мяготина, д.8	Курган	08:00-13:00	13:00-18:00	-	Нет	08:00	24:00
-74	8092	ООО "Лента", 455001, Челябинская обл., г. Магнитогорск, ул. Вокзальная, д.23	Магнитогорск	07:00-12:00	12:00-17:00	-	Нет	08:00	02:00
-192	8092	ООО "Лента", 455048, Челябинская обл., г. Магнитогорск, пр-кт Ленина, д. 119	Магнитогорск	07:00-12:00	12:00-17:00	-	Нет	08:00	02:00
-317	8092	ООО "Лента", 628609, Ханты- Мансийский Автономный округ - Югра АО, г. Нижневартовск, ул. Кузоваткина, 17	Нижневартовск	08:00-13:00	14:00-19:00	-	Да	08:00	23:00
-61	8092	ООО "Лента", 622049, Свердловская обл., г. Нижний Тагил, пр-кт Уральский, д. 75	Нижний Тагил	08:00-13:00	13:00-18:00	-	Нет	Круглосуточно	Круглосуточно
-206	8092	ООО "Лента", 622000, Свердловская обл., г. Нижний Тагил, Свердловское ш., д. 31	Нижний Тагил	08:00-12:00	13:00-17:00	-	Нет	08:00	23:00
-285	8092	ООО "Лента", 629803, Ямало-Ненецкий АО, г. Ноябрьск, мкр.Б-2А, ул. Цоя, д.22	Ноябрьск	08:00-13:00	14:00-19:00	-	Нет	07:00	23:00
-42	8092	ООО "Лента"  614097, г. Пермь, Парковый пр., д.66	Пермь	04:00-09:00	09:00-14:00	-	Да	Круглосуточно	Круглосуточно
-147	8092	ООО "Лента", 614065, г. Пермь, ш. Космонавтов, стр.162 б	Пермь	08:00-12:00	13:00-17:00	-	Да	Круглосуточно	Круглосуточно
-235	8092	ООО "Лента", 614077, г. Пермь, б-р Гагарина, д.65	Пермь	06:00-11:00	12:00-16:00	-	Да	Круглосуточно	Круглосуточно
-297	8092	ООО "Лента", 614025, г. Пермь, ул. Героев Хасана, 105	Пермь	06:00-11:00	12:00-16:00	-	Да	Круглосуточно	Круглосуточно
-92	8092	ООО "Лента", 628403, Ханты-Мансийский Автономный округ - Югра АО, г. Сургут, ул. 30 лет Победы, д. 74	Сургут	04:00-09:00	09:00-14:00	-	Да	Круглосуточно	Круглосуточно
-93	8092	ООО "Лента",628403, Ханты-Мансийский Автономный округ - Югра АО, г. Сургут, ул. Югорский тракт, д.2	Сургут	04:00-09:00	09:00-14:00	-	Да	Круглосуточно	Круглосуточно
-321	8092	ООО "Лента", 628412, Ханты-Мансийский Автономный округ - Югра АО, г. Сургут, Югорский тракт, д.38 (ТК Сити Молл)	Сургут	08:00-13:00	13:00-18:00	-	Да	Круглосуточно	Круглосуточно
-135	8092	ООО "Лента", 626150, Тюменская обл., г. Тобольск, 15-й мкр., д. 21	Тобольск	08:00-13:00	13:00-18:00	-	Да	Круглосуточно	Круглосуточно
-91	8092	ООО "Лента", 625016, Тюменская обл., г.Тюмень, ул.Мельникайте, д. 139	Тюмень	07:00-12:00	13:00-18:00	-	Да	Круглосуточно	Круглосуточно
-94	8092	ООО "Лента", 625014, Тюменская обл., г. Тюмень, ул. Республики, д. 291	Тюмень	08:00-13:00	14:00-19:00	-	Нет	08:00	24:00
-146	8092	ООО "Лента", 625007, Тюменская обл., г. Тюмень, Тобольский тракт, д.101	Тюмень	08:00-13:00	14:00-19:00	-	Да	Круглосуточно	Круглосуточно
-209	8092	ООО "Лента", 625022, Тюменская обл., г. Тюмень, ул. Алебашевская, д. 19	Тюмень	04:00-09:00	09:00-14:00	-	Да	Круглосуточно	Круглосуточно
-245	8092	ООО "Лента", 625046, Тюменская обл., г. Тюмень, ул. Народная, д.76	Тюмень	03:00-08:00	08:00-13:00	13:00-20:00	Да	Круглосуточно	Круглосуточно
-100	8092	ООО "Лента", 628011, Ханты-Мансийский Автономный округ - ЮГРА АО, г. Ханты-Мансийск, ул. Объездная, д. 9	Ханты-Мансийск	03:00-08:00	08:00-13:00	13:00-20:00	Да	Круглосуточно	Круглосуточно
-69	8092	ООО "Лента", 454045, Челябинская обл., г. Челябинск, ул. Блюхера, д. 126	Челябинск	03:00-08:00	08:00-13:00	-	Да	Круглосуточно	Круглосуточно
-154	8092	ООО "Лента", 454021, Челябинская обл., г. Челябинск, ул. Братьев Кашириных, д. 75	Челябинск	03:00-08:00	08:00-14:00	-	Да	Круглосуточно	Круглосуточно
+309	8092	ООО "Лента", 640003, Курганская обл., г. Курган, ул. Коли Мяготина, д.8	Курган	08:00-13:00	-	-	Нет	08:00	24:00
+74	8092	ООО "Лента", 455001, Челябинская обл., г. Магнитогорск, ул. Вокзальная, д.23	Магнитогорск	07:00-12:00	-	-	Нет	08:00	02:00
+192	8092	ООО "Лента", 455048, Челябинская обл., г. Магнитогорск, пр-кт Ленина, д. 119	Магнитогорск	07:00-12:00	-	-	Нет	08:00	02:00
+317	8092	ООО "Лента", 628609, Ханты- Мансийский Автономный округ - Югра АО, г. Нижневартовск, ул. Кузоваткина, 17	Нижневартовск	08:00-13:00	-	-	Да	08:00	23:00
+61	8092	ООО "Лента", 622049, Свердловская обл., г. Нижний Тагил, пр-кт Уральский, д. 75	Нижний Тагил	08:00-13:00	-	-	Нет	Круглосуточно	Круглосуточно
+206	8092	ООО "Лента", 622000, Свердловская обл., г. Нижний Тагил, Свердловское ш., д. 31	Нижний Тагил	08:00-12:00	-	-	Нет	08:00	23:00
+285	8092	ООО "Лента", 629803, Ямало-Ненецкий АО, г. Ноябрьск, мкр.Б-2А, ул. Цоя, д.22	Ноябрьск	08:00-13:00	-	-	Нет	07:00	23:00
+42	8092	ООО "Лента"  614097, г. Пермь, Парковый пр., д.66	Пермь	04:00-09:00	-	-	Да	Круглосуточно	Круглосуточно
+147	8092	ООО "Лента", 614065, г. Пермь, ш. Космонавтов, стр.162 б	Пермь	08:00-12:00	-	-	Да	Круглосуточно	Круглосуточно
+235	8092	ООО "Лента", 614077, г. Пермь, б-р Гагарина, д.65	Пермь	06:00-11:00	-	-	Да	Круглосуточно	Круглосуточно
+297	8092	ООО "Лента", 614025, г. Пермь, ул. Героев Хасана, 105	Пермь	06:00-11:00	-	-	Да	Круглосуточно	Круглосуточно
+92	8092	ООО "Лента", 628403, Ханты-Мансийский Автономный округ - Югра АО, г. Сургут, ул. 30 лет Победы, д. 74	Сургут	04:00-09:00	-	-	Да	Круглосуточно	Круглосуточно
+93	8092	ООО "Лента",628403, Ханты-Мансийский Автономный округ - Югра АО, г. Сургут, ул. Югорский тракт, д.2	Сургут	04:00-09:00	-	-	Да	Круглосуточно	Круглосуточно
+321	8092	ООО "Лента", 628412, Ханты-Мансийский Автономный округ - Югра АО, г. Сургут, Югорский тракт, д.38 (ТК Сити Молл)	Сургут	08:00-13:00	-	-	Да	Круглосуточно	Круглосуточно
+135	8092	ООО "Лента", 626150, Тюменская обл., г. Тобольск, 15-й мкр., д. 21	Тобольск	08:00-13:00	-	-	Да	Круглосуточно	Круглосуточно
+91	8092	ООО "Лента", 625016, Тюменская обл., г.Тюмень, ул.Мельникайте, д. 139	Тюмень	07:00-12:00	-	-	Да	Круглосуточно	Круглосуточно
+94	8092	ООО "Лента", 625014, Тюменская обл., г. Тюмень, ул. Республики, д. 291	Тюмень	08:00-13:00	-	-	Нет	08:00	24:00
+146	8092	ООО "Лента", 625007, Тюменская обл., г. Тюмень, Тобольский тракт, д.101	Тюмень	08:00-13:00	-	-	Да	Круглосуточно	Круглосуточно
+209	8092	ООО "Лента", 625022, Тюменская обл., г. Тюмень, ул. Алебашевская, д. 19	Тюмень	04:00-09:00	-	-	Да	Круглосуточно	Круглосуточно
+245	8092	ООО "Лента", 625046, Тюменская обл., г. Тюмень, ул. Народная, д.76	Тюмень	03:00-08:00	-	-	Да	Круглосуточно	Круглосуточно
+100	8092	ООО "Лента", 628011, Ханты-Мансийский Автономный округ - ЮГРА АО, г. Ханты-Мансийск, ул. Объездная, д. 9	Ханты-Мансийск	03:00-08:00	-	-	Да	Круглосуточно	Круглосуточно
+69	8092	ООО "Лента", 454045, Челябинская обл., г. Челябинск, ул. Блюхера, д. 126	Челябинск	03:00-08:00	-	-	Да	Круглосуточно	Круглосуточно
+154	8092	ООО "Лента", 454021, Челябинская обл., г. Челябинск, ул. Братьев Кашириных, д. 75	Челябинск	03:00-08:00	-	-	Да	Круглосуточно	Круглосуточно
 184	8092	ООО "Лента", 454004, Челябинская обл., г. Челябинск, ул. Академика Сахарова, д. 15	Челябинск	07:00-14:00	-	-	Нет	08:00	00:00
 212	8092	ООО "Лента", 454008, Челябинская обл., г. Челябинск, ул. Черкасская, д. 23	Челябинск	07:00-14:00	-	-	Нет	08:00	24:00
-213	8092	ООО "Лента", 454010, Челябинская обл., г. Челябинск, Копейское ш., д. 64	Челябинск	07:00-14:00	14:00-19:00	-	Нет	09:00	23:00
+213	8092	ООО "Лента", 454010, Челябинская обл., г. Челябинск, Копейское ш., д. 64	Челябинск	07:00-14:00	-	-	Нет	09:00	23:00
 301	8092	ООО "Лента", 454007, Челябинская обл., г. Челябинск, ул. Артиллерийская, д. 136	Челябинск	08:00-14:00	-	-	Нет	09:00	24:00
 335	8092	ООО "Лента", 454003, Челябинская область, г. Челябинск, ул. Братьев Кашириных, д. 133	Челябинск	07:00-14:00	-	-	Нет	08:00	23:00
-337	8092	ООО "Лента", 454100, Челябинская область, г. Челябинск, Комсомольский пр., д. 113	Челябинск	08:00-14:00	14:00-17:00	-	Нет	08:00	23:00
+337	8092	ООО "Лента", 454100, Челябинская область, г. Челябинск, Комсомольский пр., д. 113	Челябинск	08:00-14:00	-	-	Нет	08:00	23:00
 334	8092	ООО "Лента", 454080, Челябинская область, г. Челябинск, ул. Труда, д. 166	Челябинск	07:00-14:00	-	-	Нет	08:00	23:00
 336	8092	ООО "Лента", 454135, Челябинская область, г. Челябинск, ул. Энергетиков, д. 21Б	Челябинск	08:00-14:00	-	-	Нет	08:00	23:00
 338	8092	ООО "Лента", 456300, Челябинская область, г. Миасс, пр. Автозаводцев, д. 65/1	Миасс	09:00-16:00	-	-	Нет	09:00	23:00
@@ -144,7 +366,7 @@
 389	8092	625048, Тюменская обл., г. Тюмень, Профсоюзная ул., д.1, к.1	Тюмень	08:00-17:00	-	-	Нет	08:00	23:00
 929929	8092	ООО ОКЕЙ, ул. Федюнинского, 67, Тюмень, Тюменская обл., 625062	Тюмень	-	-	-	Нет	-	-
 411	8092	628406, Ханты-Мансийский Автономный округ-Югра АО, Сургут, Нефтеюганское ш.,1	Сургут	08:00-11:00	-	-	Нет	08:00	24:00
-343	8092	ООО "Лента" 628307 Ханты-Мансийский Автономный округ - Югра, г.Нефтеюганск ул. Усть-Балыкская 6	Нефтеюганск	04:00-09:00	09:00-14:00	-	Да	Круглосуточно	Круглосуточно
+343	8092	ООО "Лента" 628307 Ханты-Мансийский Автономный округ - Югра, г.Нефтеюганск ул. Усть-Балыкская 6	Нефтеюганск	04:00-09:00	-	-	Да	Круглосуточно	Круглосуточно
 929455	-	РЦ "Монетка", Пермский край, Краснокамский муниципальный округ, Шоссейная улица, 1Б, деревня Никитино	Пермь	-	-	-	Нет	-	-
 929453	-	РЦ "Монетка", Тюменская обл., г. Тюмень, Велижанский тракт, 9-й километр, 130	Тюмень	-	-	-	Нет	-	-
 928177	-	РЦ "Монетка", Новосвердловская ул., 5, Берёзовский	Березовский	-	-	-	Нет	-	-
@@ -159,11 +381,79 @@
 8082	-	РЦ Молл, Моховая улица, 7, Челябинск, 454005	Челябинск	-	-	-	Нет	-	-
 8083	-	РЦ Молл, шоссе Металлургов, 88, Челябинск, 454052	Челябинск	-	-	-	Нет	-	-`;
 
-        const stores = [];
-        rawData.trim().split('\n').forEach(line => {
+        let stores = [];
+        let selectedCityFilter = 'all';
+        let currentNavAddress = '';
+        let currentNavFullAddress = '';
+
+        const cityOrder = [
+            "Все города", "Екатеринбург", "Березовский", "Каменск-Уральский", "Нижний Тагил",
+            "Челябинск", "Магнитогорск", "Миасс", "Южноуральск",
+            "Уфа",
+            "Пермь",
+            "Курган", "Тюмень", "Тобольск",
+            "Ханты-Мансийск", "Нефтеюганск", "Сургут", "Ноябрьск", "Нижневартовск",
+            "Новосибирск", "Москва", "Санкт-Петербург"
+        ];
+
+        // Интегрирована ваша личная карта заезда для ТК 203 из конструктора Яндекса
+        const customRoutes = {
+            '203': 'https://yandex.ru/maps/?um=constructor%3Afbbd0b022ba16d28a9759e073e3de48d938f03a1cd710ca64ff5c6fad195da4f&source=constructorLink',
+            '230': 'https://yandex.ru/maps/54/yekaterinburg/?from=mapframe&ll=60.629319%2C56.908463&mode=usermaps&source=mapframe&um=constructor%3A5104fa7b18d77875444dfad81e1c3b3a83dea27ff53f279ba413a4122c01582d&utm_source=mapframe&z=16.33',
+            '228': 'https://yandex.ru/maps/54/yekaterinburg/?from=mapframe&ll=60.610110%2C56.860900&mode=usermaps&source=mapframe&um=constructor%3A6026fb18a7fe967b8e2a98c4ceb40a19fc23566b601295405d35c1a158b9f276&utm_source=mapframe&z=17',
+            '227': 'https://yandex.ru/maps/54/yekaterinburg/?from=mapframe&ll=60.500749%2C56.791951&mode=usermaps&source=mapframe&um=constructor%3A04fba415c82b2ed0370f19d8bc7f1542400515b1d3befc0e7c8ad07bbfba1adf&utm_source=mapframe&z=17',
+            '229': 'https://yandex.ru/maps/54/yekaterinburg/?ll=60.582759%2C56.885806&mode=usermaps&source=constructorLink&um=constructor%3A3a69d8183a94451d7f581d90c23fd3f5d1d9d52b984bd848d8f243cbd1c5a180&z=18',
+            '396': 'https://yandex.ru/maps/54/yekaterinburg/?ll=60.535975%2C56.815168&mode=usermaps&source=constructorLink&um=constructor%3A76b75ff4aaa1421a3fe42cf126b8b1cd82bf5430d6c378dd71e48a7ebe024a08&z=17',
+            '369': 'https://yandex.ru/maps/54/yekaterinburg/?ll=60.622557%2C56.797838&mode=usermaps&source=constructorLink&um=constructor%3A4657623263425861d33635a73b8cd62fb0eeb81e3c3b45b8c05104ec6d4f1197&z=17',
+            '368': 'https://yandex.ru/maps/54/yekaterinburg/?indoorLevel=2&ll=60.631254%2C56.882798&mode=usermaps&source=constructorLink&um=constructor%3Aba5f0124bbf8fc174f2a371ea321d716de5cda19fb0ebcfb81ec96de73379bd4&z=17',
+            '176': 'https://yandex.ru/maps/11164/kamensk-uralskiy/?from=mapframe&ll=61.920244%2C56.380716&mode=usermaps&source=mapframe&um=constructor%3Abd1a7d5da68ec526e6188f7af58cc0929cc8a81daeafb4ac7d33750c451d9bc0&utm_source=mapframe&z=16',
+            '309': 'https://yandex.ru/maps/53/kurgan/?from=mapframe&ll=65.280661%2C55.426803&mode=usermaps&source=mapframe&um=constructor%3A420fafc29d9ff7845f23b3d0f5fe5d6051285ad1bda792995069c43c9404e8c3&utm_source=mapframe&z=16',
+            '317': 'https://yandex.ru/maps/1091/nizhnevartovsk/?from=mapframe&ll=76.544952%2C60.942692&mode=usermaps&source=mapframe&um=constructor%3A75800c946a3cbaed7cf8e53198910cd1c30b7095d89c3ab44f1368c7dd9652cb&utm_source=mapframe&z=16',
+            '61': 'https://yandex.ru/maps/11168/nizhniy-tagil/?from=mapframe&ll=59.961666%2C57.872355&mode=usermaps&source=mapframe&um=constructor%3Aa7378e1aef386f28ca28c65f508d8ae0f2cbb09b20b34e696e54659d3fae9f3e&utm_source=mapframe&z=16',
+            '206': 'https://yandex.ru/maps/11168/nizhniy-tagil/?from=mapframe&ll=60.016664%2C57.876045&mode=usermaps&source=mapframe&um=constructor%3A7231762167fcef11955abd3b1a59d373a8da1955be22583a84939e66165e7ac9&utm_source=mapframe&z=16',
+            '285': 'https://yandex.ru/maps/11231/noyabrsk/?from=mapframe&ll=75.456404%2C63.215521&mode=usermaps&source=mapframe&um=constructor%3A112b91bbe90364221b4cdb56516915d627a7eccb67d6c11079886677b4ac1e3a&utm_source=mapframe&z=17',
+            '42': 'https://yandex.ru/maps/50/perm/?from=mapframe&ll=56.171552%2C57.996761&mode=usermaps&source=mapframe&um=constructor%3A5f010ce5afd6535b0b18886528d936fd1b7bf8610c0c53f27ddb913c793bddbd&utm_source=mapframe&z=16',
+            '147': 'https://yandex.ru/maps/50/perm/?from=mapframe&ll=56.150251%2C57.972214&mode=usermaps&source=mapframe&um=constructor%3A5eaec7c3c73aabe8e58cefe8f133cfedc4a8190a4cd272690d42de6ce51fad03&utm_source=mapframe&z=15',
+            '235': 'https://yandex.ru/maps/50/perm/?from=mapframe&ll=56.288671%2C58.004634&mode=usermaps&source=mapframe&um=constructor%3A22984dd9fd6a1ab5351609cc78de557a7b12a3b5b2ba707f4ec6bf602f0468a5&utm_source=mapframe&z=17',
+            '297': 'https://yandex.ru/maps/50/perm/?from=mapframe&ll=56.263987%2C57.965428&mode=usermaps&source=mapframe&um=constructor%3A4e9ee4c0120c8736377edd7dd7e322d9fc13d71b1d29bc1465b247e20fda75fc&utm_source=mapframe&z=16',
+            '929455': 'https://yandex.ru/maps/?ll=55.833832%2C58.059088&mode=usermaps&source=constructorLink&um=constructor%3A110d38e8c21f29189371c4964665d40a84d9e81cfc1940cf7dc62772acad23ea&z=18',
+            '321': 'https://yandex.ru/maps/973/surgut/?from=mapframe&ll=73.372707%2C61.241015&mode=usermaps&source=mapframe&um=constructor%3A2cfca0b1d021c6435cbaeef81e04008fb7e4358926f65fe889aaf1a41826412b&utm_source=mapframe&z=15',
+            '92': 'https://yandex.ru/maps/973/surgut/?from=mapframe&ll=73.456881%2C61.255798&mode=usermaps&source=mapframe&um=constructor%3A9379333ad3cdd6f45da9d6857009830d9356b2c1c92a2b89e3951bfc7e2a3648&utm_source=mapframe&z=15',
+            '93': 'https://yandex.ru/maps/973/surgut/?from=mapframe&ll=73.349182%2C61.273897&mode=usermaps&source=mapframe&um=constructor%3Aa21541dd1e7e69ee0a840617c7c4b5922d40a407d1a897d37ad544623b3b63a9&utm_source=mapframe&z=16',
+            '411': 'https://yandex.ru/maps/973/surgut/?ll=73.368235%2C61.276036&mode=usermaps&source=constructorLink&um=constructor%3A60886fa81ee18a4a366f726a4ed5ea98b8030d9db8401993606927e644bac0ec&z=17',
+            '135': 'https://yandex.ru/maps/11175/tobolsk/?from=mapframe&ll=68.300662%2C58.222049&mode=usermaps&source=mapframe&um=constructor%3A25af0bb6c6e6288b166f38abd5de7ef050d2a890742300f98d30d80990d57b6a&utm_source=mapframe&z=17',
+            '209': 'https://yandex.ru/maps/55/tyumen/?from=mapframe&ll=65.567336%2C57.170480&mode=usermaps&source=mapframe&um=constructor%3Ade84586b0c2f001281d090ca8c5775a62b18fc94a41ab1577376ae260f731b6b&utm_source=mapframe&z=16',
+            '245': 'https://yandex.ru/maps/55/tyumen/?from=mapframe&ll=65.600741%2C57.094176&mode=usermaps&source=mapframe&um=constructor%3A04abbef82906ae05068e6836f6b08760b7073ccc16aed493712e1bbb54bfcc2f&utm_source=mapframe&z=17',
+            '91': 'https://yandex.ru/maps/55/tyumen/?from=mapframe&ll=65.544285%2C57.115267&mode=usermaps&source=mapframe&um=constructor%3A171904fd66cf680314763358254991b49c0b4f1d2b2f8877a23c7c321cb65e28&utm_source=mapframe&z=16',
+            '94': 'https://yandex.ru/maps/55/tyumen/?from=mapframe&ll=65.660714%2C57.103949&mode=usermaps&source=mapframe&um=constructor%3A58fbb1fcb1e80c35c75e82bfbe2552d111bb224a9e9de187728a98a1191d20b0&utm_source=mapframe&z=16',
+            '146': 'https://yandex.ru/maps/55/tyumen/?from=mapframe&ll=65.672489%2C57.172735&mode=usermaps&source=mapframe&um=constructor%3Ab4936975fb5b0f5594204fd2e904747317394327623d2bcf64495a9783ebc94e&utm_source=mapframe&z=17',
+            '390': 'https://yandex.ru/maps/55/tyumen/?ll=65.626385%2C57.096766&mode=usermaps&source=constructorLink&um=constructor%3A67de6668c15807d5327f6e8991f3b3490f6e8d5c41242706511b3b0f09df13e9&z=17',
+            '412': 'https://yandex.ru/maps/55/tyumen/?ll=65.569012%2C57.104090&mode=usermaps&source=constructorLink&um=constructor%3A389c846fd349914f08a0a9449f19af0fb823b54ab3cb10a2d8d60f8b3611135d&z=17',
+            '389': 'https://yandex.ru/maps/55/tyumen/?ll=65.565185%2C57.156700&mode=usermaps&source=constructorLink&um=constructor%3A26fddcbf1d22e4358f5aab3b9a6859c9fc72bff9f2a9fda524caaa8258734de8&z=18',
+            '929453': 'https://yandex.ru/maps/55/tyumen/?l=sat%2Cskl&ll=65.664636%2C57.241837&mode=usermaps&source=constructorLink&um=constructor%3A97e33d2a8be33ff982bc14cb579922fb83b7b63eb3a58743cc3e27e7e2d04ac0&z=17',
+            '301': 'https://yandex.ru/maps/56/chelyabinsk/?from=mapframe&ll=61.430032%2C55.163913&mode=usermaps&source=mapframe&um=constructor%3A9d044f9f9436b17fe70f5e8b72f7b17f6e68e3bfb6ee3b08b132e1c3455e3830&utm_source=mapframe&z=16',
+            '69': 'https://yandex.ru/maps/56/chelyabinsk/?from=mapframe&ll=61.349663%2C55.109058&mode=usermaps&source=mapframe&um=constructor%3Abc45b5761f5a48073b942abd8c8130f88579e07796d0999f63a64397dc646b09&utm_source=mapframe&z=16',
+            '154': 'https://yandex.ru/maps/56/chelyabinsk/?from=mapframe&ll=61.376066%2C55.175693&mode=usermaps&source=mapframe&um=constructor%3Ac71bbc2e6598ee5e2cf91ca61cb3a30b52e4e03c6e67715828c0b02990872723&utm_source=mapframe&z=17',
+            '184': 'https://yandex.ru/maps/56/chelyabinsk/?from=mapframe&ll=61.294019%2C55.159810&mode=usermaps&source=mapframe&um=constructor%3Ab829fc4ffba2f143e55ad6f474a74b19cf405a2b677adab1ae1bfdabc0349433&utm_source=mapframe&z=16',
+            '212': 'https://yandex.ru/maps/56/chelyabinsk/?from=mapframe&ll=61.376355%2C55.229925&mode=usermaps&source=mapframe&um=constructor%3A2e3fb35aeac193e8f2ec41fd88276cb67adec56a5c07d4b717b97617d3b8ae7d&utm_source=mapframe&z=15',
+            '213': 'https://yandex.ru/maps/56/chelyabinsk/?from=mapframe&l=sat%2Cskl&ll=61.452650%2C55.145623&mode=usermaps&source=mapframe&um=constructor%3Ae5ecd7ac5aceed759fd409ece9510ff02eddd36b826ee9e4437d0d69bf02c403&utm_source=mapframe&z=16',
+            '334': 'https://yandex.ru/maps/56/chelyabinsk/?ll=61.375218%2C55.170395&mode=usermaps&source=constructorLink&um=constructor%3Ac3a56b829ff7892e9440fc1d4358c14b15bf7fefb94732c41eda0c176d7d09e6&z=17',
+            '335': 'https://yandex.ru/maps/56/chelyabinsk/?ll=61.304275%2C55.171189&mode=usermaps&source=constructorLink&um=constructor%3A879c507d99ceb687b6b568157fe343d353ee82f08e360c8705ffe213a4d78dfa&z=17',
+            '336': 'https://yandex.ru/maps/56/chelyabinsk/?ll=61.454359%2C55.134778&mode=usermaps&source=constructorLink&um=constructor%3A7228f13ac6e356b51789d6520c5e3ec957a2434dba0709f061a44018de1cfd1c&z=17',
+            '337': 'https://yandex.ru/maps/56/chelyabinsk/?ll=61.287326%2C55.185661&mode=usermaps&source=constructorLink&um=constructor%3Afda451434f885d4c0133d2ddf4fa50c37c04be3398c993dde7d45d13024ba623&z=18',
+            '8081': 'https://yandex.ru/maps/56/chelyabinsk/?ll=61.319655%2C55.228784&mode=usermaps&source=constructorLink&um=constructor%3Ad7a55f54033ca4e7ce263b34b24526d26263fc2ef5f6493feb70decc50bbb50b&z=17',
+            '8082': 'https://yandex.ru/maps/56/chelyabinsk/?ll=61.474291%2C55.169322&mode=usermaps&source=constructorLink&um=constructor%3A0b4eb181502da3b429680f0cb09c06b7fabf135aea2e14e5a0d7a14e970c2764&z=18',
+            '343': 'https://yandex.ru/maps/11184/nefteugansk/?ll=72.641799%2C61.096643&mode=usermaps&source=constructorLink&um=constructor%3Ab0c827a1179fba90dec35be7308dc489baacff49cbc062ee3b171f53a18314a0&z=17',
+            '929451': 'https://yandex.ru/maps/11184/nefteugansk/?ll=72.704967%2C61.086331&mode=usermaps&source=constructorLink&um=constructor%3A5487a542a4e2074d0ec11ccbe62d8e97b7be37a1242301135a04b0d7565c8a19&z=16',
+            '338': 'https://yandex.ru/maps/11212/miass/?ll=60.109846%2C55.047242&mode=usermaps&source=constructorLink&um=constructor%3A4e2e93f7768924c9d5ecf921d176605f473965befe8c9a9b0f79a848ec8f66d7&z=17',
+            '100': 'https://yandex.ru/maps/57/khanty-mansiysk/?from=mapframe&ll=68.989653%2C61.003343&mode=usermaps&source=mapframe&um=constructor%3A10177e1b4f8ce81d0d58dea39400c9ace3bb3d0b3d8cba2eeb46a6b407cf7749&utm_source=mapframe&z=17'
+        };
+
+        rawData.trim().split('\n').forEach((line, index) => {
             const cols = line.split('\t').map(c => c ? c.trim() : '-');
             if (cols.length >= 4) {
                 stores.push({
+                    id: 'store_' + index,
                     tk: cols[0], route: cols[1], address: cols[2], city: cols[3],
                     rc1: cols[4] || '-', rc2: cols[5] || '-', 
                     is24_7: cols[7] === 'Да', start: cols[8] || '-', end: cols[9] || '-'
@@ -171,12 +461,74 @@
             }
         });
 
+        stores.sort((a, b) => {
+            let indexA = cityOrder.indexOf(a.city);
+            let indexB = cityOrder.indexOf(b.city);
+            if (indexA === -1) indexA = 999;
+            if (indexB === -1) indexB = 999;
+            if (indexA !== indexB) return indexA - indexB;
+            return a.tk.localeCompare(b.tk, undefined, {numeric: true});
+        });
+
         const tableBody = document.getElementById('tableBody');
         const searchInput = document.getElementById('searchInput');
         const clearSearchBtn = document.getElementById('clearSearchBtn');
-        const filter24 = document.getElementById('filter24');
         const rowCountText = document.getElementById('rowCount');
         const autocompleteList = document.getElementById('autocompleteList');
+        const cityCounter = document.getElementById('cityCounter');
+        const tableContainer = document.querySelector('.table-container');
+        const citySlider = document.getElementById('citySlider');
+        
+        let currentFilterValue = 'all';
+        const customFilterBtn = document.getElementById('customFilterBtn');
+        const customFilterList = document.getElementById('customFilterList');
+        const customFilterText = document.getElementById('customFilterText');
+
+        customFilterBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            playClickSound();
+            customFilterList.classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('.filter-option').forEach(option => {
+            option.addEventListener('click', (e) => {
+                playClickSound();
+                currentFilterValue = e.target.getAttribute('data-value');
+                customFilterText.textContent = e.target.textContent;
+                customFilterList.classList.add('hidden');
+                renderTable();
+                if(searchInput.value) searchInput.dispatchEvent(new Event('input'));
+            });
+        });
+
+        function buildCitySlider() {
+            citySlider.innerHTML = '';
+            
+            const allBtn = document.createElement('button');
+            allBtn.onclick = () => {
+                playClickSound();
+                filterByCity('all');
+            };
+            allBtn.setAttribute('data-city', 'all');
+            allBtn.className = 'city-chip flex-shrink-0 active px-3 py-1.5 rounded-xl font-bold transition-all duration-200 bg-lentaYellow text-lentaDark shadow-md cursor-pointer flex items-center gap-1.5 tactile-btn';
+            allBtn.textContent = '🌐 Все города';
+            citySlider.appendChild(allBtn);
+
+            const uniqueCities = [...new Set(stores.map(s => s.city))];
+            
+            uniqueCities.forEach(city => {
+                const btn = document.createElement('button');
+                btn.onclick = () => {
+                    playClickSound();
+                    filterByCity(city);
+                };
+                btn.setAttribute('data-city', city);
+                btn.className = 'city-chip flex-shrink-0 px-3 py-1.5 rounded-xl font-semibold transition-all duration-200 bg-lentaDark text-blue-100 border border-blue-800 hover:border-lentaYellow cursor-pointer flex items-center gap-1.5 tactile-btn';
+                btn.textContent = city;
+                citySlider.appendChild(btn);
+            });
+        }
+        buildCitySlider();
 
         window.clearSearch = function() {
             searchInput.value = '';
@@ -186,6 +538,7 @@
         };
 
         window.closeCard = function(btn) {
+            playClickSound();
             if (searchInput.value.trim() !== '') {
                 clearSearch(); 
             } else {
@@ -193,12 +546,88 @@
             }
         };
 
+        window.filterByCity = function(city) {
+            selectedCityFilter = city;
+            
+            document.querySelectorAll('.city-chip').forEach(el => {
+                const chipCity = el.getAttribute('data-city');
+                if (chipCity === city) {
+                    el.className = 'city-chip flex-shrink-0 active px-3 py-1.5 rounded-xl font-bold transition-all duration-200 bg-lentaYellow text-lentaDark shadow-md cursor-pointer flex items-center gap-1.5 tactile-btn';
+                    el.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                } else {
+                    el.className = 'city-chip flex-shrink-0 px-3 py-1.5 rounded-xl font-semibold transition-all duration-200 bg-lentaDark text-blue-100 border border-blue-800 hover:border-lentaYellow cursor-pointer flex items-center gap-1.5 tactile-btn';
+                }
+            });
+
+            if (city === 'all') {
+                cityCounter.textContent = 'Все города';
+            } else {
+                const count = stores.filter(s => s.city === city).length;
+                cityCounter.textContent = `${city}: ${count} точек`;
+            }
+
+            tableContainer.scrollTop = 0;
+            renderTable();
+        };
+
+        window.openNavModal = function(addr, fullAddr) {
+            currentNavAddress = addr;
+            currentNavFullAddress = fullAddr;
+            document.getElementById('navModal').classList.remove('hidden');
+        };
+
+        window.closeNavModal = function() {
+            document.getElementById('navModal').classList.add('hidden');
+        };
+
+        window.executeNavigation = function(appType) {
+            closeNavModal();
+            let url = '';
+            if (appType === 'yandex') {
+                url = `https://yandex.ru/maps/?text=${encodeURIComponent(currentNavAddress)}`;
+            } else if (appType === '2gis') {
+                url = `https://2gis.ru/search/${encodeURIComponent(currentNavFullAddress)}`;
+            } else if (appType === 'google') {
+                url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(currentNavFullAddress)}`;
+            }
+            if (url) {
+                window.open(url, '_blank');
+            }
+        };
+
+        function getDropdownItemHTML(store) {
+            let brandColor = "text-lentaYellow";
+            let bName = "ЛЕНТА";
+            let badgeClass = "bg-lentaYellow text-lentaDark border-lentaYellow";
+            
+            if (store.address.includes("ОКЕЙ") || store.tk === "929929") { 
+                brandColor = "text-red-400"; bName = "О'КЕЙ"; badgeClass = "bg-red-600 text-white border-red-600";
+            } else if (store.address.includes("Молл")) { 
+                brandColor = "text-purple-400"; bName = "РЦ МОЛЛ"; badgeClass = "bg-purple-600 text-white border-purple-600";
+            } else if (store.address.includes("Монетка") || store.tk.startsWith("92")) { 
+                brandColor = "text-orange-400"; bName = "МОНЕТКА"; badgeClass = "bg-orange-500 text-white border-orange-500";
+            }
+            
+            let tkNum = store.tk !== '-' ? `ТК ${store.tk}` : bName;
+            if(store.tk.startsWith("92") && store.tk !== "929929") tkNum = `РЦ ${store.tk}`;
+            if(store.address.includes("ОКЕЙ") || store.tk === "929929") tkNum = "О'КЕЙ";
+            if(store.tk === '-') tkNum = bName;
+
+            const cleanAddress = store.address.replace('ООО "Лента", ', '').replace('РЦ "Монетка", ', '');
+
+            return `
+                <div class="flex items-center gap-2 mb-1">
+                    <span class="text-[10px] ${badgeClass} border border-white/10 px-2 py-0.5 rounded font-black uppercase tracking-widest shadow-sm">${tkNum}</span>
+                    <span class="font-bold text-xs ${brandColor}">${store.city}</span>
+                </div>
+                <div class="text-[11px] text-blue-100 font-medium leading-tight">${cleanAddress}</div>
+            `;
+        }
+
         function getTimeLeftHtml(timeStr) {
             if (!timeStr || timeStr === '-' || !timeStr.includes('-')) return '';
-            
             const now = new Date();
             const currentTotalMins = now.getHours() * 60 + now.getMinutes();
-
             const [startStr, endStr] = timeStr.split('-');
             if (!startStr || !endStr) return '';
             
@@ -212,7 +641,7 @@
 
             if ((currentTotalMins >= startTotalMins && currentTotalMins <= endTotalMins) || 
                 (startTotalMins > endTotalMins && (currentTotalMins >= startTotalMins || currentTotalMins <= endTotalMins))) {
-                return `<div class="text-xs text-emerald-400 mt-1 font-bold animate-pulse flex items-center gap-1"><span class="text-sm">🔥</span> Идёт выгрузка</div>`;
+                return `<div class="text-[10px] text-emerald-400 font-extrabold animate-pulse px-2 py-0.5 rounded-md bg-emerald-950/60 inline-flex items-center gap-1"><span>🔥</span> Разгрузка идет</div>`;
             }
 
             let diff = startTotalMins - currentTotalMins;
@@ -221,126 +650,154 @@
             const h = Math.floor(diff / 60);
             const m = diff % 60;
 
-            let colorClass = 'text-slate-400';
-            let icon = '⏳';
-            if (h < 4) {
-                colorClass = 'text-amber-400 font-bold';
-                icon = '⚠️';
-            }
+            let colorClass = 'text-blue-300';
+            if (h < 4) colorClass = 'text-lentaYellow font-bold';
 
-            return `<div class="text-[10px] sm:text-xs ${colorClass} mt-1 flex items-center gap-1"><span>${icon}</span> До начала: ${h}ч ${m}м</div>`;
+            return `<div class="text-[10px] ${colorClass} mt-0.5">⏱ До начала: ${h}ч ${m}м</div>`;
         }
 
         function renderTable() {
-            const searchTerm = searchInput.value.toLowerCase().trim();
-            const filterVal = filter24.value;
+            const rawSearch = searchInput.value.toLowerCase().trim();
+            // Очищаем поисковый запрос от кавычек и апострофов для всеядного поиска (в т.ч. Окей / О'кей)
+            const cleanSearchQuery = rawSearch.replace(/['"`]/g, '');
+            const filterVal = currentFilterValue;
             
-            if (searchTerm) clearSearchBtn.classList.remove('hidden');
+            if (cleanSearchQuery) clearSearchBtn.classList.remove('hidden');
             else clearSearchBtn.classList.add('hidden');
 
             tableBody.innerHTML = '';
             let count = 0;
 
+            const searchWords = cleanSearchQuery.split(/\s+/).filter(w => w.length > 0);
+
             stores.forEach(store => {
-                const matchesSearch = store.city.toLowerCase().includes(searchTerm) || 
-                                      store.address.toLowerCase().includes(searchTerm) ||
-                                      store.tk.toLowerCase().includes(searchTerm);
+                let matchesSearch = false;
+                
+                if (searchWords.length === 0) {
+                    matchesSearch = true;
+                } else {
+                    const fullText = `${store.tk} ${store.city} ${store.address}`.toLowerCase().replace(/['"`]/g, '');
+                    matchesSearch = searchWords.every(word => fullText.includes(word));
+                }
                 
                 let matchesFilter = true;
                 if (filterVal === '24/7' && !store.is24_7) matchesFilter = false;
                 if (filterVal === 'limited' && store.is24_7) matchesFilter = false;
+                
+                if (cleanSearchQuery) {
+                    // При поиске сбрасываем фильтр города
+                } else if (selectedCityFilter !== 'all' && store.city !== selectedCityFilter) {
+                    matchesFilter = false;
+                }
 
                 if (matchesSearch && matchesFilter) {
                     count++;
                     
                     let brandName = "ЛЕНТА";
-                    let badgeClass = "bg-[#FFC500] text-slate-900 border-[#FFC500]";
-                    let borderColor = "border-[#FFC500]/70";
-                    let displayNumber = `ТК ${store.tk}`;
+                    let badgeClass = "bg-lentaYellow text-lentaDark border-lentaYellow shadow-lentaYellow/30";
+                    let rowBorder = "border-l-lentaYellow";
+                    let displayNumber = store.tk !== '-' ? `ТК ${store.tk}` : '';
 
                     if (store.address.includes("ОКЕЙ") || store.tk === "929929") {
                         brandName = "О'КЕЙ";
-                        badgeClass = "bg-red-600 text-white border-red-600 shadow-red-900/50";
-                        borderColor = "border-red-600/70";
+                        badgeClass = "bg-red-600 text-white border-red-500 shadow-red-600/30";
+                        rowBorder = "border-l-red-500";
                         displayNumber = "ГИПЕРМАРКЕТ";
                     } else if (store.address.includes("Молл")) {
                         brandName = "РЦ МОЛЛ";
-                        badgeClass = "bg-purple-600 text-white border-purple-600 shadow-purple-900/50";
-                        borderColor = "border-purple-600/70";
+                        badgeClass = "bg-purple-600 text-white border-purple-500 shadow-purple-600/30";
+                        rowBorder = "border-l-purple-500";
                         displayNumber = "СКЛАД";
                     } else if (store.address.includes("Монетка") || store.tk.startsWith("92")) {
                         brandName = "МОНЕТКА";
-                        badgeClass = "bg-orange-500 text-white border-orange-500 shadow-orange-900/50";
-                        borderColor = "border-orange-500/70";
+                        badgeClass = "bg-orange-500 text-white border-orange-400 shadow-orange-500/30";
+                        rowBorder = "border-l-orange-500";
                         displayNumber = store.tk !== '-' ? `РЦ ${store.tk}` : "РЦ";
                     }
 
-                    const is24Color = store.is24_7 ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-slate-700 text-slate-300 border-slate-600';
+                    const is24Color = store.is24_7 ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-lentaDarker text-blue-300 border-blue-800';
                     const is24Text = store.is24_7 ? '24/7' : `${store.start} - ${store.end}`;
                     
-                    const rc1Html = store.rc1 !== '-' ? `<span class="px-2.5 py-1 bg-[#7bc47f] text-slate-900 font-bold rounded shadow-sm text-xs md:text-sm">${store.rc1}</span> ${getTimeLeftHtml(store.rc1)}` : '<span class="text-slate-600">-</span>';
-                    const rc2Html = store.rc2 !== '-' ? `<span class="px-2 py-1 bg-slate-700 text-slate-200 rounded text-xs md:text-sm border border-slate-600">${store.rc2}</span>` : '<span class="text-slate-600">-</span>';
+                    const rc1Html = store.rc1 !== '-' ? `<div class="flex flex-col items-start gap-0.5"><span class="px-2 py-0.5 bg-emerald-500 text-emerald-950 font-bold rounded shadow-sm text-xs">${store.rc1}</span> ${getTimeLeftHtml(store.rc1)}</div>` : '<span class="text-blue-700 font-bold">-</span>';
 
                     let cleanNavAddress = store.city + ' ' + store.address;
-                    cleanNavAddress = cleanNavAddress.replace(/ООО ["']?Лента["']?,?\s*/gi, '');
-                    cleanNavAddress = cleanNavAddress.replace(/ООО ОКЕЙ,?\s*/gi, '');
-                    cleanNavAddress = cleanNavAddress.replace(/РЦ ["']?Монетка["']?,?\s*/gi, '');
-                    cleanNavAddress = cleanNavAddress.replace(/РЦ Молл,?\s*/gi, '');
-                    cleanNavAddress = cleanNavAddress.replace(/\b\d{6}\b,?\s*/g, ''); // Удаляем 6 цифр индекса
+                    cleanNavAddress = cleanNavAddress.replace(/ООО ["']?Лента["']?,?\s*/gi, '').replace(/ООО ОКЕЙ,?\s*/gi, '').replace(/РЦ ["']?Монетка["']?,?\s*/gi, '').replace(/РЦ Молл,?\s*/gi, '').replace(/\b\d{6}\b,?\s*/g, ''); 
                     
-                    const searchQuery = encodeURIComponent(cleanNavAddress.trim());
-                    // Заменил mode=routes на простой text= для надежного срабатывания в мобильных навигаторах
-                    const navLink = `https://yandex.ru/maps/?text=${searchQuery}`;
-
                     const cleanAddressText = store.address.replace('ООО "Лента", ', '').replace('ООО "Лента" ', '').replace('РЦ "Монетка", ', '');
 
+                    let panoUrl = `https://yandex.ru/maps/?text=${encodeURIComponent(cleanNavAddress.trim())}&l=stv,sta`;
+                    let panoLabel = "Панорама 📸";
+                    let customApproachHtml = '';
+                    
+                    let storeCustomRouteUrl = customRoutes[store.tk] || null;
+
+                    if (store.tk === '230') {
+                        panoUrl = "https://yandex.ru/navi?ll=60.628613%2C56.908958&panorama%5Bpoint%5D=60.628613%2C56.908958&panorama%5Bdirection%5D=147.068375%2C6.140484&panorama%5Bid%5D=1435405587_660819353_23_1727782356&panorama%5Bspan%5D=35.690620%2C79.999992";
+                        panoLabel = "Панорама 3D";
+                    }
+
+                    if (storeCustomRouteUrl) {
+                        customApproachHtml = `
+                            <a href="${storeCustomRouteUrl}" target="_blank" onclick="playClickSound()" title="Схема заезда на разгрузку" class="inline-flex items-center gap-1 px-2 py-1 bg-emerald-600 hover:bg-emerald-500 border border-emerald-400/50 text-white rounded-lg text-[10px] font-bold transition-all tactile-btn shadow-md cursor-pointer">
+                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+                                Подъезд 🚛
+                            </a>
+                        `;
+                    }
+
+                    const encodedAddr = cleanNavAddress.trim();
+                    const encodedFullAddr = store.city + ", " + cleanAddressText;
+
                     const row = `
-                        <tr class="relative flex flex-col mb-4 bg-slate-800 rounded-xl shadow-lg border-l-4 ${borderColor} md:table-row md:mb-0 md:bg-transparent md:border-0 md:border-b md:border-slate-700/50 md:rounded-none md:shadow-none hover:bg-slate-700/40 transition-colors group">
+                        <tr class="relative flex flex-col bg-lentaDark/95 rounded-xl shadow-lg border border-blue-900/50 ${rowBorder} border-l-4 md:table-row md:bg-transparent md:border-0 md:border-b md:border-blue-900/50 md:shadow-none hover:bg-[#003366]/85 transition-colors group p-2 md:p-0 mb-2 md:mb-0">
                             
-                            <!-- Кнопка крестик в самой карточке (не вылетит наверх) -->
-                            <button onclick="closeCard(this)" class="absolute top-3 right-3 text-slate-400 hover:text-white bg-slate-700/50 p-1.5 rounded-full z-10 transition-colors border border-slate-600 md:hidden" title="Скрыть карточку">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            <button onclick="closeCard(this)" class="absolute top-2 right-2 md:hidden text-blue-400 hover:text-white bg-lentaDarker p-1.5 rounded-full z-10 transition-colors border border-blue-800 cursor-pointer tactile-btn" title="Скрыть">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                             </button>
 
-                            <td class="px-4 py-4 md:px-6 md:py-4 border-b border-slate-700/50 md:border-none md:border-l-4 md:${borderColor} flex flex-col md:table-cell pr-12 relative">
-                                <button onclick="closeCard(this)" class="hidden md:block absolute top-1/2 -translate-y-1/2 right-3 text-slate-500 hover:text-white p-1 rounded-full z-10 transition-colors">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                                </button>
-                                <span class="md:hidden text-xs text-slate-400 font-semibold uppercase mb-2">Магазин / Рейс</span>
-                                <div class="font-bold text-white flex flex-col items-start gap-1">
-                                    <span class="px-2.5 py-0.5 rounded text-[10px] md:text-xs font-black tracking-wider shadow uppercase ${badgeClass}">
+                            <td class="py-1 md:px-4 md:py-2 border-b border-blue-900/30 md:border-none flex flex-col md:table-cell pr-8 relative">
+                                <span class="md:hidden text-[9px] text-blue-300 font-bold uppercase tracking-wider mb-0.5">Бренд и Номер</span>
+                                <div class="flex items-center gap-2 md:flex-col md:items-start md:gap-1">
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-black tracking-wider uppercase border shadow-sm ${badgeClass}">
                                         ${brandName}
                                     </span>
-                                    <span class="text-base">${displayNumber}</span>
+                                    <span class="text-xs md:text-sm font-bold text-white">${displayNumber}</span>
                                 </div>
                             </td>
-                            <td class="px-4 py-3 md:px-6 md:py-4 border-b border-slate-700/50 md:border-none flex justify-between items-center md:table-cell">
-                                <span class="md:hidden text-xs text-slate-400 font-semibold uppercase">Город</span>
-                                <div class="font-bold text-[#FFC500] text-base">${store.city}</div>
+                            
+                            <td class="py-1 md:px-4 md:py-2 border-b border-blue-900/30 md:border-none flex justify-between items-center md:table-cell">
+                                <span class="md:hidden text-[9px] text-blue-300 font-bold uppercase tracking-wider">Город</span>
+                                <div class="font-black text-lentaYellow text-xs md:text-sm tracking-wide">${store.city}</div>
                             </td>
-                            <td class="px-4 py-3 md:px-6 md:py-4 border-b border-slate-700/50 md:border-none flex flex-col md:table-cell">
-                                <span class="md:hidden text-xs text-slate-400 font-semibold uppercase mb-1">Адрес</span>
-                                <div class="text-slate-300 text-sm whitespace-normal md:truncate md:max-w-xs lg:max-w-md leading-tight" title='${store.address}'>
+                            
+                            <td class="py-1 md:px-4 md:py-2 border-b border-blue-900/30 md:border-none flex flex-col md:table-cell">
+                                <span class="md:hidden text-[9px] text-blue-300 font-bold uppercase tracking-wider mb-0.5">Адрес</span>
+                                <div class="text-blue-100 text-xs md:text-sm whitespace-normal md:truncate md:max-w-xs lg:max-w-md font-medium leading-snug" title='${store.address}'>
                                     ${cleanAddressText}
                                 </div>
-                                <a href="${navLink}" target="_blank" rel="noopener noreferrer" class="mt-3 inline-flex items-center gap-1.5 px-4 py-2 bg-[#004B87]/80 hover:bg-[#004B87] border border-[#FFC500]/50 text-white rounded-lg text-xs font-bold transition-transform active:scale-95 w-fit shadow-md">
-                                    <svg class="w-4 h-4 text-[#FFC500]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-                                    </svg>
-                                    В навигатор
-                                </a>
+                                <div class="mt-1 flex flex-wrap gap-1 items-center">
+                                    ${customApproachHtml}
+                                    
+                                    <button onclick="playClickSound(); openNavModal('${encodedAddr.replace(/'/g, "\\'")}', '${encodedFullAddr.replace(/'/g, "\\'")}');" class="inline-flex items-center gap-1 px-2 py-1 bg-lentaBlue hover:bg-[#0052a3] border border-blue-400/50 text-white rounded-lg text-[10px] font-bold transition-all tactile-btn shadow-md cursor-pointer">
+                                        <svg class="w-3 h-3 text-lentaYellow" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" /></svg>
+                                        Навигатор 🗺️
+                                    </button>
+
+                                    <a href="${panoUrl}" target="_blank" onclick="playClickSound()" class="inline-flex items-center gap-1 px-2 py-1 bg-lentaDarker hover:bg-lentaBlue border border-blue-700 text-blue-100 rounded-lg text-[10px] font-bold transition-all tactile-btn shadow-md">
+                                        <svg class="w-3 h-3 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                        ${panoLabel}
+                                    </a>
+                                </div>
                             </td>
-                            <td class="px-4 py-3 md:px-6 md:py-4 border-b border-slate-700/50 md:border-none flex justify-between items-center md:items-start md:flex-col md:justify-center md:table-cell">
-                                <span class="md:hidden text-xs text-slate-400 font-semibold uppercase">Окно РЦ 1</span>
+                            
+                            <td class="py-1 md:px-4 md:py-2 border-b border-blue-900/30 md:border-none flex justify-between items-center md:items-start md:flex-col md:justify-center md:table-cell">
+                                <span class="md:hidden text-[9px] text-blue-300 font-bold uppercase tracking-wider">Время приёма</span>
                                 <div class="flex flex-col items-end md:items-start">${rc1Html}</div>
                             </td>
-                            <td class="px-4 py-3 md:px-6 md:py-4 border-b border-slate-700/50 md:border-none flex justify-between items-center md:table-cell">
-                                <span class="md:hidden text-xs text-slate-400 font-semibold uppercase">Окно РЦ 2</span>
-                                <div>${rc2Html}</div>
-                            </td>
-                            <td class="px-4 py-4 md:px-6 md:py-4 flex justify-between items-center md:table-cell bg-slate-800/50 md:bg-transparent rounded-b-xl md:rounded-none">
-                                <span class="md:hidden text-xs text-slate-400 font-semibold uppercase">Режим</span>
-                                <span class="px-3 py-1.5 rounded-lg text-xs font-semibold border shadow-inner ${is24Color}">
+                            
+                            <td class="py-1 md:px-4 md:py-2 flex justify-between items-center md:table-cell bg-lentaDarker md:bg-transparent rounded-lg md:rounded-none px-2 mt-0.5 md:mt-0">
+                                <span class="md:hidden text-[9px] text-blue-300 font-bold uppercase tracking-wider">Режим работы</span>
+                                <span class="px-2 py-0.5 rounded text-xs font-bold border shadow-inner ${is24Color}">
                                     ${is24Text}
                                 </span>
                             </td>
@@ -353,29 +810,44 @@
             rowCountText.textContent = `Показано: ${count} из ${stores.length}`;
             
             if (count === 0) {
-                tableBody.innerHTML = `<tr><td colspan="6" class="px-6 py-12 text-center text-slate-500 block md:table-cell">По вашему запросу ничего не найдено</td></tr>`;
+                tableBody.innerHTML = `<tr><td colspan="5" class="px-5 py-12 text-center text-blue-300 block md:table-cell">По вашему запросу ничего не найдено</td></tr>`;
             }
         }
+
+        tableContainer.addEventListener('scroll', () => {
+            const currentScrollTop = tableContainer.scrollTop;
+            const timeDiff = 16;
+            const scrollDist = Math.abs(currentScrollTop - lastScrollTop);
+            const speed = scrollDist / timeDiff;
+            
+            playTickSound(speed);
+            lastScrollTop = currentScrollTop;
+        });
 
         searchInput.addEventListener('input', function() {
             renderTable(); 
             
-            const searchTerm = this.value.toLowerCase().trim();
+            const rawSearch = this.value.toLowerCase().trim();
+            const cleanSearchQuery = rawSearch.replace(/['"`]/g, '');
             autocompleteList.innerHTML = ''; 
             
-            if (!searchTerm) {
+            if (!cleanSearchQuery) {
                 autocompleteList.classList.add('hidden');
                 return;
             }
 
-            const filterVal = filter24.value;
+            const filterVal = currentFilterValue;
+            const searchWords = cleanSearchQuery.split(/\s+/).filter(w => w.length > 0);
+
             let suggestions = stores.filter(store => {
-                const matchesSearch = store.city.toLowerCase().includes(searchTerm) || 
-                                      store.address.toLowerCase().includes(searchTerm) ||
-                                      store.tk.toLowerCase().includes(searchTerm);
+                const fullText = `${store.tk} ${store.city} ${store.address}`.toLowerCase().replace(/['"`]/g, '');
+                const matchesSearch = searchWords.every(word => fullText.includes(word));
+                                      
                 let matchesFilter = true;
                 if (filterVal === '24/7' && !store.is24_7) matchesFilter = false;
                 if (filterVal === 'limited' && store.is24_7) matchesFilter = false;
+                if (selectedCityFilter !== 'all' && store.city !== selectedCityFilter) matchesFilter = false;
+
                 return matchesSearch && matchesFilter;
             });
 
@@ -384,25 +856,12 @@
                 
                 suggestions.slice(0, 20).forEach(store => {
                     const item = document.createElement('div');
-                    item.className = 'px-4 py-3 hover:bg-slate-50 cursor-pointer border-b border-slate-100 last:border-none transition-colors group';
+                    item.className = 'px-3.5 py-2.5 hover:bg-lentaBlue cursor-pointer border-b border-blue-800/50 last:border-none transition-colors rounded-lg mx-1 my-0.5 text-white';
                     
-                    let brandColor = "text-[#004B87]";
-                    let bName = "ЛЕНТА";
-                    if (store.address.includes("ОКЕЙ") || store.tk === "929929") { brandColor = "text-red-600"; bName = "О'КЕЙ"; }
-                    else if (store.address.includes("Молл")) { brandColor = "text-purple-600"; bName = "МОЛЛ"; }
-                    else if (store.address.includes("Монетка") || store.tk.startsWith("92")) { brandColor = "text-orange-600"; bName = "МОНЕТКА"; }
-                    
-                    const tkNum = store.tk !== '-' ? store.tk : bName;
-                    
-                    item.innerHTML = `
-                        <div class="font-bold text-sm flex items-center gap-2 justify-between">
-                            <span class="${brandColor} group-hover:text-black transition-colors">${store.city}</span>
-                            <span class="text-[10px] bg-slate-100 border border-slate-200 text-slate-600 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">${tkNum}</span>
-                        </div>
-                        <div class="text-xs text-slate-500 truncate mt-1">${store.address.replace('ООО "Лента", ', '')}</div>
-                    `;
+                    item.innerHTML = getDropdownItemHTML(store);
                     
                     item.addEventListener('click', () => {
+                        playClickSound();
                         searchInput.value = store.tk !== '-' ? store.tk : store.city; 
                         autocompleteList.classList.add('hidden');
                         renderTable();
@@ -419,12 +878,59 @@
             if (!searchInput.contains(e.target) && !autocompleteList.contains(e.target)) {
                 autocompleteList.classList.add('hidden');
             }
+            if (!customFilterBtn.contains(e.target) && !customFilterList.contains(e.target)) {
+                customFilterList.classList.add('hidden');
+            }
         });
 
-        filter24.addEventListener('change', () => {
-            renderTable();
-            if(searchInput.value) searchInput.dispatchEvent(new Event('input'));
-        });
+        window.startVoiceSearch = function() {
+            const micBtn = document.getElementById('voiceSearchBtn');
+            const searchInput = document.getElementById('searchInput');
+            
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                searchInput.placeholder = "Микрофон не поддерживается";
+                return;
+            }
+            
+            try {
+                const recognition = new SpeechRecognition();
+                recognition.lang = 'ru-RU'; 
+                recognition.interimResults = false;
+                recognition.maxAlternatives = 1;
+                
+                recognition.onstart = function() {
+                    micBtn.classList.add('mic-pulsing', 'bg-red-600', 'border-red-400');
+                    searchInput.value = '';
+                    searchInput.placeholder = "Слушаю вас...";
+                };
+                
+                recognition.onresult = function(event) {
+                    const speechResult = event.results[0][0].transcript;
+                    searchInput.value = speechResult.replace(/\.$/, '').trim();
+                    searchInput.dispatchEvent(new Event('input'));
+                };
+                
+                recognition.onerror = function() {
+                    resetMic();
+                    searchInput.placeholder = "Повторите запрос...";
+                };
+                
+                recognition.onend = function() { 
+                    resetMic(); 
+                };
+                
+                function resetMic() {
+                    micBtn.classList.remove('mic-pulsing', 'bg-red-600', 'border-red-400');
+                    searchInput.placeholder = "Номер ТК, адрес, город...";
+                }
+                
+                recognition.start();
+            } catch (e) {
+                micBtn.classList.remove('mic-pulsing', 'bg-red-600', 'border-red-400');
+                searchInput.placeholder = "Ошибка микрофона";
+            }
+        };
 
         setInterval(renderTable, 60000);
         renderTable();
