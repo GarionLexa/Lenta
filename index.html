@@ -58,7 +58,7 @@
             overflow-y: auto;
             overflow-x: hidden;
             overscroll-behavior-y: contain;
-            padding-bottom: 50px;
+            padding-bottom: 120px; /* Увеличен отступ, чтобы нижняя карточка не обрезалась на телефоне */
         }
         
         thead th {
@@ -112,7 +112,7 @@
 <body class="p-2 sm:p-3 min-h-screen">
 
     <!-- Модальное окно выбора навигатора -->
-    <div id="navModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div id="navModal" class="fixed inset-0 z-[150] bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
         <div class="glass-modal rounded-3xl p-6 md:p-8 max-w-sm w-full text-center relative modal-animate">
             <button onclick="playClickSound(); closeNavModal();" class="absolute top-3 right-3 text-blue-300 hover:text-white bg-lentaDark p-2 rounded-full transition-colors border border-blue-800 cursor-pointer tactile-btn">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -140,7 +140,7 @@
     </div>
 
     <div class="max-w-7xl mx-auto space-y-2.5">
-        <header class="glass-panel p-3 sm:p-4 rounded-2xl shadow-2xl relative overflow-hidden">
+        <header class="glass-panel p-3 sm:p-4 rounded-2xl shadow-2xl relative overflow-visible">
             <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-lentaYellow/15 rounded-full blur-3xl pointer-events-none"></div>
             
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 mb-2.5 relative z-10">
@@ -227,7 +227,7 @@
                         <th scope="col" class="px-4 py-2.5 font-bold w-32">Режим работы</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody" class="block md:table-row-group space-y-2 md:space-y-0 p-0.5 md:p-0"></tbody>
+                <tbody id="tableBody" class="block md:table-row-group space-y-3 md:space-y-0 p-0.5 md:p-0"></tbody>
             </table>
         </div>
         
@@ -327,7 +327,7 @@
             } catch (e) {}
         }
 
-        // ПОЛНАЯ БАЗА ВСЕХ МАГАЗИНОВ БЕЗ СОКРАЩЕНИЙ!
+        // ПОЛНАЯ БАЗА ВСЕХ МАГАЗИНОВ БЕЗ СОКРАЩЕНИЙ! 100% Оригинал.
         const rawData = `203	8092	ООО "Лента", 620000, Свердловская обл., г. Екатеринбург, Дублер Сибирского тракта, д. 19, корп. 1	Екатеринбург	22:00-04:00	-	-	Да	Круглосуточно	Круглосуточно
 227	8092	ООО "Лента", 620016, Свердловская обл., г. Екатеринбург, Академика Сахарова пр-кт, д. 107/1	Екатеринбург	22:00-04:00	-	-	Да	Круглосуточно	Круглосуточно
 228	8092	ООО "Лента", 620017, Свердловская обл., г. Екатеринбург, Космонавтов пр-кт, д.1в/1	Екатеринбург	22:00-04:00	-	-	Да	Круглосуточно	Круглосуточно
@@ -403,7 +403,7 @@
             "Новосибирск", "Москва", "Санкт-Петербург"
         ];
 
-        // ПОЛНАЯ БАЗА ВСЕХ 49 СХЕМ ЗАЕЗДОВ
+        // ПОЛНАЯ БАЗА ВСЕХ 49 СХЕМ ЗАЕЗДОВ (100% Оригинал)
         const customRoutes = {
             '203': 'https://yandex.ru/maps/?um=constructor%3Afbbd0b022ba16d28a9759e073e3de48d938f03a1cd710ca64ff5c6fad195da4f&source=constructorLink',
             '230': 'https://yandex.ru/maps/54/yekaterinburg/?from=mapframe&ll=60.629319%2C56.908463&mode=usermaps&source=mapframe&um=constructor%3A5104fa7b18d77875444dfad81e1c3b3a83dea27ff53f279ba413a4122c01582d&utm_source=mapframe&z=16.33',
