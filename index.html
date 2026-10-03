@@ -4,9 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     
-    <!-- Настройки для обложки ссылки (Open Graph) -->
+    <!-- Настройки для PWA и конвертации в APK -->
     <title>ЛЕНТА: Мониторинг доставок</title>
     <meta name="description" content="База гипермаркетов и схем заездов для водителей логистики.">
+    <meta name="theme-color" content="#001A3D">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Лента Логистика">
+    
+    <!-- Динамический манифест вшит прямо в код (не нужны сторонние файлы) -->
+    <link rel="manifest" id="pwaManifest">
+
+    <!-- Настройки для обложки ссылки (Open Graph) -->
     <meta property="og:title" content="ЛЕНТА ЛОГИСТИКА: Мониторинг доставок">
     <meta property="og:description" content="Схемы подъездов к РЦ и гипермаркетам.">
     <meta property="og:image" content="1790837126974.jpg">
@@ -67,7 +77,7 @@
             overflow-y: auto;
             overflow-x: hidden;
             overscroll-behavior-y: contain;
-            padding-bottom: 120px; /* Отступ чтобы на телефоне не резался низ */
+            padding-bottom: 120px;
         }
         
         thead th {
@@ -120,6 +130,28 @@
 </head>
 <body class="p-2 sm:p-3 min-h-screen relative">
 
+    <!-- Автоматическая генерация PWA манифеста внутри браузера -->
+    <script>
+        const manifestData = {
+            "name": "ЛЕНТА: Мониторинг доставок",
+            "short_name": "Лента Логистика",
+            "start_url": "./",
+            "display": "standalone",
+            "background_color": "#001A3D",
+            "theme_color": "#001A3D",
+            "icons": [
+                {
+                    "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23FDCB05'/><circle cx='50' cy='50' r='20' fill='%2378350F'/></svg>",
+                    "sizes": "512x512",
+                    "type": "image/svg+xml"
+                }
+            ]
+        };
+        const stringManifest = JSON.stringify(manifestData);
+        const blob = new Blob([stringManifest], {type: 'application/json'});
+        document.getElementById('pwaManifest').href = URL.createObjectURL(blob);
+    </script>
+
     <!-- Модальное окно выбора навигатора -->
     <div id="navModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
         <div class="glass-modal rounded-3xl p-6 md:p-8 max-w-sm w-full text-center relative modal-animate">
@@ -155,7 +187,7 @@
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3 relative z-10">
                 <div class="flex items-center gap-3">
                     <div class="w-11 h-11 rounded-full bg-gradient-to-br from-amber-300 via-yellow-400 to-amber-600 flex items-center justify-center shadow-lg border-2 border-lentaDark relative overflow-hidden shrink-0">
-                        <!-- Оригинальный векторный подсолнух Ленты -->
+                        <!-- Фирменный векторный подсолнух Ленты -->
                         <svg class="w-9 h-9" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M50 2 C55 18, 55 35, 50 48 C45 35, 45 18, 50 2 Z" fill="#FEE140" stroke="#D97706" stroke-width="1.5"/>
                             <path d="M50 98 C55 82, 55 65, 50 52 C45 65, 45 82, 50 98 Z" fill="#F59E0B" stroke="#D97706" stroke-width="1.5"/>
