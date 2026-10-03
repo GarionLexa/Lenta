@@ -13,20 +13,18 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Лента Логистика">
     
-    <!-- Динамический манифест вшит прямо в код (не нужны сторонние файлы) -->
+    <!-- Динамический манифест вшит прямо в код -->
     <link rel="manifest" id="pwaManifest">
 
     <!-- Настройки для обложки ссылки (Open Graph) -->
     <meta property="og:title" content="ЛЕНТА ЛОГИСТИКА: Мониторинг доставок">
     <meta property="og:description" content="Схемы подъездов к РЦ и гипермаркетам.">
-    <meta property="og:image" content="1790837126974.jpg">
+    <meta property="og:image" content="icon.png">
     <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="1790837126974.jpg">
     
     <!-- Иконки сайта и для добавления на экран "Домой" -->
-    <link rel="icon" href="1790837126974.jpg" type="image/jpeg">
-    <link rel="apple-touch-icon" href="1790837126974.jpg">
+    <link rel="icon" href="icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="icon.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -141,9 +139,16 @@
             "theme_color": "#001A3D",
             "icons": [
                 {
-                    "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23FDCB05'/><circle cx='50' cy='50' r='20' fill='%2378350F'/></svg>",
+                    "src": "icon.png",
+                    "sizes": "192x192",
+                    "type": "image/png",
+                    "purpose": "any"
+                },
+                {
+                    "src": "icon.png",
                     "sizes": "512x512",
-                    "type": "image/svg+xml"
+                    "type": "image/png",
+                    "purpose": "any"
                 }
             ]
         };
@@ -187,7 +192,6 @@
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3 relative z-10">
                 <div class="flex items-center gap-3">
                     <div class="w-11 h-11 rounded-full bg-gradient-to-br from-amber-300 via-yellow-400 to-amber-600 flex items-center justify-center shadow-lg border-2 border-lentaDark relative overflow-hidden shrink-0">
-                        <!-- Фирменный векторный подсолнух Ленты -->
                         <svg class="w-9 h-9" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M50 2 C55 18, 55 35, 50 48 C45 35, 45 18, 50 2 Z" fill="#FEE140" stroke="#D97706" stroke-width="1.5"/>
                             <path d="M50 98 C55 82, 55 65, 50 52 C45 65, 45 82, 50 98 Z" fill="#F59E0B" stroke="#D97706" stroke-width="1.5"/>
