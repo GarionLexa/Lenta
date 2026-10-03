@@ -4,27 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     
-    <!-- Настройки для PWA и конвертации в APK -->
+    <!-- Настройки для обложки ссылки (Open Graph) -->
     <title>ЛЕНТА: Мониторинг доставок</title>
     <meta name="description" content="База гипермаркетов и схем заездов для водителей логистики.">
-    <meta name="theme-color" content="#001A3D">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Лента Логистика">
-    
-    <!-- Динамический манифест вшит прямо в код -->
-    <link rel="manifest" id="pwaManifest">
-
-    <!-- Настройки для обложки ссылки (Open Graph) -->
     <meta property="og:title" content="ЛЕНТА ЛОГИСТИКА: Мониторинг доставок">
     <meta property="og:description" content="Схемы подъездов к РЦ и гипермаркетам.">
-    <meta property="og:image" content="icon.png">
     <meta property="og:type" content="website">
     
     <!-- Иконки сайта и для добавления на экран "Домой" -->
     <link rel="icon" href="icon.png" type="image/png">
     <link rel="apple-touch-icon" href="icon.png">
+
+    <!-- ССЫЛКА НА ФИЗИЧЕСКИЙ ФАЙЛ МАНИФЕСТА -->
+    <link rel="manifest" href="manifest.json">
+
+    <meta name="theme-color" content="#001A3D">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -127,35 +121,6 @@
     </style>
 </head>
 <body class="p-2 sm:p-3 min-h-screen relative">
-
-    <!-- Автоматическая генерация PWA манифеста внутри браузера -->
-    <script>
-        const manifestData = {
-            "name": "ЛЕНТА: Мониторинг доставок",
-            "short_name": "Лента Логистика",
-            "start_url": "./",
-            "display": "standalone",
-            "background_color": "#001A3D",
-            "theme_color": "#001A3D",
-            "icons": [
-                {
-                    "src": "icon.png",
-                    "sizes": "192x192",
-                    "type": "image/png",
-                    "purpose": "any"
-                },
-                {
-                    "src": "icon.png",
-                    "sizes": "512x512",
-                    "type": "image/png",
-                    "purpose": "any"
-                }
-            ]
-        };
-        const stringManifest = JSON.stringify(manifestData);
-        const blob = new Blob([stringManifest], {type: 'application/json'});
-        document.getElementById('pwaManifest').href = URL.createObjectURL(blob);
-    </script>
 
     <!-- Модальное окно выбора навигатора -->
     <div id="navModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
