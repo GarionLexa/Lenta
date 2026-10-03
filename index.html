@@ -9,16 +9,14 @@
     <meta name="description" content="База гипермаркетов и схем заездов для водителей логистики.">
     <meta property="og:title" content="ЛЕНТА ЛОГИСТИКА: Мониторинг доставок">
     <meta property="og:description" content="Схемы подъездов к РЦ и гипермаркетам.">
+    <meta property="og:image" content="1790837126974.jpg">
     <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="1790837126974.jpg">
     
     <!-- Иконки сайта и для добавления на экран "Домой" -->
-    <link rel="icon" href="icon.png" type="image/png">
-    <link rel="apple-touch-icon" href="icon.png">
-
-    <!-- ССЫЛКА НА ФИЗИЧЕСКИЙ ФАЙЛ МАНИФЕСТА -->
-    <link rel="manifest" href="manifest.json">
-
-    <meta name="theme-color" content="#001A3D">
+    <link rel="icon" href="1790837126974.jpg" type="image/jpeg">
+    <link rel="apple-touch-icon" href="1790837126974.jpg">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -69,7 +67,7 @@
             overflow-y: auto;
             overflow-x: hidden;
             overscroll-behavior-y: contain;
-            padding-bottom: 120px;
+            padding-bottom: 120px; /* Отступ чтобы на телефоне не резался низ */
         }
         
         thead th {
@@ -154,9 +152,10 @@
         <header class="glass-menu p-3 sm:p-4 rounded-2xl shadow-2xl relative overflow-hidden">
             <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-lentaYellow/10 rounded-full blur-3xl pointer-events-none"></div>
             
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3 relative z-10">
+            <div class="flex flex-row items-start justify-between gap-2 mb-3 relative z-10">
                 <div class="flex items-center gap-3">
                     <div class="w-11 h-11 rounded-full bg-gradient-to-br from-amber-300 via-yellow-400 to-amber-600 flex items-center justify-center shadow-lg border-2 border-lentaDark relative overflow-hidden shrink-0">
+                        <!-- Оригинальный векторный подсолнух Ленты -->
                         <svg class="w-9 h-9" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M50 2 C55 18, 55 35, 50 48 C45 35, 45 18, 50 2 Z" fill="#FEE140" stroke="#D97706" stroke-width="1.5"/>
                             <path d="M50 98 C55 82, 55 65, 50 52 C45 65, 45 82, 50 98 Z" fill="#F59E0B" stroke="#D97706" stroke-width="1.5"/>
@@ -172,10 +171,16 @@
                             ЛЕНТА <span class="bg-lentaYellow text-lentaDark px-2 py-0.5 rounded text-xs font-bold shadow-sm">ЛОГИСТИКА</span>
                         </h1>
                         <div class="text-[10px] md:text-xs text-blue-200 font-medium tracking-wide mt-0.5">
-                            Мониторинг доставок <span class="text-lentaYellow/90 font-bold ml-1">📍 Схемы: Дмитрий Шаров</span>
+                            Мониторинг доставок <span class="text-lentaYellow/90 font-bold ml-1 whitespace-nowrap">📍 Схемы: Дмитрий Шаров</span>
                         </div>
                     </div>
                 </div>
+
+                <!-- Компактная кнопка скачивания APK -->
+                <a href="./app.apk" download="Lenta_Logistics.apk" onclick="playClickSound()" title="Установить приложение Android" class="shrink-0 flex items-center justify-center gap-1.5 px-2.5 py-1.5 bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-400 rounded-lg text-[10px] md:text-xs font-bold transition-all tactile-btn cursor-pointer shadow-sm mt-0.5">
+                    <svg class="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    <span class="hidden sm:inline">Скачать</span> APK
+                </a>
             </div>
             
             <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 relative z-30 mb-2">
@@ -335,7 +340,6 @@
             } catch (e) {}
         }
 
-        // Полная база из 59 магазинов
         const rawData = `203	8092	ООО "Лента", 620000, Свердловская обл., г. Екатеринбург, Дублер Сибирского тракта, д. 19, корп. 1	Екатеринбург	22:00-04:00	04:00-09:00	-	Да	Круглосуточно	Круглосуточно
 227	8092	ООО "Лента", 620016, Свердловская обл., г. Екатеринбург, Академика Сахарова пр-кт, д. 107/1	Екатеринбург	22:00-04:00	04:00-09:00	-	Да	Круглосуточно	Круглосуточно
 228	8092	ООО "Лента", 620017, Свердловская обл., г. Екатеринбург, Космонавтов пр-кт, д.1в/1	Екатеринбург	22:00-04:00	04:00-09:00	-	Да	Круглосуточно	Круглосуточно
@@ -398,8 +402,6 @@
 
         let stores = [];
         let selectedCityFilter = 'all';
-        let currentNavAddress = '';
-        let currentNavFullAddress = '';
 
         const cityOrder = [
             "Все города", "Екатеринбург", "Березовский", "Каменск-Уральский", "Нижний Тагил",
@@ -411,7 +413,6 @@
             "Новосибирск", "Москва", "Санкт-Петербург"
         ];
 
-        // Полная база из 49 ссылок
         const customRoutes = {
             '203': 'https://yandex.ru/maps/?um=constructor%3Afbbd0b022ba16d28a9759e073e3de48d938f03a1cd710ca64ff5c6fad195da4f&source=constructorLink',
             '230': 'https://yandex.ru/maps/54/yekaterinburg/?from=mapframe&ll=60.629319%2C56.908463&mode=usermaps&source=mapframe&um=constructor%3A5104fa7b18d77875444dfad81e1c3b3a83dea27ff53f279ba413a4122c01582d&utm_source=mapframe&z=16.33',
