@@ -7,7 +7,6 @@
     <title>ЛЕНТА: Мониторинг доставок</title>
     <meta name="description" content="База гипермаркетов и схем заездов для водителей логистики.">
     
-    <!-- PWA Настройки для полного экрана без адресной строки -->
     <link rel="icon" href="icon.png" type="image/png">
     <link rel="apple-touch-icon" href="icon.png">
     <meta name="mobile-web-app-capable" content="yes">
@@ -72,12 +71,6 @@
             background: rgba(15, 23, 42, 0.95);
             border-bottom: 1px solid rgba(255,255,255,0.05);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        @media (max-height: 600px) and (orientation: landscape) {
-            .glass-header { position: relative !important; border-radius: 0 0 16px 16px; }
-            .scenic-bg { height: 110px !important; }
-            .truck-chip { transform: scale(0.85); transform-origin: bottom center; margin-bottom: -5px; }
         }
 
         .store-card {
@@ -177,15 +170,12 @@
         @keyframes weatherFallSnow { 0% { background-position: 0 0, 20px 20px; } 100% { background-position: 30px 60px, 0px 40px; } }
         @keyframes weatherFallLeaves { 0% { background-position: 0 -70px, 30px -90px, 15px -50px; } 100% { background-position: 70px 70px, -30px 90px, 65px 50px; } }
 
-        /* ЗНАКИ И ПОЛИЦИЯ */
+        /* Знаки и полиция */
         .parallax-signs {
             position: absolute; bottom: 18px; left: 0; width: 2000vw; height: 40px; z-index: 9;
             background-image: 
-                /* Уступи дорогу (Перевернутый белый треугольник с красной каймой) */
                 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='40' viewBox='0 0 1200 40'%3E%3Cg transform='translate(50,0)'%3E%3Crect x='9' y='10' width='2' height='30' fill='%23475569'/%3E%3Cpolygon points='1,1 19,1 10,18' fill='white' stroke='%23ef4444' stroke-width='2' stroke-linejoin='round'/%3E%3C/g%3E%3C/svg%3E"),
-                /* Главная дорога (Желтый ромб) */
                 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1700' height='40' viewBox='0 0 1700 40'%3E%3Cg transform='translate(800,0)'%3E%3Crect x='9' y='10' width='2' height='30' fill='%23475569'/%3E%3Cpolygon points='10,1 19,10 10,19 1,10' fill='%23fde047' stroke='white' stroke-width='2' stroke-linejoin='round'/%3E%3C/g%3E%3C/svg%3E");
-            /* Огромный отступ между знаками, чтобы они встречались редко */
             background-size: 1200px 40px, 1700px 40px;
             background-repeat: repeat-x;
             will-change: transform;
@@ -195,24 +185,23 @@
             position: absolute; bottom: 4px; right: -150px; width: 60px; height: 20px;
             background: linear-gradient(to right, #1e293b 25%, #ffffff 25%, #ffffff 75%, #1e293b 75%);
             border-radius: 6px 10px 4px 4px;
-            z-index: 25; /* Между дорогой и фурами */
-            transform: scaleX(-1); /* Едет влево */
+            z-index: 25; 
+            transform: scaleX(-1);
             display: none;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
         .police-car.active {
             display: block;
-            animation: driveOpposite 4.5s linear forwards; /* Сильно замедлили машину (было 2s, стало 4.5s) */
+            animation: driveOpposite 4.5s linear forwards; 
         }
         .police-siren-red {
             position: absolute; top: -5px; left: 15px; width: 6px; height: 5px; border-radius: 2px;
-            animation: sirenRed 0.4s infinite;
+            animation: sirenRed 0.6s infinite;
         }
         .police-siren-blue {
             position: absolute; top: -5px; left: 25px; width: 6px; height: 5px; border-radius: 2px;
-            animation: sirenBlue 0.4s infinite;
+            animation: sirenBlue 0.6s infinite;
         }
-        /* Строгое чередование свечения сирен */
         @keyframes sirenRed { 
             0%, 49% { box-shadow: 0 0 16px 6px rgba(239, 68, 68, 0.95); background: #f87171; } 
             50%, 100% { box-shadow: none; background: #991b1b; } 
@@ -234,6 +223,14 @@
         .truck-chip.active { opacity: 1; transform: scale(1.03) translateY(-2px); z-index: 30; }
         
         .truck-wrapper { filter: brightness(var(--truck-body-brightness)); transition: filter 0.2s ease-out; }
+
+        @keyframes truckBump {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-2px); }
+        }
+        .auto-driving .truck-wrapper {
+            animation: truckBump var(--bump-dur, 1.2s) ease-in-out infinite var(--bump-del, 0s);
+        }
 
         .headlight-beam {
             position: absolute; width: 70px; height: 20px;
@@ -265,15 +262,6 @@
             background-size: 30px 100%;
             background-repeat: no-repeat;
         }
-        
-        @keyframes truckBump {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-2px); }
-        }
-        
-        .auto-driving .truck-wrapper {
-            animation: truckBump var(--bump-dur, 1.2s) ease-in-out infinite var(--bump-del, 0s);
-        }
 
         .dark .city-name-plaque {
             background-color: #1e293b !important; color: #f1f5f9 !important; border-color: #334155 !important;
@@ -283,21 +271,6 @@
 <body class="relative">
 
     <audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
-
-    <div id="localWarningModal" class="fixed inset-0 z-[200] bg-gray-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 transition-opacity">
-        <div class="glass-modal rounded-[32px] p-8 max-w-sm w-full text-center relative animate-reveal">
-            <div class="w-16 h-16 mx-auto bg-amber-100 rounded-full flex items-center justify-center mb-4 border-4 border-white shadow-md">
-                <svg class="w-8 h-8 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-            </div>
-            <h3 class="text-xl font-black text-lentaDark dark:text-white mb-2 tracking-tight">Внимание</h3>
-            <p class="text-sm text-gray-600 dark:text-gray-300 mb-6 font-medium leading-relaxed">
-                Вы открыли файл с памяти телефона.<br><br>Для скачивания APK, работы микрофона и музыки откройте сайт по ссылке <b>github.io</b>!
-            </p>
-            <button onclick="document.getElementById('localWarningModal').classList.add('hidden');" class="w-full bg-lentaBlue hover:bg-[#003366] text-white font-bold py-3.5 rounded-xl tactile-btn">
-                Понятно
-            </button>
-        </div>
-    </div>
 
     <!-- Модалка навигации -->
     <div id="navModal" class="fixed inset-0 z-[100] bg-gray-900/50 backdrop-blur-sm hidden flex items-center justify-center p-4 transition-opacity">
@@ -330,8 +303,7 @@
             
             <div class="flex flex-row items-center justify-between gap-4 mb-4">
                 <div class="flex items-center gap-3 shrink-0">
-                    <!-- ИНТЕРАКТИВНЫЙ ПОДСОЛНУХ (Музыка и Автопилот) -->
-                    <div onclick="handleLogoTap()" class="w-12 h-12 rounded-full bg-white shadow-[0_6px_15px_rgba(0,0,0,0.08)] flex items-center justify-center shrink-0 border border-gray-100 overflow-hidden relative cursor-pointer tactile-btn z-50 group" title="1 Тап: Музыка/Пауза. 2 Тапа: Сброс в начало!">
+                    <div onclick="handleLogoTap()" class="w-12 h-12 rounded-full bg-white shadow-[0_6px_15px_rgba(0,0,0,0.08)] flex items-center justify-center shrink-0 border border-gray-100 overflow-hidden relative cursor-pointer tactile-btn z-50 group" title="1 Тап: Музыка. 2 Тапа: Сброс">
                         <img id="logoImage" src="icon.png" alt="Логотип" class="w-full h-full object-cover transition-transform group-hover:scale-105">
                         <div class="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent pointer-events-none rounded-full mix-blend-overlay"></div>
                     </div>
@@ -345,15 +317,13 @@
                     </div>
                 </div>
                 
-                <div class="flex items-center gap-2 shrink-0">
-                    <!-- Кнопка Темы (День/Ночь) Ручное управление -->
+                <div class="flex items-center gap-1.5 shrink-0">
                     <button id="themeToggleBtn" onclick="toggleTheme()" class="bg-gray-100 dark:bg-slate-800 text-gray-400 dark:text-gray-400 hover:text-amber-500 hover:bg-amber-50 dark:hover:bg-slate-700 w-10 h-10 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 flex items-center justify-center cursor-pointer tactile-btn" title="Сменить тему">
                         <svg id="themeIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                         </svg>
                     </button>
-                    <!-- Кнопка APK -->
-                    <a href="app.apk" download onclick="checkLocal(event)" class="flex items-center justify-center gap-1.5 bg-[#004182] hover:bg-[#003366] text-white h-10 px-3 rounded-xl shadow-[0_6px_15px_rgba(0,65,130,0.2)] transition-all tactile-btn cursor-pointer">
+                    <a href="app.apk" download class="flex items-center justify-center gap-1.5 bg-[#004182] hover:bg-[#003366] text-white h-10 px-3 rounded-xl shadow-[0_6px_15px_rgba(0,65,130,0.2)] transition-all tactile-btn cursor-pointer">
                         <svg class="w-4 h-4 text-lentaYellow" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                         <span class="text-[11px] font-bold tracking-wide uppercase">APK</span>
                     </a>
@@ -395,7 +365,6 @@
                     <div id="layerLeaves" class="weather-layer leaves-anim"></div>
                     <div id="layerSnow" class="weather-layer snow-anim"></div>
 
-                    <!-- Добавленные знаки и полицейская машина -->
                     <div id="layerSigns" class="parallax-signs"></div>
                     <div id="layerRoad" class="parallax-road"></div>
                     
@@ -406,12 +375,10 @@
                         <div class="absolute top-1 right-2 w-6 h-3 bg-sky-200/50 rounded-sm"></div>
                         <div class="absolute bottom-[-2px] left-2 w-3.5 h-3.5 bg-gray-800 rounded-full border border-gray-400"></div>
                         <div class="absolute bottom-[-2px] right-2 w-3.5 h-3.5 bg-gray-800 rounded-full border border-gray-400"></div>
-                        <!-- Фары -->
                         <div class="absolute bottom-1 right-0 w-2 h-2 bg-yellow-200 rounded-full shadow-[0_0_10px_2px_rgba(253,224,71,0.8)]"></div>
                         <div class="absolute bottom-1 left-0 w-1 h-2 bg-red-500 rounded-full"></div>
                     </div>
 
-                    <!-- Контейнер для фур -->
                     <div id="citySlider" class="city-slider relative z-30 cursor-pointer"></div>
                 </div>
             </div>
@@ -424,47 +391,27 @@
             <span class="text-[11px] md:text-xs font-bold text-lentaBlue dark:text-blue-300 bg-blue-50 dark:bg-slate-800 px-3 py-1.5 rounded-lg shadow-sm border border-blue-100 dark:border-slate-700">Маршрут: 8092</span>
         </div>
         
-        <!-- Сетка для карточек -->
         <div id="cardsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></div>
     </main>
 
     <script>
-        function checkLocal(e) {
-            if (window.location.protocol === 'file:' || window.location.protocol === 'content:') {
-                if(e) e.preventDefault();
-                document.getElementById('localWarningModal').classList.remove('hidden');
-            }
-        }
-
-        // ==========================================
-        // РУЧНАЯ ТЕМА (День/Ночь)
-        // ==========================================
         function toggleTheme() {
             const html = document.documentElement;
             html.classList.toggle('dark');
-            updateThemeIcon();
-        }
-
-        function updateThemeIcon() {
-            const isDark = document.documentElement.classList.contains('dark');
+            const isDark = html.classList.contains('dark');
             const themeIcon = document.getElementById('themeIcon');
             const themeBtn = document.getElementById('themeToggleBtn');
             if (isDark) {
-                // Солнце
                 themeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />`;
                 themeBtn.classList.add('text-amber-500');
                 themeBtn.classList.remove('text-gray-400', 'dark:text-gray-400');
             } else {
-                // Луна
                 themeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />`;
                 themeBtn.classList.remove('text-amber-500');
                 themeBtn.classList.add('text-gray-400', 'dark:text-gray-400');
             }
         }
 
-        // ==========================================
-        // ПРОФЕССИОНАЛЬНЫЙ АУДИО ДВИЖОК
-        // ==========================================
         let audioCtx = null;
         let engineOsc = null;
         let engineGain = null;
@@ -473,39 +420,30 @@
         function unlockAudio() {
             if (isAudioUnlocked) return;
             const AudioContext = window.AudioContext || window.webkitAudioContext;
-            if (AudioContext) audioCtx = new AudioContext();
-            
-            if (audioCtx) {
+            if (AudioContext) {
+                audioCtx = new AudioContext();
                 if (audioCtx.state === 'suspended') audioCtx.resume();
-                
                 try {
-                    // Создаем вечный мотор
                     engineOsc = audioCtx.createOscillator();
                     engineGain = audioCtx.createGain();
                     const filter = audioCtx.createBiquadFilter();
-                    
                     engineOsc.type = 'sawtooth';
-                    engineOsc.frequency.value = 35; // Басовитый дизель
+                    engineOsc.frequency.value = 35;
                     filter.type = 'lowpass';
                     filter.frequency.value = 150; 
-                    
-                    engineGain.gain.value = 0; // Изначально тишина
-                    
+                    engineGain.gain.value = 0; 
                     engineOsc.connect(filter);
                     filter.connect(engineGain);
                     engineGain.connect(audioCtx.destination);
-                    
                     engineOsc.start();
                     isAudioUnlocked = true;
                 } catch(e) {}
             }
         }
 
-        // Разблокировка по первому касанию экрана (Свайпу)
         document.addEventListener('touchstart', unlockAudio, { passive: true, once: true });
         document.addEventListener('mousedown', unlockAudio, { passive: true, once: true });
 
-        // Звук трещотки (Вертикальный скролл)
         function playTickSound() {
             if (!isAudioUnlocked || !audioCtx) return;
             if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -513,42 +451,32 @@
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
                 osc.type = 'square'; 
-                osc.frequency.setValueAtTime(150, audioCtx.currentTime); 
-                osc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.015);
-                
-                // Приятная, тактильная громкость
-                gain.gain.setValueAtTime(0.08, audioCtx.currentTime); 
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.015);
-                
+                osc.frequency.setValueAtTime(200, audioCtx.currentTime); 
+                osc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.02);
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime); 
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.02);
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
                 osc.start();
-                osc.stop(audioCtx.currentTime + 0.02);
+                osc.stop(audioCtx.currentTime + 0.03);
             } catch (e) {}
         }
 
-        // Управление мотором фуры
         let engineTimeout;
         function playEngineSound(speed) {
             if (!isAudioUnlocked || !audioCtx || !engineGain) return;
             if (audioCtx.state === 'suspended') audioCtx.resume();
-            
-            // Вычисляем мощь дизеля
-            const vol = Math.min(0.6, speed * 0.4); 
-            const freq = Math.min(65, 35 + speed * 20);
-            
+            const vol = Math.min(0.8, speed * 0.6); 
+            const freq = Math.min(70, 35 + speed * 25);
             engineGain.gain.setTargetAtTime(vol, audioCtx.currentTime, 0.1);
             engineOsc.frequency.setTargetAtTime(freq, audioCtx.currentTime, 0.1);
-            
             clearTimeout(engineTimeout);
             engineTimeout = setTimeout(() => {
-                // Плавно глушим мотор при остановке
                 engineGain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.2);
                 engineOsc.frequency.setTargetAtTime(35, audioCtx.currentTime, 0.2);
             }, 150);
         }
 
-        // Вертикальный скроллинг (Трещотка)
         let lastScrollY = window.scrollY;
         let accumulatedVerticalDist = 0;
         let lastVerticalTickTime = 0;
@@ -557,10 +485,9 @@
             const currentY = window.scrollY;
             const dist = Math.abs(currentY - lastScrollY);
             lastScrollY = currentY;
-
             if (dist > 1) {
                 accumulatedVerticalDist += dist;
-                if (accumulatedVerticalDist > 80) { 
+                if (accumulatedVerticalDist > 60) { 
                     const now = Date.now();
                     if (now - lastVerticalTickTime > 40) { 
                         playTickSound();
@@ -572,35 +499,27 @@
         }, { passive: true });
 
         const bgMusic = document.getElementById('bgMusic');
-        bgMusic.volume = 0.12; // Комфортный фон, не глушит спецэффекты
+        bgMusic.volume = 0.12; 
         let isMusicPlaying = false;
         let lastLogoTapTime = 0;
         let autoScrollAnimationId = null;
+        const citySlider = document.getElementById('citySlider');
+        let virtualScrollX = 0;
+        let lastActualScrollLeft = 0;
 
-        // ==========================================
-        // ЛОГИКА ПОДСОЛНУХА (Одиночный и Двойной ТАП)
-        // ==========================================
         function handleLogoTap() {
-            unlockAudio(); // Гарантированная разблокировка
+            unlockAudio();
             const now = Date.now();
-            
             if (now - lastLogoTapTime < 400) {
-                // ----------------------------------------------------
-                // ДВОЙНОЙ ТАП - СТОП И СБРОС (Reset to start)
-                // ----------------------------------------------------
+                // Двойной тап - Сброс
                 bgMusic.pause();
                 bgMusic.currentTime = 0;
                 isMusicPlaying = false;
                 document.getElementById('logoImage').classList.remove('record-spin');
                 stopAutoScroll(); 
-                
-                // Сброс сцены и фур в самое начало!
                 resetTrucksToStart();
-                
             } else {
-                // ----------------------------------------------------
-                // ОДИНОЧНЫЙ ТАП - ПЛЕЙ / ПАУЗА
-                // ----------------------------------------------------
+                // Одиночный тап - Плей/Пауза
                 toggleMusicState();
             }
             lastLogoTapTime = now;
@@ -609,23 +528,18 @@
         function toggleMusicState() {
             const logo = document.getElementById('logoImage');
             if (isMusicPlaying) {
-                // СТАВИМ НА ПАУЗУ
                 bgMusic.pause();
                 isMusicPlaying = false;
-                logo.classList.remove('record-spin'); // Останавливаем пластинку
-                stopAutoScroll(); // Останавливаем караван (фуры замирают на месте)
-                // *После этого можно листать фуры вручную*
+                logo.classList.remove('record-spin');
+                stopAutoScroll(); 
             } else {
-                // ИГРАЕМ МУЗЫКУ И ЗАПУСКАЕМ КИНО
                 const playPromise = bgMusic.play();
                 if (playPromise !== undefined) {
                     playPromise.then(() => {
                         isMusicPlaying = true;
-                        logo.classList.add('record-spin'); // Крутим пластинку
-                        startAutoScroll(); // Запускаем караван
+                        logo.classList.add('record-spin');
+                        startAutoScroll();
                     }).catch((e) => {
-                        console.log("Музыка не найдена, но запускаем автопилот фур!", e);
-                        // Если аудио файла нет, всё равно запускаем визуальную часть (кино)
                         isMusicPlaying = true; 
                         logo.classList.add('record-spin');
                         startAutoScroll();
@@ -635,29 +549,21 @@
         }
 
         function resetTrucksToStart() {
-            // Заново собираем список фур в исходном порядке
             buildCitySlider(); 
-            // Сбрасываем скролл и переменные
             citySlider.scrollLeft = 0;
             virtualScrollX = 0;
+            window.fractionalScroll = 0;
             lastActualScrollLeft = 0;
-            // Отматываем природу на 0 (Утро, чистое небо)
             updateParallax(0);
         }
 
-        const citySlider = document.getElementById('citySlider');
-        let virtualScrollX = 0;
-        let lastActualScrollLeft = 0;
         let lastSliderScrollTime = Date.now();
-
-        // Ручная прокрутка
         citySlider.addEventListener('scroll', () => {
-            if (isMusicPlaying) return; // Во время автопилота ручной скролл блокируется логикой
+            if (isMusicPlaying) return; 
             const currentScroll = citySlider.scrollLeft;
             const dx = currentScroll - lastActualScrollLeft;
-            
             if (Math.abs(dx) > 0) {
-                virtualScrollX += dx;
+                virtualScrollX += Math.abs(dx); 
                 const now = Date.now();
                 const dt = now - lastSliderScrollTime;
                 if (dt > 16) {
@@ -670,7 +576,6 @@
             lastActualScrollLeft = currentScroll;
         }, { passive: true });
 
-        // Автопилот (Бесконечный цикл)
         function startAutoScroll() {
             if (!autoScrollAnimationId) {
                 lastActualScrollLeft = citySlider.scrollLeft;
@@ -685,48 +590,50 @@
                 autoScrollAnimationId = null;
             }
             citySlider.classList.remove('auto-driving');
-            // Глушим мотор при остановке автопилота
-            if (engineGain) {
-                engineGain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.2);
-            }
-            // Прячем полицию, если она была на экране
+            if (engineGain) engineGain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.2);
             document.getElementById('policeCar').classList.remove('active');
         }
 
         let policeTimer = 0;
-
+        
         function autoScrollLoop() {
             if (!isMusicPlaying) return;
 
-            // ЗАМЕДЛИЛИ ФУРЫ (было 1.2, стало 0.6)
-            const speed = 0.6; 
-            virtualScrollX += speed;
-            citySlider.scrollLeft += speed;
-            
-            playEngineSound(0.4); // Легкое урчание дизеля на автопилоте
+            const speed = 0.6; // Идеальная медленная скорость
+            virtualScrollX += speed; 
+            playEngineSound(0.4); 
 
-            // Полицейская машина пролетает навстречу (примерно раз в 10-15 сек)
+            // Полиция по встречке (справа налево)
             policeTimer++;
-            if (policeTimer > 600) { 
+            if (policeTimer > 500) { 
                 if (Math.random() > 0.98) {
                     const pCar = document.getElementById('policeCar');
                     if (!pCar.classList.contains('active')) {
                         pCar.classList.add('active');
-                        setTimeout(() => { pCar.classList.remove('active'); }, 4500); // Время совпадает с анимацией 4.5s
+                        setTimeout(() => { pCar.classList.remove('active'); }, 4500); 
                         policeTimer = 0;
                     }
                 }
             }
 
-            // Магия бесконечной ленты: если первая фура уехала за край экрана, переставляем её в конец!
-            if (citySlider.firstElementChild) {
-                const firstItem = citySlider.firstElementChild;
-                const itemWidth = firstItem.offsetWidth + 20; // 20 - это margin-right
+            // МАГИЯ БЕСКОНЕЧНОГО СКРОЛЛА (Фуры едут НАПРАВО)
+            if (citySlider.lastElementChild) {
+                window.fractionalScroll = (window.fractionalScroll || 0) + speed;
                 
-                if (citySlider.scrollLeft >= itemWidth) {
-                    citySlider.appendChild(firstItem); // Перенос в конец
-                    citySlider.scrollLeft -= itemWidth; // Сброс скролла без дерганий
-                    lastActualScrollLeft = citySlider.scrollLeft; // Синхронизация
+                if (window.fractionalScroll >= 1) {
+                    let shift = Math.floor(window.fractionalScroll);
+                    window.fractionalScroll -= shift;
+                    
+                    if (citySlider.scrollLeft <= 1) {
+                        const lastItem = citySlider.lastElementChild;
+                        const itemWidth = lastItem.offsetWidth + 20; 
+                        citySlider.prepend(lastItem); 
+                        citySlider.scrollLeft += itemWidth; 
+                    }
+                    
+                    // Двигаем камеру ВЛЕВО, значит фуры физически едут ВПРАВО!
+                    citySlider.scrollLeft -= shift;
+                    lastActualScrollLeft = citySlider.scrollLeft;
                 }
             }
 
@@ -735,16 +642,14 @@
         }
 
         function updateParallax(vX) {
-            // Бесконечное движение фона (Остаток от деления защищает от переполнения)
             document.getElementById('layerMountains').style.transform = `translate3d(-${(vX * 0.2) % 200}px, 0, 0)`;
             document.getElementById('layerTrees').style.transform = `translate3d(-${(vX * 0.5) % 100}px, 0, 0)`;
             document.getElementById('layerRoad').style.transform = `translate3d(-${(vX * 0.9) % 40}px, 0, 0)`;
-            document.getElementById('layerSigns').style.transform = `translate3d(-${(vX * 0.9) % 1000}px, 0, 0)`; // Знаки едут вместе с дорогой
+            document.getElementById('layerSigns').style.transform = `translate3d(-${(vX * 0.9) % 1200}px, 0, 0)`;
 
-            // Смена дня и ночи (Плавный цикл туда-обратно каждые 3000 пикселей)
             const cycleLength = 3000;
             let rawProgress = (Math.abs(vX) % cycleLength) / cycleLength; 
-            let progress = 1 - Math.abs(rawProgress * 2 - 1); // Дает плавное 0 -> 1 -> 0
+            let progress = 1 - Math.abs(rawProgress * 2 - 1); 
 
             document.getElementById('skyDay').style.opacity = Math.max(0, 1 - (progress * 2));
             document.getElementById('skySunset').style.opacity = progress < 0.5 ? (progress * 2) : Math.max(0, 1 - ((progress - 0.5) * 2));
@@ -753,7 +658,6 @@
 
             const darkness = 1 - (progress * 0.7); 
             
-            // Включение фар ночью на всех фурах
             if (progress > 0.6) {
                 document.documentElement.style.setProperty('--truck-light-opacity', '1');
                 document.documentElement.style.setProperty('--truck-body-brightness', '0.6');
@@ -762,7 +666,6 @@
                 document.documentElement.style.setProperty('--truck-body-brightness', '1');
             }
 
-            // Погода и листья
             const layerTrees = document.getElementById('layerTrees');
             const layerLeaves = document.getElementById('layerLeaves');
             const layerSnow = document.getElementById('layerSnow');
@@ -783,7 +686,6 @@
                 layerTrees.style.filter = `brightness(${darkness}) grayscale(${p * 0.8}) brightness(${1 + p*0.5})`;
             }
 
-            // Солнце и луна летят по дуге
             const sunBody = document.getElementById('sunBody');
             const moonBody = document.getElementById('moonBody');
             if (progress <= 0.6) {
@@ -941,31 +843,26 @@
         });
 
         const cabVariants = [
-            // MAN (Синий)
             `<div class="cab w-7 md:w-8 h-9 md:h-10 bg-[#1e3a8a] border-y border-r border-b-2 border-[#172554] shadow-md rounded-tr-md rounded-br-sm relative ml-[1px] z-20">
                 <div class="headlight-beam" style="top: 18px; right: -45px;"></div><div class="marker-light" style="right: 2px;"></div>
                 <div class="absolute top-1 right-1 w-3 md:w-3.5 h-4 md:h-5 bg-sky-100/90 rounded-tr-sm border-b border-l border-sky-300"></div>
                 <div class="absolute -bottom-1.5 right-1"><div class="w-3 md:w-3.5 h-3 md:h-3.5 bg-gray-800 rounded-full border-[2px] border-gray-300 shadow-sm"></div></div>
             </div>`,
-            // Kamaz K5 (Белый)
             `<div class="cab w-7 md:w-8 h-9 md:h-10 bg-gray-50 border-y border-r border-b-2 border-gray-300 shadow-md rounded-tr-[12px] rounded-br-sm relative ml-[1px] z-20">
                 <div class="headlight-beam" style="top: 22px; right: -45px;"></div><div class="marker-light" style="right: 4px;"></div>
                 <div class="absolute top-1 right-1 w-3 md:w-4 h-3 md:h-4 bg-sky-200/80 rounded-tr-[8px] border-b border-l border-sky-300"></div>
                 <div class="absolute -bottom-1.5 right-1"><div class="w-3 md:w-3.5 h-3 md:h-3.5 bg-gray-800 rounded-full border-[2px] border-gray-300 shadow-sm"></div></div>
             </div>`,
-            // Dongfeng (Красный)
             `<div class="cab w-8 md:w-9 h-9 md:h-10 bg-[#dc2626] border-y border-r border-b-2 border-[#991b1b] shadow-md rounded-tr-[24px] rounded-br-sm relative ml-[1px] z-20 overflow-hidden">
                 <div class="headlight-beam" style="top: 24px; right: -40px; transform: skewX(-30deg);"></div>
                 <div class="absolute top-1 right-1 w-4 md:w-5 h-3 md:h-4 bg-sky-200/80 rounded-tr-[16px] border-b border-l border-sky-300 transform -skew-x-12"></div>
                 <div class="absolute -bottom-1.5 right-1.5"><div class="w-3 md:w-3.5 h-3 md:h-3.5 bg-gray-800 rounded-full border-[2px] border-gray-300 shadow-sm"></div></div>
             </div>`,
-            // Scania (Темно-синий)
             `<div class="cab w-7 md:w-8 h-9 md:h-10 bg-[#0f172a] border-y border-r border-b-2 border-black shadow-md rounded-tr-lg rounded-br-md relative ml-[1px] z-20">
                 <div class="headlight-beam" style="top: 26px; right: -45px;"></div><div class="marker-light" style="right: 2px;"></div>
                 <div class="absolute top-1 right-1 w-3 md:w-4 h-3 md:h-4 bg-sky-200/80 rounded-tr-md border-b border-l border-sky-300 transform -skew-x-6"></div>
                 <div class="absolute -bottom-1.5 right-1"><div class="w-3 md:w-3.5 h-3 md:h-3.5 bg-gray-800 rounded-full border-[2px] border-gray-300 shadow-sm"></div></div>
             </div>`,
-            // FAW (Серый)
             `<div class="cab w-7 md:w-8 h-9 md:h-10 bg-gray-300 border-y border-r border-b-2 border-gray-400 shadow-md rounded-tr-2xl rounded-br-sm relative ml-[1px] z-20">
                 <div class="headlight-beam" style="top: 20px; right: -45px;"></div><div class="marker-light" style="right: 6px; top: -1px;"></div>
                 <div class="absolute top-1.5 right-1 w-3 md:w-4 h-3 md:h-4 bg-sky-200/80 rounded-tr-xl border-b border-l border-sky-300"></div>
@@ -988,7 +885,6 @@
                     <div class="trailer h-10 md:h-11 min-w-[150px] max-w-[180px] rounded-l-md border-y border-l border-b-2 border-gray-300 shadow-md flex relative z-10 overflow-hidden transition-all duration-300 group-hover:border-lentaBlue lenta-trailer-bg">
                         <div class="tail-light"></div>
                         <div class="w-full h-full relative flex items-center justify-center overflow-hidden lenta-fruit-bg">
-                            <!-- Подсолнух с GitHub -->
                             <img src="icon.png" class="w-8 h-8 opacity-95 absolute -left-1 object-contain" alt="*">
                         </div>
                         <div class="absolute inset-0 z-10 flex items-center justify-center px-1 pt-0.5" style="left: 20px;">
@@ -1013,8 +909,6 @@
             citySlider.innerHTML = '';
             const uniqueCities = [...new Set(stores.map(s => s.city))];
             let allCities = ['all', ...uniqueCities];
-
-            // Создаем фуры ОДИН РАЗ (Без дублей, чтобы список был конечным в ручном режиме)
             allCities.forEach((city, idx) => citySlider.appendChild(createTruckButton(city, city === 'all', idx)));
         }
         buildCitySlider();
@@ -1046,7 +940,6 @@
             document.querySelectorAll('.truck-chip').forEach(el => {
                 if (el.getAttribute('data-city') === city) {
                     el.classList.add('active');
-                    // Скроллим только если автопилот выключен
                     if (!isMusicPlaying) el.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
                 } else {
                     el.classList.remove('active');
@@ -1283,11 +1176,6 @@
         window.startVoiceSearch = function() {
             const micBtn = document.getElementById('voiceSearchBtn');
             const searchInput = document.getElementById('searchInput');
-
-            if (window.location.protocol === 'file:' || window.location.protocol === 'content:') {
-                document.getElementById('localWarningModal').classList.remove('hidden');
-                return;
-            }
             
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechRecognition) { searchInput.placeholder = "Микрофон не поддерживается"; return; }
