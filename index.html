@@ -641,7 +641,10 @@
         function playEngineSound(speed) {
             if (!isAudioUnlocked || !audioCtx || !engineGain) return;
             if (audioCtx.state === 'suspended') audioCtx.resume();
-            const vol = Math.min(0.8, speed * 0.6); 
+            
+            // ЗНАЧИТЕЛЬНО УМЕНЬШЕНА ГРОМКОСТЬ МОТОРА (чтобы не перебивал музыку)
+            const vol = Math.min(0.12, speed * 0.15); 
+            
             const freq = Math.min(70, 35 + speed * 25);
             engineGain.gain.setTargetAtTime(vol, audioCtx.currentTime, 0.1);
             engineOsc.frequency.setTargetAtTime(freq, audioCtx.currentTime, 0.1);
