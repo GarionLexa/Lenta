@@ -73,8 +73,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
-        /* Отвязка прилипания, если телефон перевернут горизонтально */
-        @media (max-height: 500px) {
+        @media (max-height: 550px) {
             .glass-header {
                 position: relative; 
                 border-radius: 0;
@@ -233,7 +232,6 @@
             background-color: #1e293b !important; color: #f1f5f9 !important; border-color: #334155 !important;
         }
 
-        /* Многосерийная анимация рабочих будней механиков (4 сцены) */
         @keyframes fadeScene1 { 0%, 22% { opacity: 1; } 25%, 100% { opacity: 0; } }
         @keyframes fadeScene2 { 0%, 22% { opacity: 0; } 25%, 47% { opacity: 1; } 50%, 100% { opacity: 0; } }
         @keyframes fadeScene3 { 0%, 47% { opacity: 0; } 50%, 72% { opacity: 1; } 75%, 100% { opacity: 0; } }
@@ -264,25 +262,22 @@
             100% { opacity: 1; transform: scale(2) translate(3px, -3px); } 
         }
 
-        /* --- СМЕШНАЯ ДИСКОТЕКА (Жесткая привязка суставов) --- */
         .party-mode .dancing-scene { display: block; }
         .party-mode .normal-scenes { display: none; }
         .normal-mode .dancing-scene { display: none; }
         .normal-mode .normal-scenes { display: block; }
 
-        /* ТАНЦОР 1 (Слева) - Макаронина / Волна руками (сгруппировано!) */
-        .dance-bob-left { animation: raveJump 0.4s infinite alternate ease-in-out; transform-origin: bottom center; }
-        @keyframes raveJump { 0% { transform: translateY(0) scaleY(1); } 100% { transform: translateY(-5px) scaleY(1.05); } }
+        .dance-full-body-left { animation: raveJump 0.4s infinite alternate ease-in-out; transform-origin: bottom center; }
+        @keyframes raveJump { 0% { transform: translateY(0) scaleY(1); } 100% { transform: translateY(-3px) scaleY(1.05); } }
         
         .dance-arms-left { animation: waveArms 0.4s infinite alternate ease-in-out; transform-origin: 35px 28px; }
-        @keyframes waveArms { 0% { transform: rotate(-25deg); } 100% { transform: rotate(25deg); } }
+        @keyframes waveArms { 0% { transform: rotate(-15deg); } 100% { transform: rotate(15deg); } }
 
-        /* ТАНЦОР 2 (Справа) - Джон Траволта / Диско (сгруппировано!) */
-        .dance-bob-right { animation: discoSway 0.5s infinite alternate ease-in-out; transform-origin: 85px 58px; }
-        @keyframes discoSway { 0% { transform: rotate(-8deg); } 100% { transform: rotate(8deg); } }
+        .dance-full-body-right { animation: discoSway 0.5s infinite alternate ease-in-out; transform-origin: bottom center; }
+        @keyframes discoSway { 0% { transform: translateX(-2px) rotate(-3deg); } 100% { transform: translateX(2px) rotate(3deg); } }
         
         .dance-arm-disco { animation: discoPoint 0.5s infinite alternate ease-in-out; transform-origin: 85px 30px; }
-        @keyframes discoPoint { 0% { transform: rotate(-40deg); } 100% { transform: rotate(20deg); } }
+        @keyframes discoPoint { 0% { transform: rotate(-40deg); } 100% { transform: rotate(10deg); } }
 
         .music-notes text { animation: floatNote 1.2s infinite linear; opacity: 0; }
         .music-notes text:nth-child(2) { animation-delay: 0.6s; }
@@ -320,7 +315,7 @@
         </div>
     </div>
 
-    <!-- Модал вызова Механика (Отвязан от кнопки, теперь по центру экрана) -->
+    <!-- Модал вызова Механика -->
     <div id="mechanicModal" class="fixed inset-0 z-[100] bg-gray-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 transition-opacity">
         <div class="glass-modal rounded-[32px] p-8 max-w-sm w-full text-center relative animate-reveal bg-white dark:bg-slate-800 shadow-2xl">
             <button onclick="closeMechanicModal();" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white bg-gray-100 dark:bg-slate-700 p-2.5 rounded-full transition-colors cursor-pointer tactile-btn">
@@ -349,7 +344,7 @@
             <!-- СТРОКА 1: Логотип и кнопки -->
             <div class="flex flex-row items-center justify-between gap-4 mb-4">
                 <div class="flex items-center gap-3 shrink-0">
-                    <div onclick="handleLogoTap()" class="w-12 h-12 rounded-full bg-white shadow-[0_6px_15px_rgba(0,0,0,0.08)] flex items-center justify-center shrink-0 border border-gray-100 overflow-hidden relative cursor-pointer tactile-btn z-50 group" title="1 Тап: Плей/Пауза. 2 Тапа: Сброс">
+                    <div onclick="handleLogoTap()" class="w-12 h-12 rounded-full bg-white shadow-[0_6px_15px_rgba(0,0,0,0.08)] flex items-center justify-center shrink-0 border border-gray-100 overflow-hidden relative cursor-pointer tactile-btn z-50 group" title="1 Тап: Плей/Пауза">
                         <img id="logoImage" src="icon.png" alt="Логотип" class="w-full h-full object-cover transition-transform group-hover:scale-105" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\\'http://www.w3.org/2000/svg\\' viewBox=\\'0 0 100 100\\'%3E%3Ccircle cx=\\'50\\' cy=\\'50\\' r=\\'50\\' fill=\\'%23FDCB05\\'/%3E%3Ccircle cx=\\'50\\' cy=\\'50\\' r=\\'20\\' fill=\\'%23004182\\'/%3E%3C/svg%3E'">
                         <div class="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent pointer-events-none rounded-full mix-blend-overlay"></div>
                     </div>
@@ -379,13 +374,9 @@
             <!-- СТРОКА 2: БЛОК УПРАВЛЕНИЯ (МЕХАНИКИ, СЧЕТЧИК, СКОРОСТЬ) -->
             <div class="mb-4 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 py-3 px-4 relative flex items-center justify-between">
                 
-                <!-- Левая часть: Широкий Счётчик (Новый стабильный провайдер) -->
-                <div class="flex flex-col items-center justify-center shrink-0" title="Счетчик посетителей">
-                    <div class="h-[22px] w-[54px] bg-[#0f172a] rounded overflow-hidden shadow-[inset_0_2px_4px_rgba(0,0,0,0.9)] border border-gray-300 dark:border-slate-600 relative cursor-default">
-                        <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgarionlexa.github.io&count_bg=%230f172a&title_bg=%230f172a&icon=&icon_color=%23E7E7E7&title=%20&edge_flat=true" class="absolute right-0 top-0 bottom-0 m-auto h-[20px] max-w-none pointer-events-none" style="margin-right: -2px;" alt="Счетчик" onerror="this.style.display='none'">
-                        <!-- Заглушка, если инет слабый -->
-                        <div class="absolute inset-0 flex items-center justify-center text-[10px] text-gray-500 opacity-30 font-mono pointer-events-none">...</div>
-                    </div>
+                <!-- Левая часть: Бронебойный Счётчик-Картинка (Без скриптов, обходит блокировки) -->
+                <div class="flex flex-col items-center justify-center shrink-0 min-w-[60px]" title="Счетчик визитов (считает каждое обновление)">
+                    <img id="visitCounterBadge" alt="Визиты" class="h-[20px] rounded shadow-sm opacity-0 transition-opacity duration-500" onload="this.classList.remove('opacity-0')" onerror="this.style.display='none'">
                 </div>
 
                 <!-- Центральная часть: Многосерийная сценка с механиками и Танцами -->
@@ -398,15 +389,12 @@
                     <div class="w-full h-14 md:h-16 relative" id="mechanicSvgContainer">
                         <svg viewBox="0 0 120 60" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full text-gray-400 dark:text-gray-500 group-hover:text-emerald-500 transition-colors normal-mode" id="mechanicSvgElement">
                             
-                            <!-- НОРМАЛЬНЫЕ СЦЕНЫ РАБОТЫ (4 этапа) -->
+                            <!-- НОРМАЛЬНЫЕ СЦЕНЫ РАБОТЫ -->
                             <g class="normal-scenes absolute inset-0">
-                                <!-- Общее колесо (для сцен 1, 3, 4) -->
                                 <g class="anim-scene-1 anim-scene-3 anim-scene-4">
                                     <circle cx="55" cy="40" r="14" stroke-width="4"/>
                                     <circle cx="55" cy="40" r="4" fill="currentColor"/>
                                 </g>
-
-                                <!-- СЦЕНА 1: Гайки и кувалда -->
                                 <g class="anim-scene-1 absolute inset-0">
                                     <circle cx="30" cy="18" r="6" />
                                     <path d="M30 24 V 45" />
@@ -427,8 +415,6 @@
                                         <rect x="57" y="30" width="4" height="4" fill="currentColor" stroke="none" transform="rotate(-30 59 32)"/>
                                     </g>
                                 </g>
-
-                                <!-- СЦЕНА 2: Заливка мочевины (AdBlue) -->
                                 <g class="anim-scene-2 absolute inset-0">
                                     <circle cx="35" cy="20" r="6" />
                                     <path d="M35 26 V 45" />
@@ -441,8 +427,6 @@
                                         <circle cx="77.5" cy="23" r="1.5" fill="#3b82f6" stroke="none"/>
                                     </g>
                                 </g>
-
-                                <!-- СЦЕНА 3: Перекатка колеса -->
                                 <g class="anim-scene-3 absolute inset-0">
                                     <circle cx="30" cy="18" r="6" />
                                     <path d="M30 24 V 45" />
@@ -459,19 +443,14 @@
                                         <path d="M80 30 V 50 M 70 40 H 90" stroke-width="1"/>
                                     </g>
                                 </g>
-
-                                <!-- СЦЕНА 4: Сварка -->
                                 <g class="anim-scene-4 absolute inset-0">
                                     <circle cx="35" cy="20" r="6" />
-                                    <!-- Маска сварщика -->
                                     <path d="M30 15 L 42 16 L 41 24 L 32 23 Z" fill="currentColor"/>
                                     <path d="M35 26 V 45" />
                                     <path d="M35 45 L 25 58 M 35 45 L 45 58" />
                                     <path d="M35 30 L 48 38" />
                                     <path d="M35 28 L 45 35" />
-                                    <!-- Сварочный аппарат в руках -->
                                     <path d="M48 38 L 53 43" stroke-width="2"/>
-                                    <!-- Искры -->
                                     <g class="welding-sparks">
                                         <circle cx="55" cy="45" r="1.5" fill="#facc15" stroke="none"/>
                                         <circle cx="58" cy="42" r="1" fill="#facc15" stroke="none"/>
@@ -480,42 +459,32 @@
                                 </g>
                             </g>
 
-                            <!-- СЦЕНА ДИСКОТЕКИ (ЖЕСТКАЯ ПРИВЯЗКА СУСТАВОВ!) -->
+                            <!-- СЦЕНА ДИСКОТЕКИ -->
                             <g class="dancing-scene absolute inset-0">
                                 <g class="music-notes">
                                     <text x="45" y="20" font-size="12" fill="currentColor">♪</text>
                                     <text x="65" y="15" font-size="16" fill="currentColor">♫</text>
                                 </g>
-                                
-                                <!-- Танцор 1: Рейв / Макаронина (Сгруппировано целиком!) -->
-                                <g class="dance-bob-left">
-                                    <!-- Голова -->
+                                <!-- Танцор 1: Волна / Ламбада -->
+                                <g class="dance-full-body-left">
                                     <circle cx="35" cy="20" r="6" />
-                                    <!-- Туловище -->
                                     <path d="M35 26 V 45" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-                                    <!-- Ноги -->
                                     <path d="M35 45 L 25 58 M 35 45 L 45 58" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-                                    <!-- Руки машут из стороны в сторону -->
                                     <g class="dance-arms-left">
                                         <path d="M20 15 Q 35 35 50 15" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
                                     </g>
                                 </g>
-
-                                <!-- Танцор 2: Диско / Траволта (Сгруппировано целиком!) -->
-                                <g class="dance-bob-right">
-                                    <!-- Голова -->
+                                <!-- Танцор 2: Король Диско -->
+                                <g class="dance-full-body-right">
                                     <circle cx="85" cy="20" r="6" />
-                                    <!-- Туловище -->
                                     <path d="M85 26 V 45" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-                                    <!-- Ноги -->
                                     <path d="M85 45 L 75 58 M 85 45 L 95 58" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-                                    <!-- Левая рука на поясе -->
                                     <path d="M85 30 L 78 37 L 82 42" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/> 
-                                    <!-- Правая рука указывает диско-движение -->
-                                    <path d="M85 30 L 98 15" class="dance-arm-disco" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                                    <g class="dance-arm-disco">
+                                        <path d="M85 30 L 98 15" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                                    </g>
                                 </g>
                             </g>
-
                         </svg>
                     </div>
                     <div class="text-[9px] text-gray-400 font-bold uppercase tracking-widest mt-0 text-center w-full">Механик</div>
@@ -593,6 +562,17 @@
     </main>
 
     <script>
+        // === БРОНЕБОЙНЫЙ СЧЕТЧИК (Картинка, обходит блокировки скриптов) ===
+        // Работает напрямую как изображение, поэтому его не режут блокировщики рекламы.
+        function initCounter() {
+            const badge = document.getElementById('visitCounterBadge');
+            const uniqueTime = Date.now(); // Приклеиваем время, чтобы засчитывал КАЖДОЕ обновление
+            // Используем надежный сервис hits.sh
+            badge.src = `https://hits.sh/garionlexa.github.io/lenta_app_v1.svg?label=%D0%92%D0%98%D0%97%D0%98%D0%A2%D0%AB&color=0f172a&labelColor=1e293b&nocache=${uniqueTime}`;
+        }
+        initCounter();
+        // ====================================================================
+
         function toggleTheme() {
             const html = document.documentElement;
             html.classList.toggle('dark');
@@ -734,8 +714,8 @@
                 bgMusic.pause();
                 isMusicPlaying = false;
                 logo.classList.remove('record-spin');
-                mechSvg.classList.remove('party-mode');
-                mechSvg.classList.add('normal-mode');
+                mechSvg.classList.remove('normal-mode');
+                mechSvg.classList.add('party-mode');
                 stopAutoScroll(); 
             } else {
                 const playPromise = bgMusic.play();
@@ -831,7 +811,6 @@
                     let shift = Math.floor(window.fractionalScroll);
                     window.fractionalScroll -= shift;
                     
-                    // ДВИЖЕНИЕ ВПЕРЕД (ВПРАВО)
                     citySlider.scrollLeft -= shift;
                     
                     if (citySlider.scrollLeft <= 0) {
@@ -1059,7 +1038,7 @@
         ];
 
         const trailerVariants = [
-            { // 1. Реклама: Синий сзади с косым срезом, еда спереди
+            {
                 border: 'border-gray-300', bg: 'bg-white',
                 html: `
                     <div class="absolute left-0 top-0 w-[55%] h-full bg-[#004182] flex items-center justify-center gap-1 pl-1 z-10" style="clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);">
@@ -1074,7 +1053,7 @@
                     <div class="absolute right-[10%] top-[40%] w-3 h-3 bg-orange-500 rounded-full blur-[0.5px]"></div>
                 `
             },
-            { // 2. Реклама: Синий спереди у кабины, еда сзади
+            {
                 border: 'border-gray-300', bg: 'bg-white',
                 html: `
                     <div class="absolute left-[10%] top-[10%] w-5 md:w-6 h-5 md:h-6 bg-red-500 rounded-full blur-[0.5px]"></div>
@@ -1089,7 +1068,7 @@
                     </div>
                 `
             },
-            { // 3. Полностью синий фирменный
+            {
                 border: 'border-[#172554]', bg: 'bg-gradient-to-b from-[#004182] to-[#002B5E]',
                 html: `
                     <div class="absolute bottom-0 w-full h-1 bg-lentaYellow z-10"></div>
@@ -1102,7 +1081,7 @@
                     </div>
                 `
             },
-            { // 4. Чисто белый рефрижератор
+            {
                 border: 'border-gray-300', bg: 'bg-gray-50',
                 html: `
                        <div class="absolute bottom-0 w-full h-[3px] bg-gray-200"></div>
@@ -1467,8 +1446,8 @@
             "По рации тишина...",
             "Кофе выпью — и в рейс.",
             "Сцепку проверил?",
-            "Слышь, только не жми на подсолнух наверху...",
-            "Главное — не нажимай на логотип!"
+            "Слышь, только не нажимай на подсолнух наверху...",
+            "Главное — не жми на логотип!"
         ];
 
         function showMechanicPhrase() {
@@ -1488,7 +1467,7 @@
 
         function updateSpeedLimit() {
             const month = new Date().getMonth();
-            const isWinter = month === 11 || month === 0 || month === 1;
+            const isWinter = month === 11 || month === 0 || month === 1 || month === 2 || month === 10;
             
             document.getElementById('speedLimitNumber').innerText = isWinter ? '60' : '80';
             const icon = document.getElementById('seasonIcon');
