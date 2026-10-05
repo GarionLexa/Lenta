@@ -380,10 +380,12 @@
             <!-- СТРОКА 2: БЛОК УПРАВЛЕНИЯ (МЕХАНИКИ, СЧЕТЧИК, СКОРОСТЬ) -->
             <div class="mb-4 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 py-3 px-4 relative z-[60] flex items-center justify-between">
                 
-                <!-- Левая часть: Счётчик в виде табло -->
-                <div class="flex flex-col items-center justify-center shrink-0">
-                    <div class="h-[22px] w-[34px] bg-[#0f172a] rounded flex items-center overflow-hidden shadow-[inset_0_2px_4px_rgba(0,0,0,0.9)] border border-gray-300 dark:border-slate-600 relative cursor-default">
-                        <img src="https://api.visitorbadge.io/api/visitors?path=lexa.github.io&label=%20&labelColor=%230f172a&countColor=%230f172a&style=flat-square" class="absolute right-[0px] h-[20px] max-w-none pointer-events-none" style="margin-right: -2px;" alt="Счетчик">
+                <!-- Левая часть: Счётчик (РАСШИРЕННЫЙ, ЧТОБЫ ВЛЕЗАЛИ ВСЕ ЦИФРЫ) -->
+                <div class="flex flex-col items-center justify-center shrink-0" title="Счетчик посетителей">
+                    <div class="h-[22px] w-[48px] bg-[#0f172a] rounded overflow-hidden shadow-[inset_0_2px_4px_rgba(0,0,0,0.9)] border border-gray-300 dark:border-slate-600 relative cursor-default">
+                        <img src="https://api.visitorbadge.io/api/visitors?path=garionlexa.github.io&label=%20&labelColor=%230f172a&countColor=%230f172a&style=flat-square" class="absolute right-0 top-0 bottom-0 m-auto h-[20px] max-w-none pointer-events-none" style="margin-right: -2px;" alt="Счетчик" onerror="this.style.display='none'">
+                        <!-- Текст-заглушка на случай блокировки счетчика -->
+                        <div class="absolute inset-0 flex items-center justify-center text-[10px] text-gray-500 opacity-30 font-mono pointer-events-none">...</div>
                     </div>
                 </div>
 
@@ -462,12 +464,15 @@
                                 <!-- СЦЕНА 4: Сварка -->
                                 <g class="anim-scene-4 absolute inset-0">
                                     <circle cx="35" cy="20" r="6" />
+                                    <!-- Маска сварщика -->
                                     <path d="M30 15 L 42 16 L 41 24 L 32 23 Z" fill="currentColor"/>
                                     <path d="M35 26 V 45" />
                                     <path d="M35 45 L 25 58 M 35 45 L 45 58" />
                                     <path d="M35 30 L 48 38" />
                                     <path d="M35 28 L 45 35" />
+                                    <!-- Сварочный аппарат в руках -->
                                     <path d="M48 38 L 53 43" stroke-width="2"/>
+                                    <!-- Искры -->
                                     <g class="welding-sparks">
                                         <circle cx="55" cy="45" r="1.5" fill="#facc15" stroke="none"/>
                                         <circle cx="58" cy="42" r="1" fill="#facc15" stroke="none"/>
@@ -476,7 +481,7 @@
                                 </g>
                             </g>
 
-                            <!-- СЦЕНА ДИСКОТЕКИ (Смешные танцы под музыку) БЕЗ РАСЩЕПЛЕНИЯ -->
+                            <!-- СЦЕНА ДИСКОТЕКИ (Смешные танцы под музыку) Сгруппировано для безопасности суставов! -->
                             <g class="dancing-scene absolute inset-0">
                                 <!-- Ноты -->
                                 <g class="music-notes">
@@ -484,10 +489,13 @@
                                     <text x="65" y="15" font-size="16" fill="currentColor">♫</text>
                                 </g>
                                 
-                                <!-- Танцор 1: Рейв / Прыжки и махи руками -->
+                                <!-- Танцор 1: Рейв / Прыжки и махи руками (Сгруппировано целиком!) -->
                                 <g class="dance-bob-left">
+                                    <!-- Голова -->
                                     <circle cx="35" cy="20" r="6" />
+                                    <!-- Туловище -->
                                     <path d="M35 26 V 45" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                                    <!-- Ноги -->
                                     <path d="M35 45 L 25 58 M 35 45 L 45 58" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
                                     <!-- Руки машут из стороны в сторону -->
                                     <g class="dance-arms-left">
@@ -495,10 +503,13 @@
                                     </g>
                                 </g>
 
-                                <!-- Танцор 2: Диско / Траволта -->
+                                <!-- Танцор 2: Диско / Траволта (Сгруппировано целиком!) -->
                                 <g class="dance-bob-right">
+                                    <!-- Голова -->
                                     <circle cx="85" cy="20" r="6" />
+                                    <!-- Туловище -->
                                     <path d="M85 26 V 45" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                                    <!-- Ноги -->
                                     <path d="M85 45 L 75 58 M 85 45 L 95 58" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
                                     <!-- Левая рука на поясе -->
                                     <path d="M85 30 L 78 37 L 82 42" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/> 
