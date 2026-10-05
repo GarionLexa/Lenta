@@ -339,7 +339,7 @@
     </div>
 
     <header class="glass-header">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 pb-4">
+        <div class="max-w-[1600px] mx-auto px-4 sm:px-6 relative z-10 pb-4">
             
             <!-- СТРОКА 1: Логотип и кнопки -->
             <div class="flex flex-row items-center justify-between gap-4 mb-4">
@@ -374,9 +374,9 @@
             <!-- СТРОКА 2: БЛОК УПРАВЛЕНИЯ (МЕХАНИКИ, СЧЕТЧИК, СКОРОСТЬ) -->
             <div class="mb-4 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 py-3 px-4 relative flex items-center justify-between">
                 
-                <!-- Левая часть: Бронебойный Счётчик-Картинка (Без скриптов, обходит блокировки) -->
-                <div class="flex flex-col items-center justify-center shrink-0 min-w-[60px]" title="Счетчик визитов (считает каждое обновление)">
-                    <img id="visitCounterBadge" alt="Визиты" class="h-[20px] rounded shadow-sm opacity-0 transition-opacity duration-500" onload="this.classList.remove('opacity-0')" onerror="this.style.display='none'">
+                <!-- Левая часть: Новый Надежный Счётчик (Картинка без скриптов) -->
+                <div class="flex flex-col items-center justify-center shrink-0 min-w-[70px]" title="Счетчик визитов">
+                    <img id="visitCounterBadge" alt="Визиты" class="h-[20px] rounded shadow-sm opacity-0 transition-opacity duration-300" onload="this.classList.remove('opacity-0')" onerror="this.style.display='none'">
                 </div>
 
                 <!-- Центральная часть: Многосерийная сценка с механиками и Танцами -->
@@ -557,21 +557,18 @@
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 relative z-10 flex-1">
-        <div id="cardsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-8"></div>
+    <main class="max-w-[1600px] mx-auto px-4 sm:px-6 py-6 relative z-10 flex-1">
+        <div id="cardsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 mb-8"></div>
     </main>
 
     <script>
-        // === БРОНЕБОЙНЫЙ СЧЕТЧИК (Картинка, обходит блокировки скриптов) ===
-        // Работает напрямую как изображение, поэтому его не режут блокировщики рекламы.
+        // === НАДЕЖНЫЙ СЧЕТЧИК БЕЗ КЭША ===
         function initCounter() {
             const badge = document.getElementById('visitCounterBadge');
-            const uniqueTime = Date.now(); // Приклеиваем время, чтобы засчитывал КАЖДОЕ обновление
-            // Используем надежный сервис hits.sh
-            badge.src = `https://hits.sh/garionlexa.github.io/lenta_app_v1.svg?label=%D0%92%D0%98%D0%97%D0%98%D0%A2%D0%AB&color=0f172a&labelColor=1e293b&nocache=${uniqueTime}`;
+            const uniqueTime = Date.now(); 
+            badge.src = `https://hits.sh/garionlexa.github.io/lenta_app_v2.svg?label=%D0%92%D0%B8%D0%B7%D0%B8%D1%82%D1%8B&color=1e293b&labelColor=334155&nocache=${uniqueTime}`;
         }
         initCounter();
-        // ====================================================================
 
         function toggleTheme() {
             const html = document.documentElement;
@@ -677,7 +674,7 @@
         }, { passive: true });
 
         const bgMusic = document.getElementById('bgMusic');
-        bgMusic.volume = 0.12; 
+        bgMusic.volume = 0.45; // Увеличена громкость для компьютеров
         let isMusicPlaying = false;
         let lastLogoTapTime = 0;
         let autoScrollAnimationId = null;
@@ -685,10 +682,48 @@
         let virtualScrollX = 0;
         let lastActualScrollLeft = 0;
 
+        // === ПЕРЕТАСКИВАНИЕ МАШИНОК МЫШКОЙ (ДЛЯ ПК) ===
+        let isMouseDown = false;
+        let startX;
+        let scrollLeftPos;
+
+        citySlider.addEventListener('mousedown', (e) => {
+            if (isMusicPlaying) return;
+            isMouseDown = true;
+            citySlider.style.cursor = 'grabbing';
+            startX = e.pageX - citySlider.offsetLeft;
+            scrollLeftPos = citySlider.scrollLeft;
+        });
+
+        citySlider.addEventListener('mouseleave', () => {
+            isMouseDown = false;
+            citySlider.style.cursor = 'grab';
+        });
+
+        citySlider.addEventListener('mouseup', () => {
+            isMouseDown = false;
+            citySlider.style.cursor = 'grab';
+        });
+
+        citySlider.addEventListener('mousemove', (e) => {
+            if (!isMouseDown || isMusicPlaying) return;
+            e.preventDefault();
+            const x = e.pageX - citySlider.offsetLeft;
+            const walk = (x - startX) * 2; // Множитель скорости прокрутки
+            citySlider.scrollLeft = scrollLeftPos - walk;
+        });
+        citySlider.style.cursor = 'grab';
+        // =============================================
+
         function handleLogoTap() {
             unlockAudio();
             const now = Date.now();
             if (now - lastLogoTapTime < 400) {
+                // Двойной тап - выключаем
+                if (isMusicPlaying) {
+                    showMechanicPhrase(true); // Показываем фразу разочарования
+                }
+                
                 bgMusic.pause();
                 bgMusic.currentTime = 0;
                 isMusicPlaying = false;
@@ -711,11 +746,13 @@
             const mechSvg = document.getElementById('mechanicSvgElement');
 
             if (isMusicPlaying) {
+                showMechanicPhrase(true); // Показываем фразу разочарования при паузе
+                
                 bgMusic.pause();
                 isMusicPlaying = false;
                 logo.classList.remove('record-spin');
-                mechSvg.classList.remove('normal-mode');
-                mechSvg.classList.add('party-mode');
+                mechSvg.classList.remove('party-mode'); // Убираем дискотеку
+                mechSvg.classList.add('normal-mode');   // Возвращаем обычный режим работы
                 stopAutoScroll(); 
             } else {
                 const playPromise = bgMusic.play();
@@ -1181,6 +1218,33 @@
         window.openMechanicModal = function() { document.getElementById('mechanicModal').classList.remove('hidden'); };
         window.closeMechanicModal = function() { document.getElementById('mechanicModal').classList.add('hidden'); };
 
+        // ИДЕАЛЬНЫЙ ОБХОД ОКНА ЯНДЕКСА: попытка открыть схему сразу в приложении
+        window.openApproachMap = function(url) {
+            playTickSound();
+            
+            const match = url.match(/um=constructor%3A([a-zA-Z0-9_-]+)/);
+            
+            if (match && match[1]) {
+                const cid = match[1];
+                // Формируем специальную системную ссылку (deep link) для Я.Карт
+                const appUrl = `yandexmaps://maps.yandex.ru/?um=constructor%3A${cid}`;
+                
+                // Пытаемся открыть установленное приложение Яндекс.Карты
+                window.location.href = appUrl;
+                
+                // Если телефон не смог открыть приложение (например, его нет),
+                // через 800мс проверяем, не перешло ли приложение в фон, и открываем обычную ссылку
+                setTimeout(() => {
+                    if (!document.hidden) {
+                        window.location.href = url;
+                    }
+                }, 800);
+            } else {
+                // Если ссылка какая-то нестандартная, просто открываем как есть
+                window.location.href = url;
+            }
+        };
+
         function getDropdownItemHTML(store) {
             let brandColor = "text-lentaBlue dark:text-blue-300"; let bName = "ЛЕНТА"; let badgeClass = "bg-lentaYellow text-lentaDark";
             if (store.address.includes("ОКЕЙ") || store.tk === "929929") { brandColor = "text-red-500 dark:text-red-400"; bName = "О'КЕЙ"; badgeClass = "bg-red-600 text-white"; } 
@@ -1288,10 +1352,10 @@
                     if (storeCustomRouteUrl) {
                         customApproachHtml = `
                             <div class="flex flex-col gap-0.5 w-full sm:w-auto">
-                                <a href="${storeCustomRouteUrl}" target="_blank" onclick="playTickSound()" title="Схема заезда на разгрузку" class="flex items-center justify-center gap-1 px-3 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-xs font-bold transition-all tactile-btn shadow-[0_4px_10px_rgba(16,185,129,0.3)] cursor-pointer">
+                                <button onclick="openApproachMap('${storeCustomRouteUrl}')" title="Схема заезда на разгрузку" class="flex items-center justify-center gap-1 px-3 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-xs font-bold transition-all tactile-btn shadow-[0_4px_10px_rgba(16,185,129,0.3)] cursor-pointer">
                                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
                                     Подъезд 🚛
-                                </a>
+                                </button>
                             </div>
                         `;
                     }
@@ -1450,9 +1514,27 @@
             "Главное — не жми на логотип!"
         ];
 
-        function showMechanicPhrase() {
+        // Специальные фразы недовольства, когда музыку выключают
+        const disappointedPhrases = [
+            "Ну блин, было же классно! 😩",
+            "Эх, на самом интересном месте...",
+            "Опять гайки крутить 🔧",
+            "Дискотека окончена, за работу!",
+            "А я только ритм поймал 🕺",
+            "Шеф пришел, сворачиваемся!",
+            "Эй, верните музыку! 🎵"
+        ];
+
+        function showMechanicPhrase(isDisappointed = false) {
             const bubble = document.getElementById('mechanicSpeech');
-            const phrase = mechanicPhrases[Math.floor(Math.random() * mechanicPhrases.length)];
+            let phrase = "";
+            
+            // Если выключили музыку — механики расстраиваются
+            if (isDisappointed) {
+                phrase = disappointedPhrases[Math.floor(Math.random() * disappointedPhrases.length)];
+            } else {
+                phrase = mechanicPhrases[Math.floor(Math.random() * mechanicPhrases.length)];
+            }
             
             bubble.innerHTML = phrase + '<div class="absolute top-full left-1/2 w-2 h-2 bg-white dark:bg-slate-700 border-b border-r border-gray-200 dark:border-slate-600 transform rotate-45 -translate-x-1/2 -mt-[5px]"></div>';
             
@@ -1480,6 +1562,30 @@
                 icon.className = 'absolute -bottom-1 -right-2 w-4 h-4 bg-amber-50 border-amber-200 flex items-center justify-center text-[8px] shadow-sm border rounded-full';
             }
         }
+
+        window.executeNavigation = function(type) {
+            playTickSound();
+            let navUrl = '';
+            const encAddr = encodeURIComponent(currentNavAddress);
+            const encFullAddr = encodeURIComponent(currentNavFullAddress);
+            
+            if (type === 'yandex') {
+                navUrl = `yandexnavi://build_route_on_map?text_to=${encAddr}`;
+                const fallbackUrl = `https://yandex.ru/maps/?text=${encAddr}`;
+                setTimeout(() => { window.location.href = fallbackUrl; }, 800);
+            } else if (type === '2gis') {
+                navUrl = `dgis://2gis.ru/routeSearch/rsType/car/to/${encFullAddr}`;
+                const fallbackUrl = `https://2gis.ru/search/${encFullAddr}`;
+                setTimeout(() => { window.location.href = fallbackUrl; }, 800);
+            } else if (type === 'google') {
+                navUrl = `comgooglemaps://?daddr=${encFullAddr}&directionsmode=driving`;
+                const fallbackUrl = `https://www.google.com/maps/dir/?api=1&destination=${encFullAddr}`;
+                setTimeout(() => { window.location.href = fallbackUrl; }, 800);
+            }
+            
+            window.location.href = navUrl;
+            closeNavModal();
+        };
 
         updateSpeedLimit();
         setTimeout(showMechanicPhrase, 2000);
