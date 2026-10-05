@@ -233,7 +233,7 @@
             background-color: #1e293b !important; color: #f1f5f9 !important; border-color: #334155 !important;
         }
 
-        /* Многосерийная анимация рабочих будней */
+        /* Многосерийная анимация рабочих будней механиков (4 сцены) */
         @keyframes fadeScene1 { 0%, 22% { opacity: 1; } 25%, 100% { opacity: 0; } }
         @keyframes fadeScene2 { 0%, 22% { opacity: 0; } 25%, 47% { opacity: 1; } 50%, 100% { opacity: 0; } }
         @keyframes fadeScene3 { 0%, 47% { opacity: 0; } 50%, 72% { opacity: 1; } 75%, 100% { opacity: 0; } }
@@ -244,7 +244,6 @@
         .normal-mode .anim-scene-3 { animation: fadeScene3 20s infinite; opacity: 0; }
         .normal-mode .anim-scene-4 { animation: fadeScene4 20s infinite; opacity: 0; }
 
-        /* Внутренние движения механиков (работа) */
         .wrench-arm { animation: wrenchMotion 0.6s infinite alternate ease-in-out; transform-origin: 30px 28px; }
         @keyframes wrenchMotion { 0% { transform: rotate(-10deg); } 100% { transform: rotate(15deg); } }
         
@@ -265,25 +264,25 @@
             100% { opacity: 1; transform: scale(2) translate(3px, -3px); } 
         }
 
-        /* --- СМЕШНАЯ ДИСКОТЕКА (Музыкальный режим) --- */
+        /* --- СМЕШНАЯ ДИСКОТЕКА (Жесткая привязка суставов) --- */
         .party-mode .dancing-scene { display: block; }
         .party-mode .normal-scenes { display: none; }
         .normal-mode .dancing-scene { display: none; }
         .normal-mode .normal-scenes { display: block; }
 
-        /* ТАНЦОР 1: Прыжки и махи руками (Рейв) - БЕЗОПАСНАЯ ГРУППИРОВКА */
-        .dance-bob-left { animation: raveJump 0.4s infinite alternate cubic-bezier(0.4, 0, 0.8, 1); transform-origin: 35px 58px; }
-        @keyframes raveJump { 0% { transform: translateY(0) scaleY(1); } 100% { transform: translateY(-8px) scaleY(1.05); } }
+        /* ТАНЦОР 1 (Слева) - Макаронина / Волна руками (сгруппировано!) */
+        .dance-bob-left { animation: raveJump 0.4s infinite alternate ease-in-out; transform-origin: bottom center; }
+        @keyframes raveJump { 0% { transform: translateY(0) scaleY(1); } 100% { transform: translateY(-5px) scaleY(1.05); } }
         
         .dance-arms-left { animation: waveArms 0.4s infinite alternate ease-in-out; transform-origin: 35px 28px; }
         @keyframes waveArms { 0% { transform: rotate(-25deg); } 100% { transform: rotate(25deg); } }
 
-        /* ТАНЦОР 2: Диско / Траволта - БЕЗОПАСНАЯ ГРУППИРОВКА */
+        /* ТАНЦОР 2 (Справа) - Джон Траволта / Диско (сгруппировано!) */
         .dance-bob-right { animation: discoSway 0.5s infinite alternate ease-in-out; transform-origin: 85px 58px; }
-        @keyframes discoSway { 0% { transform: rotate(-12deg); } 100% { transform: rotate(12deg); } }
+        @keyframes discoSway { 0% { transform: rotate(-8deg); } 100% { transform: rotate(8deg); } }
         
         .dance-arm-disco { animation: discoPoint 0.5s infinite alternate ease-in-out; transform-origin: 85px 30px; }
-        @keyframes discoPoint { 0% { transform: rotate(-50deg); } 100% { transform: rotate(30deg); } }
+        @keyframes discoPoint { 0% { transform: rotate(-40deg); } 100% { transform: rotate(20deg); } }
 
         .music-notes text { animation: floatNote 1.2s infinite linear; opacity: 0; }
         .music-notes text:nth-child(2) { animation-delay: 0.6s; }
@@ -321,18 +320,18 @@
         </div>
     </div>
 
-    <!-- Модал вызова Механика -->
+    <!-- Модал вызова Механика (Отвязан от кнопки, теперь по центру экрана) -->
     <div id="mechanicModal" class="fixed inset-0 z-[100] bg-gray-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 transition-opacity">
         <div class="glass-modal rounded-[32px] p-8 max-w-sm w-full text-center relative animate-reveal bg-white dark:bg-slate-800 shadow-2xl">
             <button onclick="closeMechanicModal();" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white bg-gray-100 dark:bg-slate-700 p-2.5 rounded-full transition-colors cursor-pointer tactile-btn">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
             
-            <div class="w-20 h-20 bg-emerald-100 dark:bg-emerald-900/40 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-emerald-500/20 shadow-inner">
-                <span class="text-4xl">👨‍‍🔧</span>
+            <div class="w-20 h-20 bg-gray-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-gray-200 dark:border-slate-600 shadow-inner">
+                <svg class="w-10 h-10 text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
             </div>
             
-            <h3 class="text-xl font-black text-lentaDark dark:text-white mb-1 tracking-tight">МЕХАНИК</h3>
+            <h3 class="text-xl font-black text-lentaDark dark:text-white mb-1 tracking-tight uppercase">Механик</h3>
             <p class="text-sm text-gray-500 dark:text-gray-400 mb-6 font-medium">Дежурный гараж</p>
             
             <a href="tel:+79826209051" class="block font-black text-gray-800 dark:text-white text-3xl mb-6 hover:text-emerald-500 transition-colors tracking-tight">8 (982) 620-90-51</a>
@@ -378,28 +377,28 @@
             </div>
 
             <!-- СТРОКА 2: БЛОК УПРАВЛЕНИЯ (МЕХАНИКИ, СЧЕТЧИК, СКОРОСТЬ) -->
-            <div class="mb-4 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 py-3 px-4 relative z-[60] flex items-center justify-between">
+            <div class="mb-4 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 py-3 px-4 relative flex items-center justify-between">
                 
-                <!-- Левая часть: Счётчик (РАСШИРЕННЫЙ, ЧТОБЫ ВЛЕЗАЛИ ВСЕ ЦИФРЫ) -->
+                <!-- Левая часть: Широкий Счётчик (Новый стабильный провайдер) -->
                 <div class="flex flex-col items-center justify-center shrink-0" title="Счетчик посетителей">
-                    <div class="h-[22px] w-[48px] bg-[#0f172a] rounded overflow-hidden shadow-[inset_0_2px_4px_rgba(0,0,0,0.9)] border border-gray-300 dark:border-slate-600 relative cursor-default">
-                        <img src="https://api.visitorbadge.io/api/visitors?path=garionlexa.github.io&label=%20&labelColor=%230f172a&countColor=%230f172a&style=flat-square" class="absolute right-0 top-0 bottom-0 m-auto h-[20px] max-w-none pointer-events-none" style="margin-right: -2px;" alt="Счетчик" onerror="this.style.display='none'">
-                        <!-- Текст-заглушка на случай блокировки счетчика -->
+                    <div class="h-[22px] w-[54px] bg-[#0f172a] rounded overflow-hidden shadow-[inset_0_2px_4px_rgba(0,0,0,0.9)] border border-gray-300 dark:border-slate-600 relative cursor-default">
+                        <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgarionlexa.github.io&count_bg=%230f172a&title_bg=%230f172a&icon=&icon_color=%23E7E7E7&title=%20&edge_flat=true" class="absolute right-0 top-0 bottom-0 m-auto h-[20px] max-w-none pointer-events-none" style="margin-right: -2px;" alt="Счетчик" onerror="this.style.display='none'">
+                        <!-- Заглушка, если инет слабый -->
                         <div class="absolute inset-0 flex items-center justify-center text-[10px] text-gray-500 opacity-30 font-mono pointer-events-none">...</div>
                     </div>
                 </div>
 
                 <!-- Центральная часть: Многосерийная сценка с механиками и Танцами -->
-                <div class="relative flex flex-col items-center cursor-pointer tactile-btn group mx-auto" onclick="playTickSound(); openMechanicModal();">
+                <div class="relative flex flex-col items-center cursor-pointer tactile-btn group mx-auto w-[120px]" onclick="playTickSound(); openMechanicModal();">
                     
                     <div id="mechanicSpeech" class="absolute bottom-[85%] mb-1 bg-white dark:bg-slate-700 border border-gray-200 dark:border-slate-600 text-gray-700 dark:text-gray-200 text-[11px] font-bold px-3 py-1.5 rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] opacity-0 transform scale-95 transition-all duration-300 whitespace-nowrap pointer-events-none z-[110]">
                         <!-- Текст подставится скриптом -->
                     </div>
 
-                    <div class="w-24 h-14 md:w-28 md:h-16 relative" id="mechanicSvgContainer">
+                    <div class="w-full h-14 md:h-16 relative" id="mechanicSvgContainer">
                         <svg viewBox="0 0 120 60" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full text-gray-400 dark:text-gray-500 group-hover:text-emerald-500 transition-colors normal-mode" id="mechanicSvgElement">
                             
-                            <!-- НОРМАЛЬНЫЕ СЦЕНЫ РАБОТЫ -->
+                            <!-- НОРМАЛЬНЫЕ СЦЕНЫ РАБОТЫ (4 этапа) -->
                             <g class="normal-scenes absolute inset-0">
                                 <!-- Общее колесо (для сцен 1, 3, 4) -->
                                 <g class="anim-scene-1 anim-scene-3 anim-scene-4">
@@ -481,15 +480,14 @@
                                 </g>
                             </g>
 
-                            <!-- СЦЕНА ДИСКОТЕКИ (Смешные танцы под музыку) Сгруппировано для безопасности суставов! -->
+                            <!-- СЦЕНА ДИСКОТЕКИ (ЖЕСТКАЯ ПРИВЯЗКА СУСТАВОВ!) -->
                             <g class="dancing-scene absolute inset-0">
-                                <!-- Ноты -->
                                 <g class="music-notes">
                                     <text x="45" y="20" font-size="12" fill="currentColor">♪</text>
                                     <text x="65" y="15" font-size="16" fill="currentColor">♫</text>
                                 </g>
                                 
-                                <!-- Танцор 1: Рейв / Прыжки и махи руками (Сгруппировано целиком!) -->
+                                <!-- Танцор 1: Рейв / Макаронина (Сгруппировано целиком!) -->
                                 <g class="dance-bob-left">
                                     <!-- Голова -->
                                     <circle cx="35" cy="20" r="6" />
@@ -1469,9 +1467,8 @@
             "По рации тишина...",
             "Кофе выпью — и в рейс.",
             "Сцепку проверил?",
-            "Только не нажимай на подсолнух!",
-            "Главное — не жми на подсолнух...",
-            "Слышь, не нажимай на логотип!"
+            "Слышь, только не жми на подсолнух наверху...",
+            "Главное — не нажимай на логотип!"
         ];
 
         function showMechanicPhrase() {
@@ -1507,7 +1504,7 @@
 
         updateSpeedLimit();
         setTimeout(showMechanicPhrase, 2000);
-        setInterval(showMechanicPhrase, 8000);
+        setInterval(showMechanicPhrase, 10000);
 
         renderCards();
         setTimeout(() => { citySlider.dispatchEvent(new Event('scroll')); }, 100);
