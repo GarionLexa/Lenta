@@ -1221,31 +1221,13 @@
         window.openMechanicModal = function() { document.getElementById('mechanicModal').classList.remove('hidden'); };
         window.closeMechanicModal = function() { document.getElementById('mechanicModal').classList.add('hidden'); };
 
-        // ИДЕАЛЬНЫЙ ОБХОД ОКНА ЯНДЕКСА: попытка открыть схему сразу в приложении
+        // Открываем схемы просто в новой вкладке.
+        // Принудительный вызов yandexmaps:// на Android ломает отображение пользовательских слоев (полигонов),
+        // поэтому мы передаем ссылку браузеру. Если у пользователя приложение настроено на перехват — 
+        // оно само откроется корректно, либо откроется веб-версия, где схемы 100% рисуются.
         window.openApproachMap = function(url) {
             playTickSound();
-            
-            const match = url.match(/um=constructor%3A([a-zA-Z0-9_-]+)/);
-            
-            if (match && match[1]) {
-                const cid = match[1];
-                // Формируем специальную системную ссылку (deep link) для Я.Карт
-                const appUrl = `yandexmaps://maps.yandex.ru/?um=constructor%3A${cid}`;
-                
-                // Пытаемся открыть установленное приложение Яндекс.Карты
-                window.location.href = appUrl;
-                
-                // Если телефон не смог открыть приложение (например, его нет),
-                // через 800мс проверяем, не перешло ли приложение в фон, и открываем обычную ссылку
-                setTimeout(() => {
-                    if (!document.hidden) {
-                        window.location.href = url;
-                    }
-                }, 800);
-            } else {
-                // Если ссылка какая-то нестандартная, просто открываем как есть
-                window.location.href = url;
-            }
+            window.open(url, '_blank');
         };
 
         function getDropdownItemHTML(store) {
