@@ -232,6 +232,7 @@
             background-color: #1e293b !important; color: #f1f5f9 !important; border-color: #334155 !important;
         }
 
+        /* --- АНИМАЦИИ ДЛЯ СЦЕНОК --- */
         #visitContainer, #speedContainer { transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; }
         .story-mode #visitContainer, .story-mode #speedContainer { width: 0px !important; min-width: 0 !important; opacity: 0; padding: 0; margin: 0; transform: scale(0.8); }
         .story-mode #centerStage { width: 100%; flex: 1; }
@@ -255,6 +256,7 @@
         .show-sweat { opacity: 1; transform: translateY(0); animation: dripDown 1.5s forwards; }
         @keyframes dripDown { 0% { transform: translateY(0); opacity: 1;} 100% { transform: translateY(10px); opacity: 0; } }
 
+        /* --- ДИСКОТЕКА --- */
         .party-mode .dancing-scene { display: block; }
         .party-mode .normal-scenes { display: none; }
         .normal-mode .dancing-scene { display: none; }
@@ -416,6 +418,48 @@
         </div>
     </div>
 
+    <!-- Модал Инструкции Монетки -->
+    <div id="monetkaModal" class="fixed inset-0 z-[100] bg-gray-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 transition-opacity">
+        <div class="glass-modal rounded-[32px] p-6 max-w-md w-full relative animate-reveal bg-white dark:bg-slate-800 shadow-2xl flex flex-col max-h-[90vh]">
+            <button onclick="closeMonetkaModal();" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white bg-gray-100 dark:bg-slate-700 p-2.5 rounded-full transition-colors cursor-pointer tactile-btn z-10">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            
+            <h3 class="text-lg font-black text-lentaDark dark:text-white mb-2 tracking-tight uppercase pr-8 mt-1">Инструкция РЦ Монетка</h3>
+            
+            <div class="overflow-y-auto pr-2 pb-2 space-y-4 text-sm text-gray-700 dark:text-gray-300">
+                <div class="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-2xl p-4">
+                    <div class="font-bold text-blue-800 dark:text-blue-300 flex items-center gap-2 mb-1">
+                        <span class="text-lg">❄️</span> ВАЖНО: ЗАМОРОЗКА
+                    </div>
+                    <p class="text-xs text-blue-700 dark:text-blue-400 leading-relaxed">Доставка заморозки — это <b class="uppercase">приоритет</b>. Необходимо четко доводить информацию о доставке заморозки сотрудникам Монетки!</p>
+                </div>
+
+                <div class="space-y-3">
+                    <div class="bg-gray-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-gray-100 dark:border-slate-600">
+                        <div class="font-bold text-gray-900 dark:text-white text-xs mb-1">1. Только СМ Ленты</div>
+                        <div class="text-xs text-gray-600 dark:text-gray-400">По прибытию подходит к диспетчеру отгрузки и <span class="bg-yellow-200/60 dark:bg-yellow-900/60 px-1 rounded font-semibold text-gray-800 dark:text-yellow-100">передает документы</span>.</div>
+                    </div>
+
+                    <div class="bg-gray-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-gray-100 dark:border-slate-600">
+                        <div class="font-bold text-gray-900 dark:text-white text-xs mb-1">2. СМ Ленты + заморозка (Екат)</div>
+                        <div class="text-xs text-gray-600 dark:text-gray-400">Регистрация на КПП или в отделе Учета (вход между 8-9 доком). На терминале указать, что водитель Монетки. <span class="bg-yellow-200/60 dark:bg-yellow-900/60 px-1 rounded font-semibold text-gray-800 dark:text-yellow-100">Документы передает диспетчеру отгрузки.</span></div>
+                    </div>
+
+                    <div class="bg-gray-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-gray-100 dark:border-slate-600">
+                        <div class="font-bold text-gray-900 dark:text-white text-xs mb-1">3. ГМ Ленты + заморозка (Екат)</div>
+                        <div class="text-xs text-gray-600 dark:text-gray-400">Регистрация на КПП или в отделе Учета (вход между 8-9 доком). На терминале указать, что водитель Монетки. <span class="bg-yellow-200/60 dark:bg-yellow-900/60 px-1 rounded font-semibold text-gray-800 dark:text-yellow-100">Документы оставляет в отделе Учета.</span></div>
+                    </div>
+
+                    <div class="bg-gray-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-gray-100 dark:border-slate-600">
+                        <div class="font-bold text-gray-900 dark:text-white text-xs mb-1">4. Товар от поставщика</div>
+                        <div class="text-xs text-gray-600 dark:text-gray-400">Регистрация на КПП или в отделе Учета (вход между 8-9 доком). <span class="bg-yellow-200/60 dark:bg-yellow-900/60 px-1 rounded font-semibold text-gray-800 dark:text-yellow-100">Документы оставляет в отделе Учета.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <header class="glass-header">
         <div class="max-w-[1600px] mx-auto px-4 sm:px-6 relative z-10 pb-4">
             
@@ -448,6 +492,7 @@
                 </div>
             </div>
 
+            <!-- СТРОКА 2: БЛОК УПРАВЛЕНИЯ -->
             <div id="controlPanel" class="mb-4 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 py-3 px-4 relative flex items-center justify-between transition-all duration-700 min-h-[85px]">
                 
                 <div id="visitContainer" class="flex flex-col items-center justify-center shrink-0 min-w-[70px] z-10" title="Счетчик визитов">
@@ -1379,6 +1424,9 @@
         window.openContactsModal = function() { document.getElementById('contactsModal').classList.remove('hidden'); };
         window.closeContactsModal = function() { document.getElementById('contactsModal').classList.add('hidden'); };
 
+        window.openMonetkaModal = function() { document.getElementById('monetkaModal').classList.remove('hidden'); };
+        window.closeMonetkaModal = function() { document.getElementById('monetkaModal').classList.add('hidden'); };
+
         function showToast(message) {
             let toast = document.getElementById('toast-notification');
             if (!toast) {
@@ -1418,10 +1466,10 @@
             let brandColor = "text-lentaBlue dark:text-blue-300"; let bName = "ЛЕНТА"; let badgeClass = "bg-lentaYellow text-lentaDark";
             if (store.address.includes("ОКЕЙ") || store.tk === "929929") { brandColor = "text-red-500 dark:text-red-400"; bName = "О'КЕЙ"; badgeClass = "bg-red-600 text-white"; } 
             else if (store.address.includes("Молл")) { brandColor = "text-purple-600 dark:text-purple-400"; bName = "РЦ МОЛЛ"; badgeClass = "bg-purple-600 text-white"; } 
-            else if (store.address.includes("Монетка") || store.tk.startsWith("92")) { brandColor = "text-orange-500 dark:text-orange-400"; bName = "МОНЕТКА"; badgeClass = "bg-orange-500 text-white"; }
+            else if (store.address.includes("Монетка") || (store.tk.startsWith("92") && store.tk.length > 3)) { brandColor = "text-orange-500 dark:text-orange-400"; bName = "МОНЕТКА"; badgeClass = "bg-orange-500 text-white"; }
             
             let tkNum = store.tk !== '-' ? `ТК ${store.tk}` : bName;
-            if(store.tk.startsWith("92") && store.tk !== "929929") tkNum = `РЦ ${store.tk}`;
+            if(store.tk.startsWith("92") && store.tk.length > 3 && store.tk !== "929929") tkNum = `РЦ ${store.tk}`;
             if(store.address.includes("ОКЕЙ") || store.tk === "929929") tkNum = "О'КЕЙ";
             if(store.tk === '-') tkNum = bName;
 
@@ -1478,7 +1526,7 @@
                 let brandName = "ЛЕНТА";
                 if (store.address.includes("ОКЕЙ") || store.tk === "929929") brandName = "ОКЕЙ";
                 else if (store.address.includes("Молл")) brandName = "РЦ МОЛЛ";
-                else if (store.address.includes("Монетка") || store.tk.startsWith("92")) brandName = "МОНЕТКА";
+                else if (store.address.includes("Монетка") || (store.tk.startsWith("92") && store.tk.length > 3)) brandName = "МОНЕТКА";
 
                 let matchesSearch = false;
                 if (searchWords.length === 0) matchesSearch = true;
@@ -1526,6 +1574,16 @@
                     const encodedAddr = cleanNavAddress.trim();
                     const encodedFullAddr = store.city + ", " + cleanAddressText;
 
+                    let extraInfoBtn = '';
+                    if (brandName === "МОНЕТКА") {
+                        extraInfoBtn = `
+                            <button onclick="playTickSound(); openMonetkaModal();" class="mt-3 w-full flex items-center justify-center gap-1.5 px-3 py-2 bg-orange-50 dark:bg-orange-900/20 hover:bg-orange-100 dark:hover:bg-orange-900/40 text-orange-600 dark:text-orange-400 border border-orange-200 dark:border-orange-800/50 rounded-xl text-xs font-bold transition-all tactile-btn cursor-pointer">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Правила выгрузки на РЦ
+                            </button>
+                        `;
+                    }
+
                     const card = `
                         <div class="store-card relative flex flex-col justify-between animate-reveal bg-white dark:bg-slate-800 rounded-[24px] p-5 shadow-sm border border-gray-100 dark:border-slate-700 hover:shadow-md transition-shadow">
                             <button onclick="closeCard(this)" class="absolute top-4 right-4 text-gray-300 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-300 bg-gray-50 dark:bg-slate-700 p-2 rounded-full z-10 transition-colors cursor-pointer tactile-btn" title="Скрыть">
@@ -1548,6 +1606,9 @@
                                     <span class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wide">Режим работы</span>
                                     <span class="px-2 py-1 rounded-md text-[10px] font-bold border ${is24Color}">${is24Text}</span>
                                 </div>
+                                
+                                ${extraInfoBtn}
+
                                 <div class="flex flex-wrap gap-2 pt-2">
                                     
                                     <div class="flex flex-col gap-0.5 w-full sm:w-auto shrink-0">
@@ -1588,7 +1649,7 @@
                 let brandName = "ЛЕНТА";
                 if (store.address.includes("ОКЕЙ") || store.tk === "929929") brandName = "ОКЕЙ";
                 else if (store.address.includes("Молл")) brandName = "РЦ МОЛЛ";
-                else if (store.address.includes("Монетка") || store.tk.startsWith("92")) brandName = "МОНЕТКА";
+                else if (store.address.includes("Монетка") || (store.tk.startsWith("92") && store.tk.length > 3)) brandName = "МОНЕТКА";
 
                 const cleanAddressTextSearch = store.address.replace(/\b\d{6}\b,?\s*/g, ''); 
                 const fullText = `${store.tk} ${store.city} ${cleanAddressTextSearch} ${brandName}`.toLowerCase().replace(/['"`]/g, '');
@@ -1706,6 +1767,9 @@
             closeNavModal();
         };
 
+        // ==========================================
+        // ЛОГИКА СЦЕНОК (ЮМОР ЛОГИСТИКИ)
+        // ==========================================
         let isStoryPlaying = false;
         let storyTimer = null;
 
@@ -1859,6 +1923,7 @@
             }, 30000); 
         }
 
+        // Запуск
         updateSpeedLimit();
         renderCards();
         setTimeout(() => { citySlider.dispatchEvent(new Event('scroll')); }, 100);
