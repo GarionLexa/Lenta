@@ -89,6 +89,18 @@
         .record-spin { animation: recordSpin 4s linear infinite; }
         @keyframes recordSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+        .mic-listening {
+            animation: pulse-ring 1.5s infinite;
+            background-color: #ef4444 !important;
+            color: white !important;
+            border-color: #ef4444 !important;
+        }
+
         .scenic-bg { background-color: #0f172a; overflow: hidden; position: relative; height: 140px; width: 100%; border-radius: 16px; }
 
         .sky-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; transition: opacity 0.2s ease-out; }
@@ -232,7 +244,6 @@
             background-color: #1e293b !important; color: #f1f5f9 !important; border-color: #334155 !important;
         }
 
-        /* --- АНИМАЦИИ ДЛЯ СЦЕНОК --- */
         #visitContainer, #speedContainer { transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; }
         .story-mode #visitContainer, .story-mode #speedContainer { width: 0px !important; min-width: 0 !important; opacity: 0; padding: 0; margin: 0; transform: scale(0.8); }
         .story-mode #centerStage { width: 100%; flex: 1; }
@@ -256,7 +267,6 @@
         .show-sweat { opacity: 1; transform: translateY(0); animation: dripDown 1.5s forwards; }
         @keyframes dripDown { 0% { transform: translateY(0); opacity: 1;} 100% { transform: translateY(10px); opacity: 0; } }
 
-        /* --- ДИСКОТЕКА --- */
         .party-mode .dancing-scene { display: block; }
         .party-mode .normal-scenes { display: none; }
         .normal-mode .dancing-scene { display: none; }
@@ -333,7 +343,6 @@
 
     <audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
 
-    <!-- Навигационный Модал -->
     <div id="navModal" class="fixed inset-0 z-[100] bg-gray-900/50 backdrop-blur-sm hidden flex items-center justify-center p-4 transition-opacity">
         <div class="glass-modal rounded-[32px] p-8 max-w-sm w-full text-center relative animate-reveal bg-white dark:bg-slate-800 shadow-2xl">
             <button onclick="closeNavModal();" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white bg-gray-100 dark:bg-slate-700 p-2.5 rounded-full transition-colors cursor-pointer tactile-btn">
@@ -359,7 +368,6 @@
         </div>
     </div>
 
-    <!-- Модал Контактов -->
     <div id="contactsModal" class="fixed inset-0 z-[100] bg-gray-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 transition-opacity">
         <div class="glass-modal rounded-[32px] p-6 max-w-sm w-full text-center relative animate-reveal bg-white dark:bg-slate-800 shadow-2xl">
             <button onclick="closeContactsModal();" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white bg-gray-100 dark:bg-slate-700 p-2.5 rounded-full transition-colors cursor-pointer tactile-btn">
@@ -418,7 +426,6 @@
         </div>
     </div>
 
-    <!-- Модал Инструкции Монетки -->
     <div id="monetkaModal" class="fixed inset-0 z-[100] bg-gray-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 transition-opacity">
         <div class="glass-modal rounded-[32px] p-6 max-w-md w-full relative animate-reveal bg-white dark:bg-slate-800 shadow-2xl flex flex-col max-h-[90vh]">
             <button onclick="closeMonetkaModal();" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white bg-gray-100 dark:bg-slate-700 p-2.5 rounded-full transition-colors cursor-pointer tactile-btn z-10">
@@ -492,7 +499,6 @@
                 </div>
             </div>
 
-            <!-- СТРОКА 2: БЛОК УПРАВЛЕНИЯ -->
             <div id="controlPanel" class="mb-4 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 py-3 px-4 relative flex items-center justify-between transition-all duration-700 min-h-[85px]">
                 
                 <div id="visitContainer" class="flex flex-col items-center justify-center shrink-0 min-w-[70px] z-10" title="Счетчик визитов">
@@ -650,7 +656,7 @@
                     <div id="autocompleteList" class="absolute z-[100] w-full bg-white dark:bg-slate-800 rounded-xl hidden max-h-[40vh] overflow-y-auto mt-2 text-left text-gray-800 dark:text-gray-200 shadow-[0_20px_40px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_40px_rgba(0,0,0,0.5)] border border-gray-100 dark:border-slate-700 hide-scrollbar"></div>
                 </div>
 
-                <button id="voiceSearchBtn" onclick="startVoiceSearch();" class="bg-white dark:bg-slate-800 text-lentaBlue dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-700 w-11 h-11 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700 flex items-center justify-center shrink-0 cursor-pointer tactile-btn" title="Голосовой поиск">
+                <button id="voiceSearchBtn" onclick="startVoiceSearch();" class="bg-white dark:bg-slate-800 text-lentaBlue dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-700 w-11 h-11 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700 flex items-center justify-center shrink-0 cursor-pointer tactile-btn transition-all duration-300" title="Голосовой поиск">
                     <svg id="micIcon" class="w-5 h-5 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path></svg>
                 </button>
             </div>
@@ -695,7 +701,6 @@
         <div id="cardsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 mb-8"></div>
     </main>
 
-    <!-- Всплывающие уведомления (Toasts) -->
     <div id="toast-notification" class="fixed bottom-24 left-1/2 transform -translate-x-1/2 bg-gray-800/95 dark:bg-slate-700/95 backdrop-blur-md text-white px-5 py-3 rounded-2xl shadow-2xl z-[200] font-bold text-[13px] text-center border border-gray-700 transition-all duration-300 opacity-0 scale-95 pointer-events-none whitespace-nowrap"></div>
 
     <script>
@@ -850,7 +855,6 @@
         });
         citySlider.style.cursor = 'grab';
 
-        // --- ЛОГИКА НАЖАТИЙ НА ПОДСОЛНУХ ---
         let lastLogoTapTime = 0;
         let logoTapTimeout;
 
@@ -1532,7 +1536,8 @@
                 if (searchWords.length === 0) matchesSearch = true;
                 else {
                     const cleanAddressTextSearch = store.address.replace(/\b\d{6}\b,?\s*/g, ''); 
-                    const fullText = `${store.tk} ${store.city} ${cleanAddressTextSearch} ${brandName}`.toLowerCase().replace(/['"`]/g, '');
+                    // Добавляем приставки ТК и РЦ к строке поиска для корректного нахождения по "тк 100" или "рц 929451"
+                    const fullText = `тк ${store.tk} рц ${store.tk} ${store.city} ${cleanAddressTextSearch} ${brandName}`.toLowerCase().replace(/['"`]/g, '');
                     matchesSearch = searchWords.every(word => {
                         if (/^\d+$/.test(word)) {
                             return store.tk === word || new RegExp(`\\b${word}\\b`).test(cleanAddressTextSearch.toLowerCase());
@@ -1652,7 +1657,7 @@
                 else if (store.address.includes("Монетка") || (store.tk.startsWith("92") && store.tk.length > 3)) brandName = "МОНЕТКА";
 
                 const cleanAddressTextSearch = store.address.replace(/\b\d{6}\b,?\s*/g, ''); 
-                const fullText = `${store.tk} ${store.city} ${cleanAddressTextSearch} ${brandName}`.toLowerCase().replace(/['"`]/g, '');
+                const fullText = `тк ${store.tk} рц ${store.tk} ${store.city} ${cleanAddressTextSearch} ${brandName}`.toLowerCase().replace(/['"`]/g, '');
                 const matchesSearch = searchWords.every(word => {
                     if (/^\d+$/.test(word)) {
                         return store.tk === word || new RegExp(`\\b${word}\\b`).test(cleanAddressTextSearch.toLowerCase());
@@ -1704,26 +1709,32 @@
                 const recognition = new SpeechRecognition();
                 recognition.lang = 'ru-RU'; recognition.interimResults = false; recognition.maxAlternatives = 1;
                 recognition.onstart = function() {
-                    micBtn.classList.add('bg-red-500', 'text-white', 'border-red-500');
+                    micBtn.classList.add('mic-listening');
                     micBtn.classList.remove('text-lentaBlue', 'dark:text-blue-400');
                     searchInput.value = ''; searchInput.placeholder = "Слушаю вас...";
                 };
                 recognition.onresult = function(event) {
-                    const speechResult = event.results[0][0].transcript;
-                    searchInput.value = speechResult.replace(/\.$/, '').trim();
+                    let speechResult = event.results[0][0].transcript.toLowerCase();
+                    
+                    speechResult = speechResult.replace(/\bсто\b/gi, '100')
+                                               .replace(/\bдвести\b/gi, '200')
+                                               .replace(/\bтриста\b/gi, '300')
+                                               .replace(/\.$/, '').trim();
+                                               
+                    searchInput.value = speechResult;
                     searchInput.dispatchEvent(new Event('input'));
                 };
                 recognition.onerror = function() { resetMic(); searchInput.placeholder = "Повторите запрос..."; };
                 recognition.onend = function() { resetMic(); };
                 
                 function resetMic() {
-                    micBtn.classList.remove('bg-red-500', 'text-white', 'border-red-500');
+                    micBtn.classList.remove('mic-listening');
                     micBtn.classList.add('text-lentaBlue', 'dark:text-blue-400');
                     searchInput.placeholder = "Поиск по ТК, адресу, городу...";
                 }
                 recognition.start();
             } catch (e) {
-                micBtn.classList.remove('bg-red-500', 'text-white', 'border-red-500');
+                micBtn.classList.remove('mic-listening');
                 micBtn.classList.add('text-lentaBlue', 'dark:text-blue-400');
                 searchInput.placeholder = "Ошибка микрофона";
             }
@@ -1767,9 +1778,6 @@
             closeNavModal();
         };
 
-        // ==========================================
-        // ЛОГИКА СЦЕНОК (ЮМОР ЛОГИСТИКИ)
-        // ==========================================
         let isStoryPlaying = false;
         let storyTimer = null;
 
@@ -1923,7 +1931,6 @@
             }, 30000); 
         }
 
-        // Запуск
         updateSpeedLimit();
         renderCards();
         setTimeout(() => { citySlider.dispatchEvent(new Event('scroll')); }, 100);
