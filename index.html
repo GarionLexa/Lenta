@@ -232,52 +232,54 @@
             background-color: #1e293b !important; color: #f1f5f9 !important; border-color: #334155 !important;
         }
 
-        @keyframes fadeScene1 { 0%, 22% { opacity: 1; } 25%, 100% { opacity: 0; } }
-        @keyframes fadeScene2 { 0%, 22% { opacity: 0; } 25%, 47% { opacity: 1; } 50%, 100% { opacity: 0; } }
-        @keyframes fadeScene3 { 0%, 47% { opacity: 0; } 50%, 72% { opacity: 1; } 75%, 100% { opacity: 0; } }
-        @keyframes fadeScene4 { 0%, 72% { opacity: 0; } 75%, 97% { opacity: 1; } 100% { opacity: 0; } }
-        
-        .normal-mode .anim-scene-1 { animation: fadeScene1 20s infinite; }
-        .normal-mode .anim-scene-2 { animation: fadeScene2 20s infinite; opacity: 0; }
-        .normal-mode .anim-scene-3 { animation: fadeScene3 20s infinite; opacity: 0; }
-        .normal-mode .anim-scene-4 { animation: fadeScene4 20s infinite; opacity: 0; }
+        #visitContainer, #speedContainer { transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; }
+        .story-mode #visitContainer, .story-mode #speedContainer { width: 0px !important; min-width: 0 !important; opacity: 0; padding: 0; margin: 0; transform: scale(0.8); }
+        .story-mode #centerStage { width: 100%; flex: 1; }
 
-        .wrench-arm { animation: wrenchMotion 0.6s infinite alternate ease-in-out; transform-origin: 30px 28px; }
-        @keyframes wrenchMotion { 0% { transform: rotate(-10deg); } 100% { transform: rotate(15deg); } }
-        
-        .hammer-arm { animation: hammerMotion 0.4s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); transform-origin: 75px 28px; }
-        @keyframes hammerMotion { 0% { transform: rotate(25deg); } 100% { transform: rotate(-20deg); } }
+        #girlsGroup { transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        #mechGroup { transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .story-mode #girlsGroup { transform: translateX(-25px); }
+        .story-mode #mechGroup { transform: translateX(25px); }
 
-        .urea-drips circle { animation: dripDrop 0.8s infinite linear; }
-        @keyframes dripDrop { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(10px); opacity: 0; } }
+        .arm-typing { animation: typingArms 0.25s infinite alternate; }
+        .arm-typing-delay { animation: typingArms 0.3s infinite alternate; animation-delay: 0.1s; }
+        @keyframes typingArms { 0% { transform: rotate(0deg); } 100% { transform: rotate(10deg); } }
 
-        .roll-tire { animation: tireRoll 2s infinite linear; transform-origin: 80px 40px; }
-        @keyframes tireRoll { 0% { transform: translateX(10px) rotate(0deg); } 100% { transform: translateX(-15px) rotate(-180deg); } }
+        .wrench-arm { animation: wrenchMotion 0.6s infinite alternate ease-in-out; }
+        @keyframes wrenchMotion { 0% { transform: rotate(-15deg); } 100% { transform: rotate(20deg); } }
 
-        .welding-sparks circle { animation: sparkFlash 0.15s infinite alternate; transform-origin: center; }
-        .welding-sparks circle:nth-child(2) { animation-delay: 0.05s; }
-        .welding-sparks circle:nth-child(3) { animation-delay: 0.1s; }
-        @keyframes sparkFlash { 
-            0% { opacity: 0; transform: scale(0.5) translate(0,0); } 
-            100% { opacity: 1; transform: scale(2) translate(3px, -3px); } 
-        }
+        .laughing { animation: bodyLaugh 0.3s infinite alternate; }
+        @keyframes bodyLaugh { 0% { transform: translateY(0) scaleY(1); } 100% { transform: translateY(-2px) scaleY(1.05); } }
+
+        .sweat-drop { opacity: 0; transition: opacity 0.3s, transform 0.3s; transform: translateY(-5px); }
+        .show-sweat { opacity: 1; transform: translateY(0); animation: dripDown 1.5s forwards; }
+        @keyframes dripDown { 0% { transform: translateY(0); opacity: 1;} 100% { transform: translateY(10px); opacity: 0; } }
 
         .party-mode .dancing-scene { display: block; }
         .party-mode .normal-scenes { display: none; }
         .normal-mode .dancing-scene { display: none; }
         .normal-mode .normal-scenes { display: block; }
 
-        .dance-full-body-left { animation: raveJump 0.4s infinite alternate ease-in-out; transform-origin: bottom center; }
-        @keyframes raveJump { 0% { transform: translateY(0) scaleY(1); } 100% { transform: translateY(-3px) scaleY(1.05); } }
+        #discoBallGroup { transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .normal-mode #discoBallGroup { transform: translateY(-60px); }
+        .party-mode #discoBallGroup { transform: translateY(0); }
+        html:not(.dark) #discoBallGroup { display: none; }
         
-        .dance-arms-left { animation: waveArms 0.4s infinite alternate ease-in-out; transform-origin: 35px 28px; }
-        @keyframes waveArms { 0% { transform: rotate(-15deg); } 100% { transform: rotate(15deg); } }
+        .disco-rays { opacity: 0; transition: opacity 0.5s; pointer-events: none; }
+        .dark .party-mode .disco-rays { opacity: 0.85; animation: sweepRays 3s ease-in-out infinite alternate; transform-origin: 120px 5px; }
+        @keyframes sweepRays { 0% { transform: rotate(-25deg); } 100% { transform: rotate(25deg); } }
 
-        .dance-full-body-right { animation: discoSway 0.5s infinite alternate ease-in-out; transform-origin: bottom center; }
-        @keyframes discoSway { 0% { transform: translateX(-2px) rotate(-3deg); } 100% { transform: translateX(2px) rotate(3deg); } }
+        .dance-jump { animation: raveJump 0.4s infinite alternate ease-in-out; }
+        @keyframes raveJump { 0% { transform: translateY(0) scaleY(1); } 100% { transform: translateY(-4px) scaleY(1.05); } }
         
-        .dance-arm-disco { animation: discoPoint 0.5s infinite alternate ease-in-out; transform-origin: 85px 30px; }
-        @keyframes discoPoint { 0% { transform: rotate(-40deg); } 100% { transform: rotate(10deg); } }
+        .dance-sway { animation: discoSway 0.5s infinite alternate ease-in-out; }
+        @keyframes discoSway { 0% { transform: translateX(-3px) rotate(-5deg); } 100% { transform: translateX(3px) rotate(5deg); } }
+        
+        .dance-arms-wave { animation: waveArms 0.4s infinite alternate ease-in-out; }
+        @keyframes waveArms { 0% { transform: rotate(-20deg); } 100% { transform: rotate(20deg); } }
+
+        .dance-arm-point { animation: discoPoint 0.5s infinite alternate ease-in-out; }
+        @keyframes discoPoint { 0% { transform: rotate(-45deg); } 100% { transform: rotate(15deg); } }
 
         .dance-girl-1 { animation: discoSway 0.45s infinite alternate ease-in-out; transform-origin: 18px 58px; }
         .dance-girl-2 { animation: raveJump 0.4s infinite alternate ease-in-out; transform-origin: 102px 58px; }
@@ -285,6 +287,43 @@
         .music-notes text { animation: floatNote 1.2s infinite linear; opacity: 0; }
         .music-notes text:nth-child(2) { animation-delay: 0.6s; }
         @keyframes floatNote { 0% { opacity: 0; transform: translateY(0) scale(0.5); } 50% { opacity: 1; } 100% { opacity: 0; transform: translateY(-15px) scale(1.2); } }
+
+        .story-bubble {
+            position: absolute;
+            background: white; border: 2px solid #e2e8f0; color: #1e293b;
+            font-size: 10px; font-weight: 800; padding: 6px 10px; border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            opacity: 0; pointer-events: none; z-index: 1000;
+            max-width: 140px; text-align: center; line-height: 1.2;
+            white-space: normal;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .dark .story-bubble { background: #1e293b; border-color: #475569; color: #f1f5f9; }
+        
+        .story-bubble.actor-sveta { bottom: 85%; left: 0px; transform: scale(0.9) translateY(10px); }
+        .story-bubble.actor-sveta.active { transform: scale(1) translateY(0); opacity: 1; }
+        
+        .story-bubble.actor-marina { bottom: 85%; right: 0px; transform: scale(0.9) translateY(10px); }
+        .story-bubble.actor-marina.active { transform: scale(1) translateY(0); opacity: 1; }
+        
+        .story-bubble.actor-mech { bottom: 100%; left: 50%; margin-left: -50px; transform: scale(0.9) translateY(10px); }
+        .story-bubble.actor-mech.active { transform: scale(1) translateY(0); opacity: 1; }
+
+        .story-bubble::after {
+            content: ''; position: absolute; top: 100%; border-width: 5px; border-style: solid;
+            border-color: #e2e8f0 transparent transparent transparent;
+        }
+        .dark .story-bubble::after { border-color: #475569 transparent transparent transparent; }
+        
+        .story-bubble-inner::after {
+            content: ''; position: absolute; top: 100%; border-width: 5px; border-style: solid;
+            border-color: white transparent transparent transparent; margin-top: -2px; z-index: 1;
+        }
+        .dark .story-bubble-inner::after { border-color: #1e293b transparent transparent transparent; }
+
+        .story-bubble.actor-sveta::after, .story-bubble.actor-sveta .story-bubble-inner::after { left: 40px; }
+        .story-bubble.actor-marina::after, .story-bubble.actor-marina .story-bubble-inner::after { right: 40px; }
+        .story-bubble.actor-mech::after, .story-bubble.actor-mech .story-bubble-inner::after { left: 50%; margin-left: -5px; }
 
     </style>
 </head>
@@ -318,7 +357,7 @@
         </div>
     </div>
 
-    <!-- Модал Контактов (Механик и Диспетчеры) -->
+    <!-- Модал Контактов -->
     <div id="contactsModal" class="fixed inset-0 z-[100] bg-gray-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 transition-opacity">
         <div class="glass-modal rounded-[32px] p-6 max-w-sm w-full text-center relative animate-reveal bg-white dark:bg-slate-800 shadow-2xl">
             <button onclick="closeContactsModal();" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white bg-gray-100 dark:bg-slate-700 p-2.5 rounded-full transition-colors cursor-pointer tactile-btn">
@@ -329,7 +368,6 @@
             <p class="text-sm text-gray-500 dark:text-gray-400 mb-6 font-medium">Кому звоним?</p>
             
             <div class="space-y-3">
-                <!-- Механик -->
                 <a href="tel:+79826209051" onclick="closeContactsModal()" class="flex items-center justify-between bg-gray-50 dark:bg-slate-700/50 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 border border-gray-100 dark:border-slate-600 rounded-2xl p-4 transition-all tactile-btn group">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
@@ -345,7 +383,6 @@
                     </div>
                 </a>
 
-                <!-- Светлана -->
                 <a href="tel:+79826702427" onclick="closeContactsModal()" class="flex items-center justify-between bg-gray-50 dark:bg-slate-700/50 hover:bg-lentaBlue/10 dark:hover:bg-blue-900/30 border border-gray-100 dark:border-slate-600 rounded-2xl p-4 transition-all tactile-btn group">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-lentaBlue dark:text-blue-400">
@@ -361,7 +398,6 @@
                     </div>
                 </a>
 
-                <!-- Марина -->
                 <a href="tel:+79122719690" onclick="closeContactsModal()" class="flex items-center justify-between bg-gray-50 dark:bg-slate-700/50 hover:bg-purple-50 dark:hover:bg-purple-900/30 border border-gray-100 dark:border-slate-600 rounded-2xl p-4 transition-all tactile-btn group">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center text-purple-600 dark:text-purple-400">
@@ -383,10 +419,9 @@
     <header class="glass-header">
         <div class="max-w-[1600px] mx-auto px-4 sm:px-6 relative z-10 pb-4">
             
-            <!-- СТРОКА 1: Логотип и кнопки -->
             <div class="flex flex-row items-center justify-between gap-4 mb-4">
                 <div class="flex items-center gap-3 shrink-0">
-                    <div onclick="handleLogoTap()" class="w-12 h-12 rounded-full bg-white shadow-[0_6px_15px_rgba(0,0,0,0.08)] flex items-center justify-center shrink-0 border border-gray-100 overflow-hidden relative cursor-pointer tactile-btn z-50 group" title="1 Тап: Плей/Пауза">
+                    <div onclick="handleLogoTap()" class="w-12 h-12 rounded-full bg-white shadow-[0_6px_15px_rgba(0,0,0,0.08)] flex items-center justify-center shrink-0 border border-gray-100 overflow-hidden relative cursor-pointer tactile-btn z-50 group" title="1 Тап: Плей/Пауза. 2 Тапа: Сброс">
                         <img id="logoImage" src="icon.png" alt="Логотип" class="w-full h-full object-cover transition-transform group-hover:scale-105" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\\'http://www.w3.org/2000/svg\\' viewBox=\\'0 0 100 100\\'%3E%3Ccircle cx=\\'50\\' cy=\\'50\\' r=\\'50\\' fill=\\'%23FDCB05\\'/%3E%3Ccircle cx=\\'50\\' cy=\\'50\\' r=\\'20\\' fill=\\'%23004182\\'/%3E%3C/svg%3E'">
                         <div class="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent pointer-events-none rounded-full mix-blend-overlay"></div>
                     </div>
@@ -413,145 +448,141 @@
                 </div>
             </div>
 
-            <!-- СТРОКА 2: БЛОК УПРАВЛЕНИЯ (МЕХАНИКИ, СЧЕТЧИК, СКОРОСТЬ) -->
-            <div class="mb-4 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 py-3 px-4 relative flex items-center justify-between">
+            <div id="controlPanel" class="mb-4 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 py-3 px-4 relative flex items-center justify-between transition-all duration-700 min-h-[85px]">
                 
-                <!-- Левая часть: Надежный Счётчик -->
-                <div class="flex flex-col items-center justify-center shrink-0 min-w-[70px]" title="Счетчик визитов">
+                <div id="visitContainer" class="flex flex-col items-center justify-center shrink-0 min-w-[70px] z-10" title="Счетчик визитов">
                     <img id="visitCounterBadge" alt="Визиты" class="h-[20px] rounded shadow-sm opacity-0 transition-opacity duration-300" onload="this.classList.remove('opacity-0')" onerror="this.style.display='none'">
                 </div>
 
-                <!-- Центральная часть: Многосерийная сценка с механиками и Танцами -->
-                <div class="relative flex flex-col items-center cursor-pointer tactile-btn group mx-auto w-[120px]" onclick="playTickSound(); openContactsModal();">
+                <div id="centerStage" class="relative flex flex-col items-center flex-1 cursor-pointer tactile-btn mx-2 group z-20" onclick="playTickSound(); openContactsModal();">
                     
-                    <div id="mechanicSpeech" class="absolute bottom-[85%] mb-1 bg-white dark:bg-slate-700 border border-gray-200 dark:border-slate-600 text-gray-700 dark:text-gray-200 text-[11px] font-bold px-3 py-1.5 rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.15)] opacity-0 transform scale-95 transition-all duration-300 whitespace-nowrap pointer-events-none z-[110]">
-                        <!-- Текст подставится скриптом -->
-                    </div>
+                    <div id="bubbleSveta" class="story-bubble actor-sveta"><div class="story-bubble-inner"></div></div>
+                    <div id="bubbleMarina" class="story-bubble actor-marina"><div class="story-bubble-inner"></div></div>
+                    <div id="bubbleMech" class="story-bubble actor-mech"><div class="story-bubble-inner"></div></div>
 
-                    <div class="w-full h-14 md:h-16 relative" id="mechanicSvgContainer">
-                        <svg viewBox="0 0 120 60" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full text-gray-400 dark:text-gray-500 group-hover:text-emerald-500 transition-colors normal-mode" id="mechanicSvgElement">
+                    <div class="w-full h-14 md:h-16 relative flex items-center justify-center overflow-visible" id="mechanicSvgContainer">
+                        <svg viewBox="0 0 240 60" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full text-gray-400 dark:text-gray-500 group-hover:text-emerald-500 transition-colors normal-mode overflow-visible" id="mechanicSvgElement">
                             
-                            <!-- НОРМАЛЬНЫЕ СЦЕНЫ РАБОТЫ -->
+                            <g id="discoBallGroup" style="transform-origin: 120px 5px;">
+                                <g class="disco-rays">
+                                    <polygon points="120,5 0,80 40,80" fill="url(#rayGrad)" stroke="none"/>
+                                    <polygon points="120,5 80,80 120,80" fill="url(#rayGrad)" stroke="none"/>
+                                    <polygon points="120,5 160,80 200,80" fill="url(#rayGrad)" stroke="none"/>
+                                    <polygon points="120,5 220,80 260,80" fill="url(#rayGrad)" stroke="none"/>
+                                </g>
+                                <line x1="120" y1="-50" x2="120" y2="0" stroke="currentColor" stroke-width="1.5" />
+                                <circle cx="120" cy="5" r="8" fill="#e2e8f0" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M 115 2 L 125 8 M 115 8 L 125 2 M 113 5 L 127 5" stroke="#94a3b8" stroke-width="0.5"/>
+                            </g>
+
+                            <defs>
+                                <linearGradient id="rayGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#fef08a" stop-opacity="0.8" />
+                                    <stop offset="100%" stop-color="#fef08a" stop-opacity="0" />
+                                </linearGradient>
+                            </defs>
+
                             <g class="normal-scenes absolute inset-0">
-                                <g class="anim-scene-1 anim-scene-3 anim-scene-4">
-                                    <circle cx="55" cy="40" r="14" stroke-width="4"/>
-                                    <circle cx="55" cy="40" r="4" fill="currentColor"/>
-                                </g>
-                                <g class="anim-scene-1 absolute inset-0">
-                                    <circle cx="30" cy="18" r="6" />
-                                    <path d="M30 24 V 45" />
-                                    <path d="M30 45 L 20 58 M 30 45 L 40 58" />
-                                    <path d="M30 28 L 20 38" />
-                                    <g class="wrench-arm">
-                                        <path d="M30 28 L 45 38" />
-                                        <path d="M43 35 L 50 42" stroke-width="2"/>
-                                        <path d="M52 38 C 50 36, 47 39, 50 42" stroke-width="2" fill="none"/>
+                                <g id="girlsGroup">
+                                    <path d="M 15 48 L 85 48" stroke-width="2"/>
+                                    <g id="svetaBody" style="transform-origin: 30px 48px;">
+                                        <rect x="15" y="32" width="10" height="7" rx="1" />
+                                        <path d="M 20 39 V 48" />
+                                        <circle cx="35" cy="22" r="5" /> 
+                                        <path d="M 35 27 V 43" /> 
+                                        <path d="M 35 43 L 30 55 M 35 43 L 40 55" /> 
+                                        <path d="M 30 43 L 40 43 Z" fill="currentColor" stroke-width="1"/> 
+                                        <g class="arm-typing" style="transform-origin: 35px 29px;">
+                                            <path d="M 35 29 L 28 35 L 22 36" />
+                                            <path d="M 35 29 L 25 36 L 20 38" />
+                                        </g>
                                     </g>
-                                    <circle cx="80" cy="18" r="6" />
-                                    <path d="M80 24 V 45" />
-                                    <path d="M80 45 L 70 58 M 80 45 L 90 58" />
-                                    <path d="M80 28 L 90 38" />
-                                    <g class="hammer-arm">
-                                        <path d="M80 28 L 65 35" />
-                                        <path d="M62 32 L 59 38" stroke-width="2"/>
-                                        <rect x="57" y="30" width="4" height="4" fill="currentColor" stroke="none" transform="rotate(-30 59 32)"/>
-                                    </g>
-                                </g>
-                                <g class="anim-scene-2 absolute inset-0">
-                                    <circle cx="35" cy="20" r="6" />
-                                    <path d="M35 26 V 45" />
-                                    <path d="M35 45 L 25 58 M 35 45 L 45 58" />
-                                    <path d="M35 30 L 50 38" />
-                                    <rect x="65" y="25" width="45" height="33" rx="4" fill="none" stroke="currentColor" stroke-width="3"/>
-                                    <path d="M75 25 V 20 H 80 V 25" fill="none"/>
-                                    <path d="M50 38 C 60 48, 70 15, 77 20" fill="none" stroke="currentColor" stroke-width="2"/>
-                                    <g class="urea-drips">
-                                        <circle cx="77.5" cy="23" r="1.5" fill="#3b82f6" stroke="none"/>
+
+                                    <g id="marinaBody" style="transform-origin: 70px 48px;">
+                                        <rect x="75" y="32" width="10" height="7" rx="1" />
+                                        <path d="M 80 39 V 48" />
+                                        <circle cx="60" cy="22" r="5" />
+                                        <path d="M 55 22 A 5 5 0 0 1 65 22" stroke-width="2"/> 
+                                        <path d="M 60 27 V 43" />
+                                        <path d="M 60 43 L 55 55 M 60 43 L 65 55" />
+                                        <path d="M 55 43 L 65 43 Z" fill="currentColor" stroke-width="1"/> 
+                                        <g class="arm-typing-delay" style="transform-origin: 60px 29px;">
+                                            <path d="M 60 29 L 68 35 L 75 36" />
+                                            <path d="M 60 29 L 71 36 L 78 38" />
+                                        </g>
                                     </g>
                                 </g>
-                                <g class="anim-scene-3 absolute inset-0">
-                                    <circle cx="30" cy="18" r="6" />
-                                    <path d="M30 24 V 45" />
-                                    <path d="M30 45 L 20 58 M 30 45 L 40 58" />
-                                    <path d="M30 28 L 20 38" />
-                                    <path d="M30 28 C 30 20, 35 15, 35 18" stroke-width="2"/> 
-                                    <circle cx="95" cy="18" r="6" />
-                                    <path d="M95 24 V 45" />
-                                    <path d="M95 45 L 85 58 M 95 45 L 105 58" />
-                                    <path d="M95 30 L 105 40" />
-                                    <path d="M95 30 L 80 40" />
-                                    <g class="roll-tire">
-                                        <circle cx="80" cy="40" r="10" stroke-width="3"/>
-                                        <path d="M80 30 V 50 M 70 40 H 90" stroke-width="1"/>
+
+                                <g id="mechGroup">
+                                    <g id="mechBody" style="transform-origin: 170px 55px;">
+                                        <circle cx="170" cy="22" r="5" />
+                                        <path d="M 165 18 L 175 18 L 173 22 Z" fill="currentColor"/> 
+                                        <path d="M 170 27 V 45" /> 
+                                        <path d="M 170 45 L 163 55 M 170 45 L 177 55" /> 
+                                        <g class="wrench-arm" style="transform-origin: 170px 29px;">
+                                            <path d="M 170 29 L 155 36" />
+                                            <path d="M 157 34 L 150 40" stroke-width="2"/>
+                                            <path d="M 148 37 C 152 35, 153 42, 150 40" stroke-width="2" fill="none"/>
+                                        </g>
+                                        <path d="M 170 29 L 178 35 L 172 40" />
+                                        <path id="sweatDrop" d="M 176 16 Q 178 20 176 22 Q 174 20 176 16 Z" fill="#38bdf8" stroke="none" class="sweat-drop"/>
                                     </g>
-                                </g>
-                                <g class="anim-scene-4 absolute inset-0">
-                                    <circle cx="35" cy="20" r="6" />
-                                    <path d="M30 15 L 42 16 L 41 24 L 32 23 Z" fill="currentColor"/>
-                                    <path d="M35 26 V 45" />
-                                    <path d="M35 45 L 25 58 M 35 45 L 45 58" />
-                                    <path d="M35 30 L 48 38" />
-                                    <path d="M35 28 L 45 35" />
-                                    <path d="M48 38 L 53 43" stroke-width="2"/>
-                                    <g class="welding-sparks">
-                                        <circle cx="55" cy="45" r="1.5" fill="#facc15" stroke="none"/>
-                                        <circle cx="58" cy="42" r="1" fill="#facc15" stroke="none"/>
-                                        <circle cx="52" cy="48" r="2" fill="#ef4444" stroke="none"/>
-                                    </g>
+                                    <circle cx="195" cy="45" r="10" stroke-width="3"/>
+                                    <circle cx="195" cy="45" r="3" fill="currentColor" stroke="none"/>
+                                    <path d="M 185 55 L 205 55" stroke-width="1.5"/> 
                                 </g>
                             </g>
 
-                            <!-- СЦЕНА ДИСКОТЕКИ -->
                             <g class="dancing-scene absolute inset-0">
                                 <g class="music-notes">
-                                    <text x="45" y="20" font-size="12" fill="currentColor">♪</text>
-                                    <text x="65" y="15" font-size="16" fill="currentColor">♫</text>
+                                    <text x="80" y="20" font-size="12" fill="currentColor">♪</text>
+                                    <text x="150" y="15" font-size="16" fill="currentColor">♫</text>
                                 </g>
                                 
-                                <!-- Девочка 1 (Слева) в юбке -->
-                                <g class="dance-girl-1">
-                                    <circle cx="18" cy="21" r="4.5" />
-                                    <path d="M 18 26 L 10 42 L 26 42 Z" fill="currentColor" stroke-width="1"/>
-                                    <path d="M 15 42 L 13 58 M 21 42 L 23 58" stroke-width="2.5"/>
-                                    <path d="M 18 30 Q 12 20 14 10 M 18 30 Q 24 20 22 10" stroke-width="2.5"/>
-                                </g>
-
-                                <!-- Механик 1 (Волна / Ламбада) -->
-                                <g class="dance-full-body-left">
-                                    <circle cx="35" cy="20" r="6" />
-                                    <path d="M35 26 V 45" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-                                    <path d="M35 45 L 25 58 M 35 45 L 45 58" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-                                    <g class="dance-arms-left">
-                                        <path d="M20 15 Q 35 35 50 15" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                                <g class="dance-sway" style="transform-origin: 50px 55px;">
+                                    <circle cx="50" cy="22" r="5" />
+                                    <path d="M 50 27 V 43" />
+                                    <path d="M 50 43 L 45 55 M 50 43 L 55 55" />
+                                    <path d="M 45 43 L 55 43 Z" fill="currentColor" stroke-width="1"/>
+                                    <g class="dance-arms-wave" style="transform-origin: 50px 29px;">
+                                        <path d="M 35 15 Q 50 35 65 15" />
                                     </g>
                                 </g>
 
-                                <!-- Механик 2 (Король Диско) -->
-                                <g class="dance-full-body-right">
-                                    <circle cx="85" cy="20" r="6" />
-                                    <path d="M85 26 V 45" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-                                    <path d="M85 45 L 75 58 M 85 45 L 95 58" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-                                    <path d="M85 30 L 78 37 L 82 42" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/> 
-                                    <g class="dance-arm-disco">
-                                        <path d="M85 30 L 98 15" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                                <g class="dance-jump" style="transform-origin: 100px 55px;">
+                                    <circle cx="100" cy="22" r="5" />
+                                    <path d="M 95 18 L 105 18 L 103 22 Z" fill="currentColor"/> 
+                                    <path d="M 100 27 V 45" />
+                                    <path d="M 100 45 L 93 55 M 100 45 L 107 55" />
+                                    <path d="M 100 30 L 90 20 M 100 30 L 110 20" />
+                                </g>
+
+                                <g class="dance-sway" style="transform-origin: 140px 55px; animation-delay: 0.2s;">
+                                    <circle cx="140" cy="22" r="5" />
+                                    <path d="M 140 27 V 45" />
+                                    <path d="M 140 45 L 133 55 M 140 45 L 147 55" />
+                                    <path d="M 140 30 L 133 38 L 137 43" /> 
+                                    <g class="dance-arm-point" style="transform-origin: 140px 30px;">
+                                        <path d="M 140 30 L 155 15" />
                                     </g>
                                 </g>
 
-                                <!-- Девочка 2 (Справа) в юбке -->
-                                <g class="dance-girl-2">
-                                    <circle cx="102" cy="21" r="4.5" />
-                                    <path d="M 102 26 L 94 42 L 110 42 Z" fill="currentColor" stroke-width="1"/>
-                                    <path d="M 99 42 L 97 58 M 105 42 L 107 58" stroke-width="2.5"/>
-                                    <path d="M 102 30 L 95 35 L 99 40 M 102 30 L 109 35 L 105 40" stroke-width="2.5"/>
+                                <g class="dance-jump" style="transform-origin: 190px 55px; animation-delay: 0.1s;">
+                                    <circle cx="190" cy="22" r="5" />
+                                    <path d="M 185 22 A 5 5 0 0 1 195 22" stroke-width="2"/>
+                                    <path d="M 190 27 V 43" />
+                                    <path d="M 190 43 L 185 55 M 190 43 L 195 55" />
+                                    <path d="M 185 43 L 195 43 Z" fill="currentColor" stroke-width="1"/>
+                                    <path d="M 190 30 L 180 35 L 186 40" />
+                                    <path d="M 190 30 L 200 35 L 194 40" />
                                 </g>
                             </g>
                         </svg>
                     </div>
-                    <div class="text-[9px] text-gray-400 font-bold uppercase tracking-widest mt-0 text-center w-full">Контакты</div>
+                    <div class="text-[9px] text-gray-400 font-bold uppercase tracking-widest mt-0 text-center w-full z-20 relative">Контакты</div>
                 </div>
                 
-                <!-- Правая часть: Умный знак скорости -->
-                <div class="flex flex-col items-center justify-center cursor-default shrink-0" title="Ограничение скорости на этот сезон">
+                <div id="speedContainer" class="flex flex-col items-center justify-center cursor-default shrink-0 min-w-[50px] z-10" title="Ограничение скорости на этот сезон">
                     <div class="w-10 h-10 rounded-full border-[3px] border-red-500 bg-white dark:bg-gray-100 flex items-center justify-center shadow-[0_4px_10px_rgba(239,68,68,0.2)] relative">
                         <span id="speedLimitNumber" class="text-slate-800 font-black text-base leading-none tracking-tighter">80</span>
                         <div id="seasonIcon" class="absolute -bottom-1 -right-2 w-4 h-4 rounded-full flex items-center justify-center text-[8px] shadow-sm border"></div>
@@ -560,7 +591,6 @@
 
             </div>
             
-            <!-- СТРОКА 3: Поиск -->
             <div class="flex items-center gap-2 w-full mb-4 mt-2">
                 <div class="relative flex-1 group">
                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400 dark:text-gray-500 group-focus-within:text-lentaBlue dark:group-focus-within:text-blue-400 transition-colors">
@@ -580,7 +610,6 @@
                 </button>
             </div>
 
-            <!-- СТРОКА 4: Анимация окружения -->
             <div class="relative overflow-hidden rounded-[16px] shadow-[inset_0_4px_15px_rgba(0,0,0,0.05)] border border-blue-100 dark:border-slate-700 bg-white dark:bg-slate-900">
                 <div class="scenic-bg group">
                     <div id="skyDay" class="sky-layer sky-day"></div>
@@ -621,8 +650,10 @@
         <div id="cardsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 mb-8"></div>
     </main>
 
+    <!-- Всплывающие уведомления (Toasts) -->
+    <div id="toast-notification" class="fixed bottom-24 left-1/2 transform -translate-x-1/2 bg-gray-800/95 dark:bg-slate-700/95 backdrop-blur-md text-white px-5 py-3 rounded-2xl shadow-2xl z-[200] font-bold text-[13px] text-center border border-gray-700 transition-all duration-300 opacity-0 scale-95 pointer-events-none whitespace-nowrap"></div>
+
     <script>
-        // === НАДЕЖНЫЙ СЧЕТЧИК ===
         function initCounter() {
             const badge = document.getElementById('visitCounterBadge');
             const uniqueTime = Date.now(); 
@@ -738,7 +769,6 @@
         const bgMusic = document.getElementById('bgMusic');
         bgMusic.volume = 0.45; 
         let isMusicPlaying = false;
-        let lastLogoTapTime = 0;
         let autoScrollAnimationId = null;
         const citySlider = document.getElementById('citySlider');
         let virtualScrollX = 0;
@@ -775,45 +805,41 @@
         });
         citySlider.style.cursor = 'grab';
 
+        // --- ЛОГИКА НАЖАТИЙ НА ПОДСОЛНУХ ---
+        let lastLogoTapTime = 0;
+        let logoTapTimeout;
+
         function handleLogoTap() {
             unlockAudio();
             const now = Date.now();
+            
             if (now - lastLogoTapTime < 400) {
-                if (isMusicPlaying) {
-                    showMechanicPhrase(true); 
-                }
-                
-                bgMusic.pause();
-                bgMusic.currentTime = 0;
-                isMusicPlaying = false;
-                document.getElementById('logoImage').classList.remove('record-spin');
-                
-                const mechSvg = document.getElementById('mechanicSvgElement');
-                mechSvg.classList.remove('party-mode');
-                mechSvg.classList.add('normal-mode');
-
-                stopAutoScroll(); 
-                resetTrucksToStart();
+                clearTimeout(logoTapTimeout);
+                fullStopMusic();
             } else {
-                toggleMusicState();
+                logoTapTimeout = setTimeout(() => {
+                    togglePlayPause();
+                }, 400); 
             }
             lastLogoTapTime = now;
         }
 
-        function toggleMusicState() {
+        function togglePlayPause() {
             const logo = document.getElementById('logoImage');
             const mechSvg = document.getElementById('mechanicSvgElement');
 
             if (isMusicPlaying) {
-                showMechanicPhrase(true); 
-                
                 bgMusic.pause();
                 isMusicPlaying = false;
                 logo.classList.remove('record-spin');
                 mechSvg.classList.remove('party-mode'); 
                 mechSvg.classList.add('normal-mode');   
                 stopAutoScroll(); 
+                startStoryTimer(); 
             } else {
+                abortStory();
+                clearTimeout(storyTimer);
+                
                 const playPromise = bgMusic.play();
                 if (playPromise !== undefined) {
                     playPromise.then(() => {
@@ -823,14 +849,25 @@
                         mechSvg.classList.add('party-mode');
                         startAutoScroll();
                     }).catch((e) => {
-                        isMusicPlaying = true; 
-                        logo.classList.add('record-spin');
-                        mechSvg.classList.remove('normal-mode');
-                        mechSvg.classList.add('party-mode');
-                        startAutoScroll();
+                        showToast("Не удалось запустить музыку 🔇");
                     });
                 }
             }
+        }
+
+        function fullStopMusic() {
+            bgMusic.pause();
+            bgMusic.currentTime = 0; 
+            isMusicPlaying = false;
+            
+            document.getElementById('logoImage').classList.remove('record-spin');
+            const mechSvg = document.getElementById('mechanicSvgElement');
+            mechSvg.classList.remove('party-mode');
+            mechSvg.classList.add('normal-mode');
+
+            stopAutoScroll(); 
+            resetTrucksToStart();
+            startStoryTimer(); 
         }
 
         function resetTrucksToStart() {
@@ -1097,6 +1134,68 @@
             '203': 'https://yandex.ru/maps/?um=constructor%3Afbbd0b022ba16d28a9759e073e3de48d938f03a1cd710ca64ff5c6fad195da4f&source=constructorLink'
         };
 
+        const storeCoords = {
+            '203': {lat: 56.8197, lon: 60.6728},
+            '227': {lat: 56.7865, lon: 60.5484},
+            '228': {lat: 56.8641, lon: 60.6111},
+            '229': {lat: 56.8858, lon: 60.5833},
+            '230': {lat: 56.9015, lon: 60.6276},
+            '176': {lat: 56.4024, lon: 61.9429},
+            '309': {lat: 55.4363, lon: 65.3051},
+            '74': {lat: 53.4294, lon: 58.9818},
+            '192': {lat: 53.3855, lon: 58.9806},
+            '317': {lat: 60.9587, lon: 76.5777},
+            '61': {lat: 57.8767, lon: 59.9866},
+            '206': {lat: 57.8631, lon: 60.0384},
+            '285': {lat: 63.2005, lon: 75.4206},
+            '42': {lat: 58.0016, lon: 56.1468},
+            '147': {lat: 57.9715, lon: 56.1774},
+            '235': {lat: 58.0076, lon: 56.2874},
+            '297': {lat: 57.9620, lon: 56.2625},
+            '92': {lat: 61.2678, lon: 73.4475},
+            '93': {lat: 61.2462, lon: 73.4402},
+            '321': {lat: 61.2588, lon: 73.3440},
+            '135': {lat: 58.2198, lon: 68.2868},
+            '91': {lat: 57.1147, lon: 65.5562},
+            '94': {lat: 57.1165, lon: 65.6174},
+            '146': {lat: 57.1726, lon: 65.6264},
+            '209': {lat: 57.1717, lon: 65.5684},
+            '245': {lat: 57.1171, lon: 65.5901},
+            '100': {lat: 60.9839, lon: 69.0435},
+            '69': {lat: 55.1206, lon: 61.3411},
+            '154': {lat: 55.1837, lon: 61.3415},
+            '184': {lat: 55.1583, lon: 61.2847},
+            '212': {lat: 55.2415, lon: 61.3853},
+            '213': {lat: 55.1322, lon: 61.4646},
+            '301': {lat: 55.1691, lon: 61.4317},
+            '335': {lat: 55.1669, lon: 61.2863},
+            '337': {lat: 55.1957, lon: 61.2721},
+            '334': {lat: 55.1706, lon: 61.3650},
+            '336': {lat: 55.1352, lon: 61.4352},
+            '338': {lat: 55.0560, lon: 60.1142},
+            '368': {lat: 56.8851, lon: 60.6231},
+            '396': {lat: 56.8152, lon: 60.5401},
+            '369': {lat: 56.7946, lon: 60.6166},
+            '390': {lat: 57.1118, lon: 65.6025},
+            '389': {lat: 57.1643, lon: 65.5492},
+            '929929': {lat: 57.1141, lon: 65.5583},
+            '411': {lat: 61.2654, lon: 73.3856},
+            '343': {lat: 61.1075, lon: 72.5833},
+            '929455': {lat: 58.0772, lon: 55.6728},
+            '929453': {lat: 57.2185, lon: 65.5898},
+            '928177': {lat: 56.8864, lon: 60.7712},
+            '927898': {lat: 56.8524, lon: 60.7915},
+            '929451': {lat: 61.0881, lon: 72.6366},
+            '929452': {lat: 54.4947, lon: 61.2291},
+            '928817': {lat: 54.7663, lon: 56.1662},
+            '929034': {lat: 55.0062, lon: 82.6843},
+            '929000': {lat: 55.2974, lon: 37.6415},
+            '929100': {lat: 59.9073, lon: 30.3951},
+            '8081': {lat: 55.2045, lon: 61.3444},
+            '8082': {lat: 55.2341, lon: 61.4283},
+            '8083': {lat: 55.2536, lon: 61.4111}
+        };
+
         let stores = [];
         let selectedCityFilter = 'all';
 
@@ -1268,14 +1367,15 @@
             renderCards();
         };
 
-        let currentNavAddress = ''; let currentNavFullAddress = '';
-        window.openNavModal = function(addr, fullAddr) {
-            currentNavAddress = addr; currentNavFullAddress = fullAddr;
+        let currentNavAddress = ''; let currentNavFullAddress = ''; let currentNavTk = '';
+        window.openNavModal = function(addr, fullAddr, tk) {
+            currentNavAddress = addr; 
+            currentNavFullAddress = fullAddr;
+            currentNavTk = tk;
             document.getElementById('navModal').classList.remove('hidden');
         };
         window.closeNavModal = function() { document.getElementById('navModal').classList.add('hidden'); };
 
-        // НОВЫЕ ФУНКЦИИ ДЛЯ ОКНА КОНТАКТОВ
         window.openContactsModal = function() { document.getElementById('contactsModal').classList.remove('hidden'); };
         window.closeContactsModal = function() { document.getElementById('contactsModal').classList.add('hidden'); };
 
@@ -1299,23 +1399,15 @@
             }, 3000);
         }
 
-        // ==========================================================
-        // ЛОГИКА ОТКРЫТИЯ КАРТ БЕЗ "ПРОКЛАДОК" (ВИДЖЕТ)
-        // ==========================================================
         window.openApproachMap = function(url) {
             playTickSound();
             if (url && url !== 'undefined' && url !== 'null' && url.trim() !== '') {
-                
                 let finalUrl = url;
-                
-                // Ищем в ссылке уникальный идентификатор Конструктора Карт
                 const match = url.match(/um=constructor%3A([a-zA-Z0-9_-]+)/);
                 if (match && match[1]) {
                     const cid = match[1];
-                    // Преобразуем в ссылку-виджет. Она открывает ТОЛЬКО саму карту сразу на весь экран.
                     finalUrl = `https://yandex.ru/map-widget/v1/?um=constructor%3A${cid}`;
                 }
-
                 window.open(finalUrl, '_blank');
             } else {
                 showToast("Схема заезда еще не добавлена 🛠");
@@ -1391,8 +1483,14 @@
                 let matchesSearch = false;
                 if (searchWords.length === 0) matchesSearch = true;
                 else {
-                    const fullText = `${store.tk} ${store.city} ${store.address} ${brandName}`.toLowerCase().replace(/['"`]/g, '');
-                    matchesSearch = searchWords.every(word => fullText.includes(word));
+                    const cleanAddressTextSearch = store.address.replace(/\b\d{6}\b,?\s*/g, ''); 
+                    const fullText = `${store.tk} ${store.city} ${cleanAddressTextSearch} ${brandName}`.toLowerCase().replace(/['"`]/g, '');
+                    matchesSearch = searchWords.every(word => {
+                        if (/^\d+$/.test(word)) {
+                            return store.tk === word || new RegExp(`\\b${word}\\b`).test(cleanAddressTextSearch.toLowerCase());
+                        }
+                        return fullText.includes(word);
+                    });
                 }
                 
                 let matchesFilter = true;
@@ -1459,7 +1557,7 @@
                                         </button>
                                     </div>
                                     
-                                    <button onclick="playTickSound(); openNavModal('${encodedAddr.replace(/'/g, "\\'")}', '${encodedFullAddr.replace(/'/g, "\\'")}');" class="flex-1 sm:flex-none flex items-center justify-center gap-1 px-3 py-2 bg-lentaBlue hover:bg-[#003366] text-white rounded-xl text-xs font-bold transition-all tactile-btn shadow-[0_4px_10px_rgba(0,65,130,0.2)] cursor-pointer">
+                                    <button onclick="playTickSound(); openNavModal('${encodedAddr.replace(/'/g, "\\'")}', '${encodedFullAddr.replace(/'/g, "\\'")}', '${store.tk}');" class="flex-1 sm:flex-none flex items-center justify-center gap-1 px-3 py-2 bg-lentaBlue hover:bg-[#003366] text-white rounded-xl text-xs font-bold transition-all tactile-btn shadow-[0_4px_10px_rgba(0,65,130,0.2)] cursor-pointer">
                                         <svg class="w-4 h-4 text-lentaYellow" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" /></svg>
                                         Навигатор 🗺
                                     </button>
@@ -1492,8 +1590,15 @@
                 else if (store.address.includes("Молл")) brandName = "РЦ МОЛЛ";
                 else if (store.address.includes("Монетка") || store.tk.startsWith("92")) brandName = "МОНЕТКА";
 
-                const fullText = `${store.tk} ${store.city} ${store.address} ${brandName}`.toLowerCase().replace(/['"`]/g, '');
-                const matchesSearch = searchWords.every(word => fullText.includes(word));
+                const cleanAddressTextSearch = store.address.replace(/\b\d{6}\b,?\s*/g, ''); 
+                const fullText = `${store.tk} ${store.city} ${cleanAddressTextSearch} ${brandName}`.toLowerCase().replace(/['"`]/g, '');
+                const matchesSearch = searchWords.every(word => {
+                    if (/^\d+$/.test(word)) {
+                        return store.tk === word || new RegExp(`\\b${word}\\b`).test(cleanAddressTextSearch.toLowerCase());
+                    }
+                    return fullText.includes(word);
+                });
+                
                 let matchesFilter = true;
                 if (selectedCityFilter !== 'all' && store.city !== selectedCityFilter) matchesFilter = false;
                 return matchesSearch && matchesFilter;
@@ -1529,13 +1634,16 @@
             const searchInput = document.getElementById('searchInput');
             
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechRecognition) { searchInput.placeholder = "Микрофон не поддерживается"; return; }
+            if (!SpeechRecognition) { 
+                showToast("Голосовой поиск не поддерживается в этом браузере 🎙");
+                return; 
+            }
             
             try {
                 const recognition = new SpeechRecognition();
                 recognition.lang = 'ru-RU'; recognition.interimResults = false; recognition.maxAlternatives = 1;
                 recognition.onstart = function() {
-                    micBtn.classList.add('mic-pulsing', 'bg-red-500', 'text-white', 'border-red-500');
+                    micBtn.classList.add('bg-red-500', 'text-white', 'border-red-500');
                     micBtn.classList.remove('text-lentaBlue', 'dark:text-blue-400');
                     searchInput.value = ''; searchInput.placeholder = "Слушаю вас...";
                 };
@@ -1548,74 +1656,17 @@
                 recognition.onend = function() { resetMic(); };
                 
                 function resetMic() {
-                    micBtn.classList.remove('mic-pulsing', 'bg-red-500', 'text-white', 'border-red-500');
+                    micBtn.classList.remove('bg-red-500', 'text-white', 'border-red-500');
                     micBtn.classList.add('text-lentaBlue', 'dark:text-blue-400');
                     searchInput.placeholder = "Поиск по ТК, адресу, городу...";
                 }
                 recognition.start();
             } catch (e) {
-                micBtn.classList.remove('mic-pulsing', 'bg-red-500', 'text-white', 'border-red-500');
+                micBtn.classList.remove('bg-red-500', 'text-white', 'border-red-500');
                 micBtn.classList.add('text-lentaBlue', 'dark:text-blue-400');
                 searchInput.placeholder = "Ошибка микрофона";
             }
         };
-
-        const mechanicPhrases = [
-            "Ни гвоздя, ни жезла!",
-            "На РЦ снова очередь?",
-            "Шершавой дорожки!",
-            "Опять перегруз?",
-            "Соляра нынче кусается...",
-            "Холодильник пашет?",
-            "Где путевой лист?",
-            "Лента ждёт, погнали!",
-            "Тахограф включил?",
-            "Запаску проверил?",
-            "Доки на базе забрал?",
-            "Кто крайний на ворота?",
-            "Гайки протяни после рейса.",
-            "Мочевину долил?",
-            "Аккуратно на весах!",
-            "В Екате опять пробки...",
-            "Не спи за рулём!",
-            "Фары протри.",
-            "По рации тишина...",
-            "Кофе выпью — и в рейс.",
-            "Сцепку проверил?",
-            "Слышь, только не нажимай на подсолнух наверху...",
-            "Главное — не жми на логотип!"
-        ];
-
-        const disappointedPhrases = [
-            "Ну блин, было же классно! 😩",
-            "Эх, на самом интересном месте...",
-            "Опять гайки крутить 🔧",
-            "Дискотека окончена, за работу!",
-            "А я только ритм поймал 🕺",
-            "Шеф пришел, сворачиваемся!",
-            "Эй, верните музыку! 🎵"
-        ];
-
-        function showMechanicPhrase(isDisappointed = false) {
-            const bubble = document.getElementById('mechanicSpeech');
-            let phrase = "";
-            
-            if (isDisappointed) {
-                phrase = disappointedPhrases[Math.floor(Math.random() * disappointedPhrases.length)];
-            } else {
-                phrase = mechanicPhrases[Math.floor(Math.random() * mechanicPhrases.length)];
-            }
-            
-            bubble.innerHTML = phrase + '<div class="absolute top-full left-1/2 w-2 h-2 bg-white dark:bg-slate-700 border-b border-r border-gray-200 dark:border-slate-600 transform rotate-45 -translate-x-1/2 -mt-[5px]"></div>';
-            
-            bubble.classList.remove('opacity-0', 'scale-95');
-            bubble.classList.add('opacity-100', 'scale-100');
-            
-            setTimeout(() => {
-                bubble.classList.remove('opacity-100', 'scale-100');
-                bubble.classList.add('opacity-0', 'scale-95');
-            }, 4000); 
-        }
 
         function updateSpeedLimit() {
             const month = new Date().getMonth();
@@ -1636,33 +1687,187 @@
         window.executeNavigation = function(type) {
             playTickSound();
             let navUrl = '';
-            const encAddr = encodeURIComponent(currentNavAddress);
             const encFullAddr = encodeURIComponent(currentNavFullAddress);
             
             if (type === 'yandex') {
-                navUrl = `yandexnavi://build_route_on_map?text_to=${encAddr}`;
-                const fallbackUrl = `https://yandex.ru/maps/?text=${encAddr}`;
-                setTimeout(() => { window.location.href = fallbackUrl; }, 800);
+                const coords = storeCoords[currentNavTk];
+                if (coords) {
+                    navUrl = `https://yandex.ru/maps/?rtext=~${coords.lat},${coords.lon}&rtt=auto`;
+                } else {
+                    navUrl = `https://yandex.ru/maps/?rtext=~${encFullAddr}&rtt=auto`;
+                }
             } else if (type === '2gis') {
-                navUrl = `dgis://2gis.ru/routeSearch/rsType/car/to/${encFullAddr}`;
-                const fallbackUrl = `https://2gis.ru/search/${encFullAddr}`;
-                setTimeout(() => { window.location.href = fallbackUrl; }, 800);
+                navUrl = `https://2gis.ru/routeSearch/rsType/car/to/${encFullAddr}/go`;
             } else if (type === 'google') {
-                navUrl = `comgooglemaps://?daddr=${encFullAddr}&directionsmode=driving`;
-                const fallbackUrl = `https://www.google.com/maps/dir/?api=1&destination=${encFullAddr}`;
-                setTimeout(() => { window.location.href = fallbackUrl; }, 800);
+                navUrl = `https://www.google.com/maps/dir/?api=1&destination=${encFullAddr}&travelmode=driving`;
             }
             
             window.location.href = navUrl;
             closeNavModal();
         };
 
-        updateSpeedLimit();
-        setTimeout(showMechanicPhrase, 2000);
-        setInterval(showMechanicPhrase, 10000);
+        let isStoryPlaying = false;
+        let storyTimer = null;
 
+        const stories = [
+            {
+                dialogues: [
+                    { actor: 'mech', text: 'Девчонки, где мой ключ на 32?!', time: 2500, action: 'sweat' },
+                    { actor: 'marina', text: 'Мы им ножку стола подперли.', time: 2500, action: 'laughing' },
+                    { actor: 'mech', text: '...А мне как кардан крутить?', time: 2500, action: 'none' },
+                    { actor: 'sveta', text: 'Крути руками, ты же сильный!', time: 2500, action: 'laughing' }
+                ]
+            },
+            {
+                dialogues: [
+                    { actor: 'marina', text: 'Водитель говорит, перед ним 20 машин на выгрузку...', time: 3000, action: 'none' },
+                    { actor: 'mech', text: 'Пусть поспит. Я пока ему колодки поменяю.', time: 3000, action: 'laughing' },
+                    { actor: 'sveta', text: 'Он уже спит, мы добудиться не можем!', time: 2500, action: 'sweat' }
+                ]
+            },
+            {
+                dialogues: [
+                    { actor: 'sveta', text: 'Водитель с 203 ТК в лесу застрял...', time: 2500, action: 'sweat' },
+                    { actor: 'marina', text: 'Опять навигатор по короткой повел?', time: 2500, action: 'laughing' },
+                    { actor: 'mech', text: 'Готовьте трактор, я выезжаю!', time: 2500, action: 'sweat' }
+                ]
+            },
+            {
+                dialogues: [
+                    { actor: 'mech', text: 'Кто опять все паллеты сломал?!', time: 2500, action: 'sweat' },
+                    { actor: 'sveta', text: 'Это не мы, это складские!', time: 2000, action: 'none' },
+                    { actor: 'marina', text: 'Они их зубами грызут, что ли?', time: 2500, action: 'laughing' }
+                ]
+            },
+            {
+                dialogues: [
+                    { actor: 'marina', text: 'У фуры перегруз на заднюю ось...', time: 2500, action: 'sweat' },
+                    { actor: 'sveta', text: 'Скажи водителю, пусть гири на торпеду положит!', time: 3000, action: 'laughing' },
+                    { actor: 'mech', text: 'Я вам сейчас положу! Ось оторвет!', time: 2500, action: 'sweat' }
+                ]
+            },
+            {
+                dialogues: [
+                    { actor: 'mech', text: 'У нас глушитель по дороге отвалился...', time: 2500, action: 'sweat' },
+                    { actor: 'sveta', text: 'Замотай скотчем и в рейс!', time: 2500, action: 'laughing' },
+                    { actor: 'mech', text: 'Тут синяя изолента нужна, скотч не спасет.', time: 3000, action: 'none' }
+                ]
+            },
+            {
+                dialogues: [
+                    { actor: 'marina', text: 'Девчонки, чай будем? С тортиком!', time: 2500, action: 'laughing' },
+                    { actor: 'mech', text: 'О! А механиков угощаете?', time: 2000, action: 'none' },
+                    { actor: 'sveta', text: 'Только если зиму мне на тачку перекинешь!', time: 3000, action: 'laughing' }
+                ]
+            },
+            {
+                dialogues: [
+                    { actor: 'sveta', text: 'Где фура с мороженым?', time: 2000, action: 'none' },
+                    { actor: 'marina', text: 'По ГЛОНАССУ она посреди озера...', time: 2500, action: 'sweat' },
+                    { actor: 'mech', text: 'Надеюсь, караси любят пломбир.', time: 2500, action: 'laughing' }
+                ]
+            }
+        ];
+
+        function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+
+        async function showBubble(actor, text, duration) {
+            if (!isStoryPlaying) return;
+            
+            const bubbleL = document.getElementById('bubbleSveta');
+            const bubbleR = document.getElementById('bubbleMarina');
+            const bubbleM = document.getElementById('bubbleMech');
+            
+            let targetBubble = null;
+            if (actor === 'mech') targetBubble = bubbleM;
+            else if (actor === 'sveta') targetBubble = bubbleL;
+            else if (actor === 'marina') targetBubble = bubbleR;
+
+            if (targetBubble) {
+                targetBubble.querySelector('.story-bubble-inner').innerText = text;
+                targetBubble.classList.add('active');
+                
+                await sleep(duration);
+                targetBubble.classList.remove('active');
+                await sleep(400); 
+            }
+        }
+
+        function triggerAction(actor, actionName) {
+            if (!isStoryPlaying) return;
+            const sveta = document.getElementById('svetaBody');
+            const marina = document.getElementById('marinaBody');
+            const mech = document.getElementById('mechBody');
+            const sweat = document.getElementById('sweatDrop');
+
+            sveta.classList.remove('laughing');
+            marina.classList.remove('laughing');
+            mech.classList.remove('laughing');
+            sweat.classList.remove('show-sweat');
+
+            let target = null;
+            if (actor === 'sveta') target = sveta;
+            if (actor === 'marina') target = marina;
+            if (actor === 'mech') target = mech;
+
+            if (target && actionName === 'laughing') target.classList.add('laughing');
+            if (actor === 'mech' && actionName === 'sweat') sweat.classList.add('show-sweat');
+        }
+
+        async function playStory() {
+            if (isMusicPlaying || isStoryPlaying) return;
+            
+            isStoryPlaying = true;
+            document.getElementById('controlPanel').classList.add('story-mode');
+            
+            await sleep(800); 
+            if (!isStoryPlaying) return; 
+
+            const story = stories[Math.floor(Math.random() * stories.length)];
+            
+            for (let line of story.dialogues) {
+                if (!isStoryPlaying) break;
+                triggerAction(line.actor, line.action);
+                await showBubble(line.actor, line.text, line.time);
+            }
+
+            if (isStoryPlaying) {
+                abortStory();
+            }
+        }
+
+        function abortStory() {
+            isStoryPlaying = false;
+            document.getElementById('controlPanel').classList.remove('story-mode');
+            
+            document.getElementById('bubbleSveta').classList.remove('active');
+            document.getElementById('bubbleMarina').classList.remove('active');
+            document.getElementById('bubbleMech').classList.remove('active');
+            
+            document.getElementById('svetaBody').classList.remove('laughing');
+            document.getElementById('marinaBody').classList.remove('laughing');
+            document.getElementById('mechBody').classList.remove('laughing');
+            document.getElementById('sweatDrop').classList.remove('show-sweat');
+        }
+
+        function startStoryTimer() {
+            clearTimeout(storyTimer);
+            storyTimer = setInterval(() => {
+                if (!isMusicPlaying && !isStoryPlaying) {
+                    playStory();
+                }
+            }, 30000); 
+        }
+
+        updateSpeedLimit();
         renderCards();
         setTimeout(() => { citySlider.dispatchEvent(new Event('scroll')); }, 100);
+        
+        setTimeout(() => {
+            if(!isMusicPlaying) playStory(); 
+            startStoryTimer();
+        }, 5000);
+
     </script>
 </body>
 </html>
