@@ -89,17 +89,28 @@
         .record-spin { animation: recordSpin 4s linear infinite; }
         @keyframes recordSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* --- АНИМАЦИЯ МИКРОФОНА --- */
+        /* --- АНИМАЦИЯ МИКРОФОНА И ЛОКАЦИИ --- */
         @keyframes pulse-ring {
             0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
             70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+        @keyframes pulse-location {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
         .mic-listening {
             animation: pulse-ring 1.5s infinite;
             background-color: #ef4444 !important;
             color: white !important;
             border-color: #ef4444 !important;
+        }
+        .loc-searching {
+            animation: pulse-location 1.5s infinite;
+            background-color: #10b981 !important;
+            color: white !important;
+            border-color: #10b981 !important;
         }
 
         .scenic-bg { background-color: #0f172a; overflow: hidden; position: relative; height: 140px; width: 100%; border-radius: 16px; }
@@ -340,6 +351,16 @@
         .story-bubble.actor-marina::after, .story-bubble.actor-marina .story-bubble-inner::after { right: 40px; }
         .story-bubble.actor-mech::after, .story-bubble.actor-mech .story-bubble-inner::after { left: 50%; margin-left: -5px; }
 
+        /* --- АНИМАЦИЯ ПОДСКАЗКИ ИДЕЙ --- */
+        @keyframes tooltipPop {
+            0%, 85% { opacity: 0; transform: translateY(-5px) scale(0.95); }
+            87%, 98% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-5px) scale(0.95); }
+        }
+        .idea-tooltip {
+            animation: tooltipPop 15s infinite cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
     </style>
 </head>
 <body class="relative flex flex-col min-h-screen">
@@ -361,11 +382,11 @@
                     <span class="text-[10px] uppercase tracking-wide font-bold text-gray-700 dark:text-gray-200">Яндекс</span>
                 </button>
                 <button onclick="executeNavigation('2gis');" class="w-20 h-20 rounded-2xl bg-white dark:bg-slate-700 border border-gray-100 dark:border-slate-600 shadow-[0_8px_20px_rgba(16,185,129,0.2)] flex flex-col items-center justify-center tactile-btn cursor-pointer group hover:-translate-y-1 transition-all">
-                    <div class="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center mb-1 group-hover:scale-110 transition-transform"><span class="text-white text-xs font-black">2Г</span></div>
+                    <div class="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center mb-1 group-hover:scale-110 transition-transform"><span class="text-emerald-500 text-xs font-black">2Г</span></div>
                     <span class="text-[10px] uppercase tracking-wide font-bold text-gray-700 dark:text-gray-200">2ГИС</span>
                 </button>
                 <button onclick="executeNavigation('google');" class="w-20 h-20 rounded-2xl bg-white dark:bg-slate-700 border border-gray-100 dark:border-slate-600 shadow-[0_8px_20px_rgba(59,130,246,0.2)] flex flex-col items-center justify-center tactile-btn cursor-pointer group hover:-translate-y-1 transition-all">
-                    <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center mb-1 group-hover:scale-110 transition-transform"><span class="text-white text-xs font-black">G</span></div>
+                    <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center mb-1 group-hover:scale-110 transition-transform"><span class="text-blue-500 text-xs font-black">G</span></div>
                     <span class="text-[10px] uppercase tracking-wide font-bold text-gray-700 dark:text-gray-200">Google</span>
                 </button>
             </div>
@@ -440,7 +461,7 @@
             
             <h3 class="text-lg font-black text-lentaDark dark:text-white mb-2 tracking-tight uppercase pr-8 mt-1">Инструкция РЦ Монетка</h3>
             
-            <div class="overflow-y-auto pr-2 pb-2 space-y-4 text-sm text-gray-700 dark:text-gray-300">
+            <div class="overflow-y-auto pr-2 pb-2 space-y-4 text-sm text-gray-700 dark:text-gray-300 chat-scroll">
                 
                 <div class="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-2xl p-4">
                     <div class="font-bold text-blue-800 dark:text-blue-300 flex items-center gap-2 mb-1">
@@ -504,6 +525,29 @@
         </div>
     </div>
 
+    <!-- Модал Обратной связи (Простое окно для Max) -->
+    <div id="feedbackModal" class="fixed inset-0 z-[100] bg-gray-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 transition-opacity">
+        <div class="glass-modal rounded-[32px] p-6 max-w-sm w-full text-center relative animate-reveal bg-white dark:bg-slate-800 shadow-2xl">
+            <button onclick="closeFeedbackModal();" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white bg-gray-100 dark:bg-slate-700 p-2.5 rounded-full transition-colors cursor-pointer tactile-btn">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            
+            <div class="w-16 h-16 bg-blue-50 dark:bg-blue-900/40 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl shadow-[inset_0_4px_10px_rgba(0,0,0,0.05)] border border-blue-100 dark:border-blue-800">
+                💡
+            </div>
+            
+            <h3 class="text-xl font-black text-lentaDark dark:text-white mb-2 tracking-tight">Есть идеи?</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-6 font-medium leading-relaxed px-2">
+                Нашли ошибку или хотите предложить улучшение? Я перенаправлю вас в чат <b class="text-lentaBlue dark:text-blue-400">Max</b>, где вы сможете оставить свое сообщение.
+            </p>
+            
+            <button onclick="goToMax();" class="w-full bg-[#004182] hover:bg-[#003366] text-white rounded-2xl py-3.5 px-4 font-bold text-sm shadow-[0_8px_20px_rgba(0,65,130,0.2)] transition-all tactile-btn flex items-center justify-center gap-2">
+                Перейти в Max
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            </button>
+        </div>
+    </div>
+
     <header class="glass-header">
         <div class="max-w-[1600px] mx-auto px-4 sm:px-6 relative z-10 pb-4">
             
@@ -524,6 +568,15 @@
                 </div>
                 
                 <div class="flex items-center gap-1.5 shrink-0">
+                    <div class="relative flex items-center">
+                        <button onclick="openFeedbackModal()" class="bg-blue-50 dark:bg-blue-900/40 text-lentaBlue dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-800/60 w-10 h-10 rounded-xl shadow-sm border border-blue-100 dark:border-blue-800/50 flex items-center justify-center cursor-pointer tactile-btn" title="Предложить идею">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                        </button>
+                        <div class="idea-tooltip absolute top-[115%] right-0 bg-[#004182] dark:bg-blue-600 text-white text-[10px] font-bold px-3 py-1.5 rounded-lg shadow-lg pointer-events-none whitespace-nowrap z-50">
+                            💡 Есть идеи? Пиши!
+                            <div class="absolute -top-1 right-3 w-2.5 h-2.5 bg-[#004182] dark:bg-blue-600 transform rotate-45"></div>
+                        </div>
+                    </div>
                     <button id="themeToggleBtn" onclick="toggleTheme()" class="bg-gray-100 dark:bg-slate-800 text-gray-400 dark:text-gray-400 hover:text-amber-500 hover:bg-amber-50 dark:hover:bg-slate-700 w-10 h-10 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 flex items-center justify-center cursor-pointer tactile-btn" title="Сменить тему">
                         <svg id="themeIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
@@ -531,7 +584,7 @@
                     </button>
                     <a href="app.apk" download class="flex items-center justify-center gap-1.5 bg-[#004182] hover:bg-[#003366] text-white h-10 px-3 rounded-xl shadow-[0_6px_15px_rgba(0,65,130,0.2)] transition-all tactile-btn cursor-pointer">
                         <svg class="w-4 h-4 text-lentaYellow" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                        <span class="text-[11px] font-bold tracking-wide uppercase">APK</span>
+                        <span class="text-[11px] font-bold tracking-wide uppercase hidden sm:inline">APK</span>
                     </a>
                 </div>
             </div>
@@ -686,11 +739,16 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </div>
                     <input type="text" id="searchInput" placeholder="Поиск по ТК, адресу, городу..." 
-                           class="bg-gray-100 dark:bg-slate-800 focus:bg-white dark:focus:bg-slate-900 border-2 border-transparent focus:border-lentaBlue text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 text-sm rounded-xl block w-full pl-10 pr-10 py-2.5 outline-none transition-all shadow-inner">
+                           class="bg-gray-100 dark:bg-slate-800 focus:bg-white dark:focus:bg-slate-900 border-2 border-transparent focus:border-lentaBlue text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 text-sm rounded-xl block w-full pl-10 pr-20 py-2.5 outline-none transition-all shadow-inner">
                     
-                    <button id="clearSearchBtn" onclick="clearSearch();" class="hidden absolute right-2 top-2 text-gray-400 hover:text-gray-700 bg-white dark:bg-slate-700 p-1 rounded-full shadow-sm cursor-pointer tactile-btn">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
-                    </button>
+                    <div class="absolute right-2 top-[5px] flex items-center gap-1">
+                        <button id="clearSearchBtn" onclick="clearSearch();" class="hidden text-gray-400 hover:text-gray-700 bg-white dark:bg-slate-700 p-1.5 rounded-full shadow-sm cursor-pointer tactile-btn">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
+                        <button id="nearMeBtn" onclick="findNearMe();" class="text-emerald-500 hover:text-emerald-600 bg-white dark:bg-slate-700 p-1.5 rounded-lg shadow-sm cursor-pointer tactile-btn" title="Найти ближайшие">
+                            <svg id="locationIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        </button>
+                    </div>
                     <div id="autocompleteList" class="absolute z-[100] w-full bg-white dark:bg-slate-800 rounded-xl hidden max-h-[40vh] overflow-y-auto mt-2 text-left text-gray-800 dark:text-gray-200 shadow-[0_20px_40px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_40px_rgba(0,0,0,0.5)] border border-gray-100 dark:border-slate-700 hide-scrollbar"></div>
                 </div>
 
@@ -746,7 +804,8 @@
         function initCounter() {
             const badge = document.getElementById('visitCounterBadge');
             const uniqueTime = Date.now(); 
-            badge.src = `https://hits.sh/garionlexa.github.io/lenta_app_v2.svg?label=%D0%92%D0%B8%D0%B7%D0%B8%D1%82%D1%8B&color=1e293b&labelColor=334155&nocache=${uniqueTime}`;
+            // Имя счетчика изменено на lenta_app_v4 для сброса с нуля
+            badge.src = `https://hits.sh/garionlexa.github.io/lenta_app_v4.svg?label=%D0%92%D0%B8%D0%B7%D0%B8%D1%82%D1%8B&color=1e293b&labelColor=334155&nocache=${uniqueTime}`;
         }
         initCounter();
 
@@ -894,10 +953,6 @@
         });
         citySlider.style.cursor = 'grab';
 
-        // --- ЛОГИКА НАЖАТИЙ НА ПОДСОЛНУХ ---
-        let lastLogoTapTime = 0;
-        let logoTapTimeout;
-
         function handleLogoTap() {
             unlockAudio();
             const now = Date.now();
@@ -912,6 +967,9 @@
             }
             lastLogoTapTime = now;
         }
+
+        let lastLogoTapTime = 0;
+        let logoTapTimeout;
 
         function togglePlayPause() {
             const logo = document.getElementById('logoImage');
@@ -1302,17 +1360,21 @@
                     id: 'store_' + index,
                     tk: cols[0], route: cols[1], address: cols[2], city: cols[3],
                     rc1: cols[4] || '-', rc2: cols[5] || '-', 
-                    is24_7: cols[7] === 'Да', start: cols[8] || '-', end: cols[9] || '-'
+                    is24_7: cols[7] === 'Да', start: cols[8] || '-', end: cols[9] || '-',
+                    distance: null 
                 });
             }
         });
 
-        stores.sort((a, b) => {
-            let indexA = cityOrder.indexOf(a.city); let indexB = cityOrder.indexOf(b.city);
-            if (indexA === -1) indexA = 999; if (indexB === -1) indexB = 999;
-            if (indexA !== indexB) return indexA - indexB;
-            return a.tk.localeCompare(b.tk, undefined, {numeric: true});
-        });
+        function sortStoresDefault() {
+            stores.sort((a, b) => {
+                let indexA = cityOrder.indexOf(a.city); let indexB = cityOrder.indexOf(b.city);
+                if (indexA === -1) indexA = 999; if (indexB === -1) indexB = 999;
+                if (indexA !== indexB) return indexA - indexB;
+                return a.tk.localeCompare(b.tk, undefined, {numeric: true});
+            });
+        }
+        sortStoresDefault();
 
         const cabVariants = [
             `<div class="cab w-7 md:w-8 h-9 md:h-10 bg-[#1e3a8a] border-y border-r border-b-2 border-[#172554] shadow-md rounded-tr-md rounded-br-sm relative ml-[1px] z-20"><div class="headlight-beam" style="top: 18px; right: -45px;"></div><div class="marker-light" style="right: 2px;"></div><div class="absolute top-1 right-1 w-3 md:w-3.5 h-4 md:h-5 bg-sky-100/90 rounded-tr-sm border-b border-l border-sky-300"></div><div class="absolute -bottom-1.5 right-1"><div class="w-3 md:w-3.5 h-3 md:h-3.5 bg-gray-800 rounded-full border-[2px] border-gray-300 shadow-sm"></div></div></div>`,
@@ -1426,10 +1488,47 @@
         const clearSearchBtn = document.getElementById('clearSearchBtn');
         const autocompleteList = document.getElementById('autocompleteList');
 
+        // УМНЫЙ ПАРСЕР ПОИСКА
+        function getSearchWords(query) {
+            let clean = query.toLowerCase().trim()
+                .replace(/['"`]/g, '')
+                .replace(/окэй/g, 'окей')
+                .replace(/наябрьск/g, 'ноябрьск')       // Обработка опечаток голоса
+                .replace(/екатеренбург/g, 'екатеринбург') 
+                .replace(/челяба/g, 'челябинск');
+            return clean.split(/\s+/).filter(w => w.length > 0);
+        }
+
+        // ПРОВЕРКА СОВПАДЕНИЙ МАГАЗИНА (Общая логика для поиска и выпадающего списка)
+        function checkStoreMatches(store, searchWords) {
+            let brandName = "ЛЕНТА";
+            if (store.address.includes("ОКЕЙ") || store.tk === "929929") brandName = "ОКЕЙ";
+            else if (store.address.includes("Молл")) brandName = "РЦ МОЛЛ";
+            else if (store.address.includes("Монетка") || (store.tk.startsWith("92") && store.tk.length > 3)) brandName = "МОНЕТКА";
+
+            // Синонимы для брендов
+            let brandKeywords = "";
+            if (brandName === "ОКЕЙ") brandKeywords = "окей гипермаркет";
+            else if (brandName === "РЦ МОЛЛ") brandKeywords = "рц молл монетка склад"; // Монетка теперь ищет Молл
+            else if (brandName === "МОНЕТКА") brandKeywords = "рц монетка молл склад";
+            else brandKeywords = "лента гипермаркет";
+
+            const cleanAddressTextSearch = store.address.replace(/\b\d{6}\b,?\s*/g, ''); 
+            const fullText = `тк ${store.tk} рц ${store.tk} ${store.city} ${cleanAddressTextSearch} ${brandKeywords}`.toLowerCase().replace(/['"`]/g, '');
+            
+            return searchWords.every(word => {
+                if (/^\d+$/.test(word)) {
+                    return store.tk === word || new RegExp(`\\b${word}\\b`).test(cleanAddressTextSearch.toLowerCase());
+                }
+                return fullText.includes(word);
+            });
+        }
+
         window.clearSearch = function() {
             searchInput.value = '';
             clearSearchBtn.classList.add('hidden');
             autocompleteList.classList.add('hidden');
+            sortStoresDefault(); 
             renderCards();
         };
 
@@ -1452,6 +1551,7 @@
                     el.classList.remove('active');
                 }
             });
+            sortStoresDefault(); 
             window.scrollTo({ top: 0, behavior: 'smooth' });
             renderCards();
         };
@@ -1470,6 +1570,20 @@
 
         window.openMonetkaModal = function() { document.getElementById('monetkaModal').classList.remove('hidden'); };
         window.closeMonetkaModal = function() { document.getElementById('monetkaModal').classList.add('hidden'); };
+
+        window.openFeedbackModal = function() { 
+            playTickSound();
+            document.getElementById('feedbackModal').classList.remove('hidden'); 
+        };
+        window.closeFeedbackModal = function() { 
+            document.getElementById('feedbackModal').classList.add('hidden'); 
+        };
+        
+        window.goToMax = function() {
+            playTickSound();
+            window.open("https://max.ru/join/xpn98S2KE1ueR2mjjDXeTPxt8N0roEbd_r1KT6Q-uGY", "_blank");
+            closeFeedbackModal();
+        };
 
         function showToast(message) {
             let toast = document.getElementById('toast-notification');
@@ -1490,6 +1604,107 @@
                 toast.classList.add('opacity-0', 'scale-95');
             }, 3000);
         }
+
+        // Высчитывание расстояния (Формула Гаверсинуса)
+        function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+            var R = 6371; 
+            var dLat = deg2rad(lat2-lat1);  
+            var dLon = deg2rad(lon2-lon1); 
+            var a = 
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+                Math.sin(dLon/2) * Math.sin(dLon/2); 
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+            var d = R * c; 
+            return d;
+        }
+        function deg2rad(deg) { return deg * (Math.PI/180); }
+
+        window.findNearMe = function() {
+            const btn = document.getElementById('nearMeBtn');
+            const locIcon = document.getElementById('locationIcon');
+            
+            if (!navigator.geolocation) {
+                showToast("Геолокация не поддерживается вашим устройством 📍");
+                return;
+            }
+
+            playTickSound();
+            btn.classList.add('loc-searching');
+            locIcon.classList.add('animate-spin');
+            showToast("Ищем ближайшие ТК... 🛰️");
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const myLat = position.coords.latitude;
+                    const myLon = position.coords.longitude;
+
+                    stores.forEach(store => {
+                        const coords = storeCoords[store.tk];
+                        if (coords) {
+                            store.distance = getDistanceFromLatLonInKm(myLat, myLon, coords.lat, coords.lon);
+                        } else {
+                            store.distance = 999999; 
+                        }
+                    });
+
+                    stores.sort((a, b) => a.distance - b.distance);
+
+                    searchInput.value = '';
+                    selectedCityFilter = 'all';
+                    document.querySelectorAll('.truck-chip').forEach(el => {
+                        el.classList.toggle('active', el.getAttribute('data-city') === 'all');
+                    });
+
+                    btn.classList.remove('loc-searching');
+                    locIcon.classList.remove('animate-spin');
+                    renderCards();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    showToast("Магазины отсортированы по удаленности! 🎯");
+                },
+                (error) => {
+                    btn.classList.remove('loc-searching');
+                    locIcon.classList.remove('animate-spin');
+                    console.warn(error);
+                    showToast("Не удалось получить геопозицию. Проверьте разрешения 🔒");
+                },
+                { timeout: 10000, maximumAge: 60000 }
+            );
+        };
+
+        window.shareStore = async function(tk, city, address, routeUrl) {
+            playTickSound();
+            
+            let brand = tk.startsWith('92') ? 'РЦ МОНЕТКА' : (tk === '929929' ? 'О\'КЕЙ' : 'ЛЕНТА');
+            let tkInfo = tk !== '-' ? (brand === 'ЛЕНТА' ? `ТК ${tk}` : `${tk}`) : brand;
+            
+            let shareText = `🚛 ${brand} ${tkInfo}\n📍 ${city}, ${address}`;
+            if (routeUrl && routeUrl !== 'null' && routeUrl !== 'undefined') {
+                shareText += `\n🗺 Схема заезда: ${routeUrl}`;
+            }
+
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: `${brand} ${tkInfo}`,
+                        text: shareText
+                    });
+                    showToast("Успешно поделились! 📤");
+                } catch (err) {
+                    if(err.name !== 'AbortError') copyFallback(shareText);
+                }
+            } else {
+                copyFallback(shareText);
+            }
+            
+            function copyFallback(text) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast("Скопировано в буфер обмена! 📋");
+                }).catch(() => {
+                    showToast("Не удалось скопировать ❌");
+                });
+            }
+        };
 
         window.openApproachMap = function(url) {
             playTickSound();
@@ -1556,43 +1771,30 @@
         }
 
         function renderCards() {
-            const rawSearch = searchInput.value.toLowerCase().trim();
-            const cleanSearchQuery = rawSearch.replace(/['"`]/g, '').replace('окэй', 'окей');
+            const searchWords = getSearchWords(searchInput.value);
             
-            if (cleanSearchQuery) clearSearchBtn.classList.remove('hidden');
+            if (searchInput.value.trim() !== '') clearSearchBtn.classList.remove('hidden');
             else clearSearchBtn.classList.add('hidden');
 
             cardsGrid.innerHTML = '';
             let count = 0;
-            const searchWords = cleanSearchQuery.split(/\s+/).filter(w => w.length > 0);
 
             stores.forEach(store => {
-                let brandName = "ЛЕНТА";
-                if (store.address.includes("ОКЕЙ") || store.tk === "929929") brandName = "ОКЕЙ";
-                else if (store.address.includes("Молл")) brandName = "РЦ МОЛЛ";
-                else if (store.address.includes("Монетка") || (store.tk.startsWith("92") && store.tk.length > 3)) brandName = "МОНЕТКА";
-
-                let matchesSearch = false;
-                if (searchWords.length === 0) matchesSearch = true;
-                else {
-                    const cleanAddressTextSearch = store.address.replace(/\b\d{6}\b,?\s*/g, ''); 
-                    // Добавляем приставки ТК и РЦ к строке поиска для корректного нахождения по "тк 100" или "рц 929451"
-                    const fullText = `тк ${store.tk} рц ${store.tk} ${store.city} ${cleanAddressTextSearch} ${brandName}`.toLowerCase().replace(/['"`]/g, '');
-                    matchesSearch = searchWords.every(word => {
-                        if (/^\d+$/.test(word)) {
-                            return store.tk === word || new RegExp(`\\b${word}\\b`).test(cleanAddressTextSearch.toLowerCase());
-                        }
-                        return fullText.includes(word);
-                    });
-                }
-                
+                let matchesSearch = searchWords.length === 0 ? true : checkStoreMatches(store, searchWords);
                 let matchesFilter = true;
-                if (!cleanSearchQuery && selectedCityFilter !== 'all' && store.city !== selectedCityFilter) {
+                
+                if (selectedCityFilter !== 'all' && store.city !== selectedCityFilter) {
                     matchesFilter = false;
                 }
 
                 if (matchesSearch && matchesFilter) {
                     count++;
+                    
+                    let brandName = "ЛЕНТА";
+                    if (store.address.includes("ОКЕЙ") || store.tk === "929929") brandName = "ОКЕЙ";
+                    else if (store.address.includes("Молл")) brandName = "РЦ МОЛЛ";
+                    else if (store.address.includes("Монетка") || (store.tk.startsWith("92") && store.tk.length > 3)) brandName = "МОНЕТКА";
+
                     let displayBrand = "ЛЕНТА"; let badgeClass = "bg-lentaYellow text-lentaDark"; let displayNumber = store.tk !== '-' ? `ТК ${store.tk}` : '';
 
                     if (brandName === "ОКЕЙ") { displayBrand = "О'КЕЙ"; badgeClass = "bg-red-600 text-white"; displayNumber = "ГИПЕРМАРКЕТ"; } 
@@ -1618,6 +1820,12 @@
 
                     const encodedAddr = cleanNavAddress.trim();
                     const encodedFullAddr = store.city + ", " + cleanAddressText;
+                    
+                    let distanceHtml = '';
+                    if (store.distance !== null && store.distance < 999999) {
+                        const distFormatted = store.distance < 10 ? store.distance.toFixed(1) : Math.round(store.distance);
+                        distanceHtml = `<div class="absolute -top-3 -right-2 bg-emerald-500 text-white text-[10px] font-black px-2 py-1 rounded-bl-xl rounded-tr-[20px] rounded-tl-sm shadow-md border-2 border-white dark:border-slate-800 z-10 flex items-center gap-1">📍 ${distFormatted} км</div>`;
+                    }
 
                     let extraInfoBtn = '';
                     if (brandName === "МОНЕТКА") {
@@ -1630,7 +1838,8 @@
                     }
 
                     const card = `
-                        <div class="store-card relative flex flex-col justify-between animate-reveal bg-white dark:bg-slate-800 rounded-[24px] p-5 shadow-sm border border-gray-100 dark:border-slate-700 hover:shadow-md transition-shadow">
+                        <div class="store-card relative flex flex-col justify-between animate-reveal bg-white dark:bg-slate-800 rounded-[24px] p-5 shadow-sm border border-gray-100 dark:border-slate-700 hover:shadow-md transition-shadow mt-2">
+                            ${distanceHtml}
                             <button onclick="closeCard(this)" class="absolute top-4 right-4 text-gray-300 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-300 bg-gray-50 dark:bg-slate-700 p-2 rounded-full z-10 transition-colors cursor-pointer tactile-btn" title="Скрыть">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                             </button>
@@ -1654,23 +1863,29 @@
                                 
                                 ${extraInfoBtn}
 
-                                <div class="flex flex-wrap gap-2 pt-2">
+                                <div class="flex flex-wrap items-stretch gap-2 pt-2">
                                     
-                                    <div class="flex flex-col gap-0.5 w-full sm:w-auto shrink-0">
-                                        <button onclick="openApproachMap('${storeCustomRouteUrl}')" title="Схема заезда на разгрузку" class="flex-1 sm:flex-none flex items-center justify-center gap-1 px-3 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-xs font-bold transition-all tactile-btn shadow-[0_4px_10px_rgba(16,185,129,0.3)] cursor-pointer">
-                                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
-                                            Подъезд 🚛
+                                    <div class="flex flex-col gap-0.5 flex-1 min-w-[120px]">
+                                        <button onclick="openApproachMap('${storeCustomRouteUrl}')" title="Схема заезда на разгрузку" class="w-full h-full flex items-center justify-center gap-1 px-2 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-xs font-bold transition-all tactile-btn shadow-[0_4px_10px_rgba(16,185,129,0.3)] cursor-pointer">
+                                            <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+                                            Подъезд
                                         </button>
                                     </div>
                                     
-                                    <button onclick="playTickSound(); openNavModal('${encodedAddr.replace(/'/g, "\\'")}', '${encodedFullAddr.replace(/'/g, "\\'")}', '${store.tk}');" class="flex-1 sm:flex-none flex items-center justify-center gap-1 px-3 py-2 bg-lentaBlue hover:bg-[#003366] text-white rounded-xl text-xs font-bold transition-all tactile-btn shadow-[0_4px_10px_rgba(0,65,130,0.2)] cursor-pointer">
-                                        <svg class="w-4 h-4 text-lentaYellow" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" /></svg>
-                                        Навигатор 🗺
+                                    <button onclick="playTickSound(); openNavModal('${encodedAddr.replace(/'/g, "\\'")}', '${encodedFullAddr.replace(/'/g, "\\'")}', '${store.tk}');" class="flex-1 min-w-[120px] flex items-center justify-center gap-1 px-2 py-2 bg-lentaBlue hover:bg-[#003366] text-white rounded-xl text-xs font-bold transition-all tactile-btn shadow-[0_4px_10px_rgba(0,65,130,0.2)] cursor-pointer">
+                                        <svg class="w-4 h-4 text-lentaYellow shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" /></svg>
+                                        Навигатор
                                     </button>
-                                    <a href="${panoUrl}" target="_blank" onclick="playTickSound()" class="flex-1 sm:flex-none flex items-center justify-center gap-1 px-3 py-2 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-600 dark:text-gray-200 rounded-xl text-xs font-bold transition-all tactile-btn">
-                                        <svg class="w-4 h-4 text-gray-400 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                                        ${panoLabel}
-                                    </a>
+
+                                    <!-- Кнопки иконками -->
+                                    <div class="flex gap-2">
+                                        <a href="${panoUrl}" target="_blank" onclick="playTickSound()" title="${panoLabel}" class="w-10 flex items-center justify-center bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-600 dark:text-gray-200 rounded-xl transition-all tactile-btn">
+                                            <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                        </a>
+                                        <button onclick="shareStore('${store.tk}', '${store.city}', '${cleanAddressText.replace(/'/g, "\\'")}', '${storeCustomRouteUrl}')" title="Поделиться" class="w-10 flex items-center justify-center bg-blue-50 dark:bg-slate-700 hover:bg-blue-100 dark:hover:bg-slate-600 text-lentaBlue dark:text-blue-400 rounded-xl transition-all tactile-btn cursor-pointer">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1683,28 +1898,13 @@
 
         searchInput.addEventListener('input', function() {
             renderCards(); 
-            const rawSearch = this.value.toLowerCase().trim();
-            const cleanSearchQuery = rawSearch.replace(/['"`]/g, '').replace('окэй', 'окей');
+            const searchWords = getSearchWords(this.value);
             autocompleteList.innerHTML = ''; 
             
-            if (!cleanSearchQuery) { autocompleteList.classList.add('hidden'); return; }
-            const searchWords = cleanSearchQuery.split(/\s+/).filter(w => w.length > 0);
+            if (searchWords.length === 0) { autocompleteList.classList.add('hidden'); return; }
 
             let suggestions = stores.filter(store => {
-                let brandName = "ЛЕНТА";
-                if (store.address.includes("ОКЕЙ") || store.tk === "929929") brandName = "ОКЕЙ";
-                else if (store.address.includes("Молл")) brandName = "РЦ МОЛЛ";
-                else if (store.address.includes("Монетка") || (store.tk.startsWith("92") && store.tk.length > 3)) brandName = "МОНЕТКА";
-
-                const cleanAddressTextSearch = store.address.replace(/\b\d{6}\b,?\s*/g, ''); 
-                const fullText = `тк ${store.tk} рц ${store.tk} ${store.city} ${cleanAddressTextSearch} ${brandName}`.toLowerCase().replace(/['"`]/g, '');
-                const matchesSearch = searchWords.every(word => {
-                    if (/^\d+$/.test(word)) {
-                        return store.tk === word || new RegExp(`\\b${word}\\b`).test(cleanAddressTextSearch.toLowerCase());
-                    }
-                    return fullText.includes(word);
-                });
-                
+                const matchesSearch = checkStoreMatches(store, searchWords);
                 let matchesFilter = true;
                 if (selectedCityFilter !== 'all' && store.city !== selectedCityFilter) matchesFilter = false;
                 return matchesSearch && matchesFilter;
@@ -1756,7 +1956,6 @@
                 recognition.onresult = function(event) {
                     let speechResult = event.results[0][0].transcript.toLowerCase();
                     
-                    // Обработка слов-чисел для надежности
                     speechResult = speechResult.replace(/\bсто\b/gi, '100')
                                                .replace(/\bдвести\b/gi, '200')
                                                .replace(/\bтриста\b/gi, '300')
