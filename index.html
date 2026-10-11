@@ -89,6 +89,7 @@
         .record-spin { animation: recordSpin 4s linear infinite; }
         @keyframes recordSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
+        /* --- АНИМАЦИЯ МИКРОФОНА --- */
         @keyframes pulse-ring {
             0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
             70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
@@ -244,6 +245,7 @@
             background-color: #1e293b !important; color: #f1f5f9 !important; border-color: #334155 !important;
         }
 
+        /* --- АНИМАЦИИ ДЛЯ СЦЕНОК --- */
         #visitContainer, #speedContainer { transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; }
         .story-mode #visitContainer, .story-mode #speedContainer { width: 0px !important; min-width: 0 !important; opacity: 0; padding: 0; margin: 0; transform: scale(0.8); }
         .story-mode #centerStage { width: 100%; flex: 1; }
@@ -267,6 +269,7 @@
         .show-sweat { opacity: 1; transform: translateY(0); animation: dripDown 1.5s forwards; }
         @keyframes dripDown { 0% { transform: translateY(0); opacity: 1;} 100% { transform: translateY(10px); opacity: 0; } }
 
+        /* --- ДИСКОТЕКА --- */
         .party-mode .dancing-scene { display: block; }
         .party-mode .normal-scenes { display: none; }
         .normal-mode .dancing-scene { display: none; }
@@ -343,6 +346,7 @@
 
     <audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
 
+    <!-- Навигационный Модал -->
     <div id="navModal" class="fixed inset-0 z-[100] bg-gray-900/50 backdrop-blur-sm hidden flex items-center justify-center p-4 transition-opacity">
         <div class="glass-modal rounded-[32px] p-8 max-w-sm w-full text-center relative animate-reveal bg-white dark:bg-slate-800 shadow-2xl">
             <button onclick="closeNavModal();" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white bg-gray-100 dark:bg-slate-700 p-2.5 rounded-full transition-colors cursor-pointer tactile-btn">
@@ -368,6 +372,7 @@
         </div>
     </div>
 
+    <!-- Модал Контактов -->
     <div id="contactsModal" class="fixed inset-0 z-[100] bg-gray-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 transition-opacity">
         <div class="glass-modal rounded-[32px] p-6 max-w-sm w-full text-center relative animate-reveal bg-white dark:bg-slate-800 shadow-2xl">
             <button onclick="closeContactsModal();" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white bg-gray-100 dark:bg-slate-700 p-2.5 rounded-full transition-colors cursor-pointer tactile-btn">
@@ -426,6 +431,7 @@
         </div>
     </div>
 
+    <!-- Модал Инструкции Монетки -->
     <div id="monetkaModal" class="fixed inset-0 z-[100] bg-gray-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 transition-opacity">
         <div class="glass-modal rounded-[32px] p-6 max-w-md w-full relative animate-reveal bg-white dark:bg-slate-800 shadow-2xl flex flex-col max-h-[90vh]">
             <button onclick="closeMonetkaModal();" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white bg-gray-100 dark:bg-slate-700 p-2.5 rounded-full transition-colors cursor-pointer tactile-btn z-10">
@@ -435,6 +441,7 @@
             <h3 class="text-lg font-black text-lentaDark dark:text-white mb-2 tracking-tight uppercase pr-8 mt-1">Инструкция РЦ Монетка</h3>
             
             <div class="overflow-y-auto pr-2 pb-2 space-y-4 text-sm text-gray-700 dark:text-gray-300">
+                
                 <div class="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-2xl p-4">
                     <div class="font-bold text-blue-800 dark:text-blue-300 flex items-center gap-2 mb-1">
                         <span class="text-lg">❄️</span> ВАЖНО: ЗАМОРОЗКА
@@ -442,7 +449,37 @@
                     <p class="text-xs text-blue-700 dark:text-blue-400 leading-relaxed">Доставка заморозки — это <b class="uppercase">приоритет</b>. Необходимо четко доводить информацию о доставке заморозки сотрудникам Монетки!</p>
                 </div>
 
-                <div class="space-y-3">
+                <div class="bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800 rounded-2xl p-4 mt-3">
+                    <div class="font-bold text-emerald-800 dark:text-emerald-300 flex items-center gap-2 mb-1">
+                        <span class="text-lg">⚡</span> ЛАЙФХАК: БЕЗ ОЖИДАНИЯ ЗВОНКА
+                    </div>
+                    <p class="text-xs text-emerald-700 dark:text-emerald-400 leading-relaxed">Водители могут <b>зайти на склад</b> и обозначить своё присутствие <b>Старшему смены</b> на РЦ Монетки, чтобы не сидеть и не ждать звонка!</p>
+                </div>
+
+                <div class="bg-purple-50 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-800 rounded-2xl p-4 mt-3">
+                    <div class="font-bold text-purple-800 dark:text-purple-300 flex items-center gap-2 mb-2">
+                        <span class="text-lg">📞</span> ТЕЛЕФОНЫ РЦ ТЭЦ (ЕКБ)
+                    </div>
+                    <p class="text-xs text-purple-700 dark:text-purple-400 mb-2">Узнать собран ли товар, когда поставят на док и т.д.</p>
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                         <a href="tel:+73432930001" class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-[0_4px_10px_rgba(168,85,247,0.3)] transition-all tactile-btn">+7 (343) 293-00-01</a>
+                         <span class="text-[11px] text-purple-600 dark:text-purple-300 font-medium">в тоновом режиме жмём <b class="bg-purple-200 dark:bg-purple-800/80 border border-purple-300 dark:border-purple-600 px-1.5 py-0.5 rounded shadow-sm text-purple-800 dark:text-purple-200">1</b></span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div class="bg-white dark:bg-slate-800 border border-purple-100 dark:border-purple-700 p-2 rounded-xl text-center shadow-sm">
+                            <div class="text-gray-500 dark:text-gray-400 text-[9px] font-bold uppercase tracking-wider mb-0.5">Старый склад</div>
+                            <div class="font-black text-purple-700 dark:text-purple-300 text-sm bg-purple-50/50 dark:bg-slate-700/50 py-1 rounded-lg">доб. 22204</div>
+                        </div>
+                        <div class="bg-white dark:bg-slate-800 border border-purple-100 dark:border-purple-700 p-2 rounded-xl text-center shadow-sm">
+                            <div class="text-gray-500 dark:text-gray-400 text-[9px] font-bold uppercase tracking-wider mb-0.5">Новый склад</div>
+                            <div class="font-black text-purple-700 dark:text-purple-300 text-sm bg-purple-50/50 dark:bg-slate-700/50 py-1 rounded-lg">доб. 22537</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-3 pt-2">
+                    <div class="font-black text-gray-800 dark:text-gray-200 text-xs uppercase tracking-widest text-center mt-2 border-b border-gray-200 dark:border-slate-700 pb-2">Порядок передачи документов</div>
+                    
                     <div class="bg-gray-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-gray-100 dark:border-slate-600">
                         <div class="font-bold text-gray-900 dark:text-white text-xs mb-1">1. Только СМ Ленты</div>
                         <div class="text-xs text-gray-600 dark:text-gray-400">По прибытию подходит к диспетчеру отгрузки и <span class="bg-yellow-200/60 dark:bg-yellow-900/60 px-1 rounded font-semibold text-gray-800 dark:text-yellow-100">передает документы</span>.</div>
@@ -499,6 +536,7 @@
                 </div>
             </div>
 
+            <!-- СТРОКА 2: БЛОК УПРАВЛЕНИЯ -->
             <div id="controlPanel" class="mb-4 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 py-3 px-4 relative flex items-center justify-between transition-all duration-700 min-h-[85px]">
                 
                 <div id="visitContainer" class="flex flex-col items-center justify-center shrink-0 min-w-[70px] z-10" title="Счетчик визитов">
@@ -701,6 +739,7 @@
         <div id="cardsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 mb-8"></div>
     </main>
 
+    <!-- Всплывающие уведомления (Toasts) -->
     <div id="toast-notification" class="fixed bottom-24 left-1/2 transform -translate-x-1/2 bg-gray-800/95 dark:bg-slate-700/95 backdrop-blur-md text-white px-5 py-3 rounded-2xl shadow-2xl z-[200] font-bold text-[13px] text-center border border-gray-700 transition-all duration-300 opacity-0 scale-95 pointer-events-none whitespace-nowrap"></div>
 
     <script>
@@ -855,6 +894,7 @@
         });
         citySlider.style.cursor = 'grab';
 
+        // --- ЛОГИКА НАЖАТИЙ НА ПОДСОЛНУХ ---
         let lastLogoTapTime = 0;
         let logoTapTimeout;
 
@@ -1130,59 +1170,6 @@
 8082	-	РЦ Молл, Моховая улица, 7, Челябинск, 454005	Челябинск	-	-	-	Нет	-	-
 8083	-	РЦ Молл, шоссе Металлургов, 88, Челябинск, 454052	Челябинск	-	-	-	Нет	-	-`;
 
-        const customRoutes = {
-            '317': 'https://yandex.ru/maps/?um=constructor%3A5f0fb3706ed1ecc385fdf70ddc878fc1b9ed849e91bb04e5cd628df6fb1a899f&source=constructorLink',
-            '368': 'https://yandex.ru/maps/?um=constructor%3A151b677d3b24e5df2ebe6b33ae80a1f4be00314930619040658a6cd4a76487a8&source=constructorLink',
-            '94': 'https://yandex.ru/maps/?um=constructor%3A80d2266d0be153d3f15728239c6084256047cb996bd39ac8fc4f78b2d51a904b&source=constructorLink',
-            '285': 'https://yandex.ru/maps/?um=constructor%3Ad570fc5ad7b24b26c62c97f6c9eeff0a2329bb71c99e20e804f721f7d48b6930&source=constructorLink',
-            '411': 'https://yandex.ru/maps/?um=constructor%3A470180351824d49a21b4401d1920add69200f18e2562b41b1e1c21a61543a89b&source=constructorLink',
-            '321': 'https://yandex.ru/maps/?um=constructor%3Ac107808e783d8f04dbe1c6e31db9c0741ef497a3bdde9d59c569e3bbd0c6ae21&source=constructorLink',
-            '93': 'https://yandex.ru/maps/?um=constructor%3A4a3c5ef8a9c36c3a6268e32da5b2367d0e211814f580f4fc734487ba1154cc7e&source=constructorLink',
-            '92': 'https://yandex.ru/maps/?um=constructor%3Abefa7b198663f4f9dac1b28be923906d1bd235f6ecf8660606e0431ca73895da&source=constructorLink',
-            '929451': 'https://yandex.ru/maps/?um=constructor%3A420a9f2db340ceeb397fa5e7e7f12c68857b9bc6aaf2b35b61004c020c1bd139&source=constructorLink',
-            '343': 'https://yandex.ru/maps/?um=constructor%3A5e9eb6d507f8ecee001eb446ff2579cef0685ac55cf32d267e912db1931b6653&source=constructorLink',
-            '100': 'https://yandex.ru/maps/?um=constructor%3Ab5b3bfc3e1865f88d5bcaa8282519968b4c0ed6a7477fab024157b3cf2228957&source=constructorLink',
-            '135': 'https://yandex.ru/maps/?um=constructor%3Ab4f7660388443e0ecd9dfafa18b7746795f0d279b1e0fe50744c1b4a44363bd7&source=constructorLink',
-            '929453': 'https://yandex.ru/maps/?um=constructor%3A3028b973ac29acd5f685ca7ef7bce016a464bf3321b24bf9f4095e8e752d017c&source=constructorLink',
-            '390': 'https://yandex.ru/maps/?um=constructor%3A9d4973b3dea5e62b714c6109398e8ebd433ce93fabef64fa451d1773554393b0&source=constructorLink',
-            '389': 'https://yandex.ru/maps/?um=constructor%3A3be5b677130256c73ee1b60e7db0c567da71f4033c1962b9ad6ba45523b67e8e&source=constructorLink',
-            '245': 'https://yandex.ru/maps/?um=constructor%3A0de529f08593916d036e3fca75948e592e4e96dc5118d168264bf495de2c276a&source=constructorLink',
-            '209': 'https://yandex.ru/maps/?um=constructor%3A5a8b96301fa84a9e1e2d1d13622b1c5c80c7eb4426a067e288505878a2d4434a&source=constructorLink',
-            '146': 'https://yandex.ru/maps/?um=constructor%3Abec93239bb8b5780b81bf27b15ba9597b3853ad57a51a8ba72c6fb767027504e&source=constructorLink',
-            '91': 'https://yandex.ru/maps/?um=constructor%3A7e3843dbf95debeb6f394b571d74764ba3c05757a160b806c2d09a4dcbfc033c&source=constructorLink',
-            '309': 'https://yandex.ru/maps/?um=constructor%3A6c20f09c2c83dbff2ae0fdc57bcbd3842cc814f45a5ca51befc29afd04188ee4&source=constructorLink',
-            '929455': 'https://yandex.ru/maps/?um=constructor%3Ac3eb4d903ec83ebc36245fe59ee27a74dc740149432bfd08dfd7cae7ed0a9ce9&source=constructorLink',
-            '297': 'https://yandex.ru/maps/?um=constructor%3Aa75a129315b7f4355b33394b2dded4d76289b970a370396ca356e21b366c8630&source=constructorLink',
-            '235': 'https://yandex.ru/maps/?um=constructor%3Ab771dcadd340944a26579888ce38fe70dc593f39951908cf3eb475bba8cf3d05&source=constructorLink',
-            '147': 'https://yandex.ru/maps/?um=constructor%3A8368af7e3b5cabbdf37bdd86008186c79d242a59411ac2a5b2339438f3ebe11a&source=constructorLink',
-            '42': 'https://yandex.ru/maps/?um=constructor%3A99151d994559ab56ba7c294d1996550c8f93d44cc3de85df8ce86f4b98de4d53&source=constructorLink',
-            '192': 'https://yandex.ru/maps/?um=constructor%3A70df2381bcdb8146e97b5aafe9c4620cff122b32366112a60dfdad1cfb3a035d&source=constructorLink',
-            '74': 'https://yandex.ru/maps/?um=constructor%3A44b46439903bc1a07bf07ed2e8ec9fc7191a1951ba135afdbe9044fdcc28e511&source=constructorLink',
-            '338': 'https://yandex.ru/maps/?um=constructor%3Adc5c4a26c30724adc306257c52d3a0bdd1cd6e417b24970a866cd3dfc4b5dd44&source=constructorLink',
-            '8082': 'https://yandex.ru/maps/?um=constructor%3Aee13e717353dee6e83d6fdf6ffc705fbfca70454f79a47386112b16868640b6a&source=constructorLink',
-            '8081': 'https://yandex.ru/maps/?um=constructor%3A30f578dba6e6c5c7f6b3cc850ef3e2ef3d8e6f999aa81a1145802f9192d3c779&source=constructorLink',
-            '337': 'https://yandex.ru/maps/?um=constructor%3A0333198f51212e396565a37e96da14bcf518bce98ec3dde846d187ed9b33a698&source=constructorLink',
-            '336': 'https://yandex.ru/maps/?um=constructor%3Ad45c74340c1badc82e33cbe076f6473667f2c2c364ba84d6b317e1646d7e57e4&source=constructorLink',
-            '335': 'https://yandex.ru/maps/?um=constructor%3Ad4eb63d10e09c4e3f29644b3cc4f4e875b767978e2bb9a1278d7812bad208195&source=constructorLink',
-            '334': 'https://yandex.ru/maps/?um=constructor%3A6ea8e298c8327bdd69101cb911cc9fa123f5bdc6fbf6892af39e01e3efc5bddf&source=constructorLink',
-            '301': 'https://yandex.ru/maps/?um=constructor%3A648863682794f746d51ddff4b87d8cbfe9f149f6bef65fe5465b196befbb16f8&source=constructorLink',
-            '213': 'https://yandex.ru/maps/?um=constructor%3A7d8198b895d73968822a2cd8ec60bbbae734008dba8f72b6d6ebfa8b4471c857&source=constructorLink',
-            '212': 'https://yandex.ru/maps/?um=constructor%3A26cd0a86c58767feae0d22d27ae1106edb04e31bd8e75eba329a64fc9db2bb45&source=constructorLink',
-            '206': 'https://yandex.ru/maps/?um=constructor%3Ab9ec4200fc9c42dd115ced08366bf4dd86b9a232eb72055f2792d699fe33379b&source=constructorLink',
-            '184': 'https://yandex.ru/maps/?um=constructor%3Aadebaa42967fc02a4d6069f6ff0ffbcfddbdf2bc279afbf788450dba6df48164&source=constructorLink',
-            '154': 'https://yandex.ru/maps/?um=constructor%3A5071cafd5666ea999718b9a43e45699e2e2239a76a1b908283a23091304fab9e&source=constructorLink',
-            '69': 'https://yandex.ru/maps/?um=constructor%3Aed384858e04ea5490aa05a3a9b437ce716235c62006f3297a69a8d0de6aed403&source=constructorLink',
-            '61': 'https://yandex.ru/maps/?um=constructor%3A8db1737b6cda103bd35682b1d19410a3961e89794c0aebb42c53dea356eb3697&source=constructorLink',
-            '176': 'https://yandex.ru/maps/?um=constructor%3Acfaeeffd165c2290d760a05c11a6702d3b78a0d8d3e1b01d3460bb68f97cc902&source=constructorLink',
-            '396': 'https://yandex.ru/maps/?um=constructor%3A708ba95f7326db5269da49c1dac69181daa927c5341aa5ee21910a5ea115d738&source=constructorLink',
-            '369': 'https://yandex.ru/maps/?um=constructor%3Aaa003cec101d870ff9738194c6e6ef1558e86e374403a3db7eb4d47034ca9983&source=constructorLink',
-            '230': 'https://yandex.ru/maps/?um=constructor%3A892fdac5d030785a3fab36d6594e835e016d63316274ed0e7781c37ef5b26e10&source=constructorLink',
-            '229': 'https://yandex.ru/maps/?um=constructor%3Ae295d48ef41a970f594af5e748f9d6b56c8a8ac4ff8afde1b2332a333f7d1756&source=constructorLink',
-            '228': 'https://yandex.ru/maps/?um=constructor%3A8fcf241d4a420f1383a3a5340a88946bd3920f05ce6319b3f15c419b9484eb39&source=constructorLink',
-            '227': 'https://yandex.ru/maps/?um=constructor%3A585e886c013d87e06fac691aa947e6c165d773146047bb1343a571bdadfd4646&source=constructorLink',
-            '203': 'https://yandex.ru/maps/?um=constructor%3Afbbd0b022ba16d28a9759e073e3de48d938f03a1cd710ca64ff5c6fad195da4f&source=constructorLink'
-        };
-
         const storeCoords = {
             '203': {lat: 56.8197, lon: 60.6728},
             '227': {lat: 56.7865, lon: 60.5484},
@@ -1243,6 +1230,59 @@
             '8081': {lat: 55.2045, lon: 61.3444},
             '8082': {lat: 55.2341, lon: 61.4283},
             '8083': {lat: 55.2536, lon: 61.4111}
+        };
+
+        const customRoutes = {
+            '317': 'https://yandex.ru/maps/?um=constructor%3A5f0fb3706ed1ecc385fdf70ddc878fc1b9ed849e91bb04e5cd628df6fb1a899f&source=constructorLink',
+            '368': 'https://yandex.ru/maps/?um=constructor%3A151b677d3b24e5df2ebe6b33ae80a1f4be00314930619040658a6cd4a76487a8&source=constructorLink',
+            '94': 'https://yandex.ru/maps/?um=constructor%3A80d2266d0be153d3f15728239c6084256047cb996bd39ac8fc4f78b2d51a904b&source=constructorLink',
+            '285': 'https://yandex.ru/maps/?um=constructor%3Ad570fc5ad7b24b26c62c97f6c9eeff0a2329bb71c99e20e804f721f7d48b6930&source=constructorLink',
+            '411': 'https://yandex.ru/maps/?um=constructor%3A470180351824d49a21b4401d1920add69200f18e2562b41b1e1c21a61543a89b&source=constructorLink',
+            '321': 'https://yandex.ru/maps/?um=constructor%3Ac107808e783d8f04dbe1c6e31db9c0741ef497a3bdde9d59c569e3bbd0c6ae21&source=constructorLink',
+            '93': 'https://yandex.ru/maps/?um=constructor%3A4a3c5ef8a9c36c3a6268e32da5b2367d0e211814f580f4fc734487ba1154cc7e&source=constructorLink',
+            '92': 'https://yandex.ru/maps/?um=constructor%3Abefa7b198663f4f9dac1b28be923906d1bd235f6ecf8660606e0431ca73895da&source=constructorLink',
+            '929451': 'https://yandex.ru/maps/?um=constructor%3A420a9f2db340ceeb397fa5e7e7f12c68857b9bc6aaf2b35b61004c020c1bd139&source=constructorLink',
+            '343': 'https://yandex.ru/maps/?um=constructor%3A5e9eb6d507f8ecee001eb446ff2579cef0685ac55cf32d267e912db1931b6653&source=constructorLink',
+            '100': 'https://yandex.ru/maps/?um=constructor%3Ab5b3bfc3e1865f88d5bcaa8282519968b4c0ed6a7477fab024157b3cf2228957&source=constructorLink',
+            '135': 'https://yandex.ru/maps/?um=constructor%3Ab4f7660388443e0ecd9dfafa18b7746795f0d279b1e0fe50744c1b4a44363bd7&source=constructorLink',
+            '929453': 'https://yandex.ru/maps/?um=constructor%3A3028b973ac29acd5f685ca7ef7bce016a464bf3321b24bf9f4095e8e752d017c&source=constructorLink',
+            '390': 'https://yandex.ru/maps/?um=constructor%3A9d4973b3dea5e62b714c6109398e8ebd433ce93fabef64fa451d1773554393b0&source=constructorLink',
+            '389': 'https://yandex.ru/maps/?um=constructor%3A3be5b677130256c73ee1b60e7db0c567da71f4033c1962b9ad6ba45523b67e8e&source=constructorLink',
+            '245': 'https://yandex.ru/maps/?um=constructor%3A0de529f08593916d036e3fca75948e592e4e96dc5118d168264bf495de2c276a&source=constructorLink',
+            '209': 'https://yandex.ru/maps/?um=constructor%3A5a8b96301fa84a9e1e2d1d13622b1c5c80c7eb4426a067e288505878a2d4434a&source=constructorLink',
+            '146': 'https://yandex.ru/maps/?um=constructor%3Abec93239bb8b5780b81bf27b15ba9597b3853ad57a51a8ba72c6fb767027504e&source=constructorLink',
+            '91': 'https://yandex.ru/maps/?um=constructor%3A7e3843dbf95debeb6f394b571d74764ba3c05757a160b806c2d09a4dcbfc033c&source=constructorLink',
+            '309': 'https://yandex.ru/maps/?um=constructor%3A6c20f09c2c83dbff2ae0fdc57bcbd3842cc814f45a5ca51befc29afd04188ee4&source=constructorLink',
+            '929455': 'https://yandex.ru/maps/?um=constructor%3Ac3eb4d903ec83ebc36245fe59ee27a74dc740149432bfd08dfd7cae7ed0a9ce9&source=constructorLink',
+            '297': 'https://yandex.ru/maps/?um=constructor%3Aa75a129315b7f4355b33394b2dded4d76289b970a370396ca356e21b366c8630&source=constructorLink',
+            '235': 'https://yandex.ru/maps/?um=constructor%3Ab771dcadd340944a26579888ce38fe70dc593f39951908cf3eb475bba8cf3d05&source=constructorLink',
+            '147': 'https://yandex.ru/maps/?um=constructor%3A8368af7e3b5cabbdf37bdd86008186c79d242a59411ac2a5b2339438f3ebe11a&source=constructorLink',
+            '42': 'https://yandex.ru/maps/?um=constructor%3A99151d994559ab56ba7c294d1996550c8f93d44cc3de85df8ce86f4b98de4d53&source=constructorLink',
+            '192': 'https://yandex.ru/maps/?um=constructor%3A70df2381bcdb8146e97b5aafe9c4620cff122b32366112a60dfdad1cfb3a035d&source=constructorLink',
+            '74': 'https://yandex.ru/maps/?um=constructor%3A44b46439903bc1a07bf07ed2e8ec9fc7191a1951ba135afdbe9044fdcc28e511&source=constructorLink',
+            '338': 'https://yandex.ru/maps/?um=constructor%3Adc5c4a26c30724adc306257c52d3a0bdd1cd6e417b24970a866cd3dfc4b5dd44&source=constructorLink',
+            '8082': 'https://yandex.ru/maps/?um=constructor%3Aee13e717353dee6e83d6fdf6ffc705fbfca70454f79a47386112b16868640b6a&source=constructorLink',
+            '8081': 'https://yandex.ru/maps/?um=constructor%3A30f578dba6e6c5c7f6b3cc850ef3e2ef3d8e6f999aa81a1145802f9192d3c779&source=constructorLink',
+            '337': 'https://yandex.ru/maps/?um=constructor%3A0333198f51212e396565a37e96da14bcf518bce98ec3dde846d187ed9b33a698&source=constructorLink',
+            '336': 'https://yandex.ru/maps/?um=constructor%3Ad45c74340c1badc82e33cbe076f6473667f2c2c364ba84d6b317e1646d7e57e4&source=constructorLink',
+            '335': 'https://yandex.ru/maps/?um=constructor%3Ad4eb63d10e09c4e3f29644b3cc4f4e875b767978e2bb9a1278d7812bad208195&source=constructorLink',
+            '334': 'https://yandex.ru/maps/?um=constructor%3A6ea8e298c8327bdd69101cb911cc9fa123f5bdc6fbf6892af39e01e3efc5bddf&source=constructorLink',
+            '301': 'https://yandex.ru/maps/?um=constructor%3A648863682794f746d51ddff4b87d8cbfe9f149f6bef65fe5465b196befbb16f8&source=constructorLink',
+            '213': 'https://yandex.ru/maps/?um=constructor%3A7d8198b895d73968822a2cd8ec60bbbae734008dba8f72b6d6ebfa8b4471c857&source=constructorLink',
+            '212': 'https://yandex.ru/maps/?um=constructor%3A26cd0a86c58767feae0d22d27ae1106edb04e31bd8e75eba329a64fc9db2bb45&source=constructorLink',
+            '206': 'https://yandex.ru/maps/?um=constructor%3Ab9ec4200fc9c42dd115ced08366bf4dd86b9a232eb72055f2792d699fe33379b&source=constructorLink',
+            '184': 'https://yandex.ru/maps/?um=constructor%3Aadebaa42967fc02a4d6069f6ff0ffbcfddbdf2bc279afbf788450dba6df48164&source=constructorLink',
+            '154': 'https://yandex.ru/maps/?um=constructor%3A5071cafd5666ea999718b9a43e45699e2e2239a76a1b908283a23091304fab9e&source=constructorLink',
+            '69': 'https://yandex.ru/maps/?um=constructor%3Aed384858e04ea5490aa05a3a9b437ce716235c62006f3297a69a8d0de6aed403&source=constructorLink',
+            '61': 'https://yandex.ru/maps/?um=constructor%3A8db1737b6cda103bd35682b1d19410a3961e89794c0aebb42c53dea356eb3697&source=constructorLink',
+            '176': 'https://yandex.ru/maps/?um=constructor%3Acfaeeffd165c2290d760a05c11a6702d3b78a0d8d3e1b01d3460bb68f97cc902&source=constructorLink',
+            '396': 'https://yandex.ru/maps/?um=constructor%3A708ba95f7326db5269da49c1dac69181daa927c5341aa5ee21910a5ea115d738&source=constructorLink',
+            '369': 'https://yandex.ru/maps/?um=constructor%3Aaa003cec101d870ff9738194c6e6ef1558e86e374403a3db7eb4d47034ca9983&source=constructorLink',
+            '230': 'https://yandex.ru/maps/?um=constructor%3A892fdac5d030785a3fab36d6594e835e016d63316274ed0e7781c37ef5b26e10&source=constructorLink',
+            '229': 'https://yandex.ru/maps/?um=constructor%3Ae295d48ef41a970f594af5e748f9d6b56c8a8ac4ff8afde1b2332a333f7d1756&source=constructorLink',
+            '228': 'https://yandex.ru/maps/?um=constructor%3A8fcf241d4a420f1383a3a5340a88946bd3920f05ce6319b3f15c419b9484eb39&source=constructorLink',
+            '227': 'https://yandex.ru/maps/?um=constructor%3A585e886c013d87e06fac691aa947e6c165d773146047bb1343a571bdadfd4646&source=constructorLink',
+            '203': 'https://yandex.ru/maps/?um=constructor%3Afbbd0b022ba16d28a9759e073e3de48d938f03a1cd710ca64ff5c6fad195da4f&source=constructorLink'
         };
 
         let stores = [];
@@ -1716,6 +1756,7 @@
                 recognition.onresult = function(event) {
                     let speechResult = event.results[0][0].transcript.toLowerCase();
                     
+                    // Обработка слов-чисел для надежности
                     speechResult = speechResult.replace(/\bсто\b/gi, '100')
                                                .replace(/\bдвести\b/gi, '200')
                                                .replace(/\bтриста\b/gi, '300')
@@ -1778,6 +1819,9 @@
             closeNavModal();
         };
 
+        // ==========================================
+        // ЛОГИКА СЦЕНОК (ЮМОР ЛОГИСТИКИ)
+        // ==========================================
         let isStoryPlaying = false;
         let storyTimer = null;
 
@@ -1931,6 +1975,7 @@
             }, 30000); 
         }
 
+        // Запуск
         updateSpeedLimit();
         renderCards();
         setTimeout(() => { citySlider.dispatchEvent(new Event('scroll')); }, 100);
