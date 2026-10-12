@@ -89,28 +89,17 @@
         .record-spin { animation: recordSpin 4s linear infinite; }
         @keyframes recordSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* --- АНИМАЦИЯ МИКРОФОНА И ЛОКАЦИИ --- */
+        /* --- АНИМАЦИЯ МИКРОФОНА --- */
         @keyframes pulse-ring {
             0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
             70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
-        }
-        @keyframes pulse-location {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
         .mic-listening {
             animation: pulse-ring 1.5s infinite;
             background-color: #ef4444 !important;
             color: white !important;
             border-color: #ef4444 !important;
-        }
-        .loc-searching {
-            animation: pulse-location 1.5s infinite;
-            background-color: #10b981 !important;
-            color: white !important;
-            border-color: #10b981 !important;
         }
 
         .scenic-bg { background-color: #0f172a; overflow: hidden; position: relative; height: 140px; width: 100%; border-radius: 16px; }
@@ -280,7 +269,6 @@
         .show-sweat { opacity: 1; transform: translateY(0); animation: dripDown 1.5s forwards; }
         @keyframes dripDown { 0% { transform: translateY(0); opacity: 1;} 100% { transform: translateY(10px); opacity: 0; } }
 
-        /* --- ДИСКОТЕКА --- */
         .party-mode .dancing-scene { display: block; }
         .party-mode .normal-scenes { display: none; }
         .normal-mode .dancing-scene { display: none; }
@@ -351,15 +339,9 @@
         .story-bubble.actor-marina::after, .story-bubble.actor-marina .story-bubble-inner::after { right: 40px; }
         .story-bubble.actor-mech::after, .story-bubble.actor-mech .story-bubble-inner::after { left: 50%; margin-left: -5px; }
 
-        /* --- АНИМАЦИЯ ПОДСКАЗКИ ИДЕЙ --- */
-        @keyframes tooltipPop {
-            0%, 85% { opacity: 0; transform: translateY(-5px) scale(0.95); }
-            87%, 98% { opacity: 1; transform: translateY(0) scale(1); }
-            100% { opacity: 0; transform: translateY(-5px) scale(0.95); }
-        }
-        .idea-tooltip {
-            animation: tooltipPop 15s infinite cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        /* Стили для скроллбара в деталях смены */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
     </style>
 </head>
@@ -382,11 +364,11 @@
                     <span class="text-[10px] uppercase tracking-wide font-bold text-gray-700 dark:text-gray-200">Яндекс</span>
                 </button>
                 <button onclick="executeNavigation('2gis');" class="w-20 h-20 rounded-2xl bg-white dark:bg-slate-700 border border-gray-100 dark:border-slate-600 shadow-[0_8px_20px_rgba(16,185,129,0.2)] flex flex-col items-center justify-center tactile-btn cursor-pointer group hover:-translate-y-1 transition-all">
-                    <div class="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center mb-1 group-hover:scale-110 transition-transform"><span class="text-emerald-500 text-xs font-black">2Г</span></div>
+                    <div class="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center mb-1 group-hover:scale-110 transition-transform"><span class="text-white text-xs font-black">2Г</span></div>
                     <span class="text-[10px] uppercase tracking-wide font-bold text-gray-700 dark:text-gray-200">2ГИС</span>
                 </button>
                 <button onclick="executeNavigation('google');" class="w-20 h-20 rounded-2xl bg-white dark:bg-slate-700 border border-gray-100 dark:border-slate-600 shadow-[0_8px_20px_rgba(59,130,246,0.2)] flex flex-col items-center justify-center tactile-btn cursor-pointer group hover:-translate-y-1 transition-all">
-                    <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center mb-1 group-hover:scale-110 transition-transform"><span class="text-blue-500 text-xs font-black">G</span></div>
+                    <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center mb-1 group-hover:scale-110 transition-transform"><span class="text-white text-xs font-black">G</span></div>
                     <span class="text-[10px] uppercase tracking-wide font-bold text-gray-700 dark:text-gray-200">Google</span>
                 </button>
             </div>
@@ -461,7 +443,7 @@
             
             <h3 class="text-lg font-black text-lentaDark dark:text-white mb-2 tracking-tight uppercase pr-8 mt-1">Инструкция РЦ Монетка</h3>
             
-            <div class="overflow-y-auto pr-2 pb-2 space-y-4 text-sm text-gray-700 dark:text-gray-300 chat-scroll">
+            <div class="overflow-y-auto pr-2 pb-2 space-y-4 text-sm text-gray-700 dark:text-gray-300">
                 
                 <div class="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-2xl p-4">
                     <div class="font-bold text-blue-800 dark:text-blue-300 flex items-center gap-2 mb-1">
@@ -525,66 +507,95 @@
         </div>
     </div>
 
-    <!-- Модал Обратной связи (Простое окно для Max) -->
-    <div id="feedbackModal" class="fixed inset-0 z-[100] bg-gray-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 transition-opacity">
-        <div class="glass-modal rounded-[32px] p-6 max-w-sm w-full text-center relative animate-reveal bg-white dark:bg-slate-800 shadow-2xl">
-            <button onclick="closeFeedbackModal();" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white bg-gray-100 dark:bg-slate-700 p-2.5 rounded-full transition-colors cursor-pointer tactile-btn">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+    <!-- Модал Календаря Смен -->
+    <div id="calendarModal" class="fixed inset-0 z-[100] bg-gray-900/60 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-5 transition-opacity">
+        <div class="glass-modal rounded-[24px] sm:rounded-[32px] p-4 sm:p-6 w-full max-w-sm relative animate-reveal bg-white dark:bg-slate-800 shadow-2xl flex flex-col max-h-[90vh]">
+            <button onclick="closeCalendarModal();" class="absolute top-3 right-3 sm:top-4 sm:right-4 text-gray-400 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white bg-gray-100 dark:bg-slate-700 p-2 sm:p-2.5 rounded-full transition-colors cursor-pointer tactile-btn z-10">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
             
-            <div class="w-16 h-16 bg-blue-50 dark:bg-blue-900/40 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl shadow-[inset_0_4px_10px_rgba(0,0,0,0.05)] border border-blue-100 dark:border-blue-800">
-                💡
+            <h3 class="text-base sm:text-lg font-black text-purple-600 dark:text-purple-400 mb-3 sm:mb-4 tracking-tight uppercase pr-8 mt-1 flex items-center gap-2 shrink-0">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                Мои смены
+            </h3>
+
+            <!-- Переключатель месяцев -->
+            <div class="flex justify-between items-center mb-3 bg-gray-50 dark:bg-slate-700/50 p-1.5 rounded-2xl border border-gray-100 dark:border-slate-600 shrink-0">
+                <button onclick="changeMonth(-1)" class="w-8 h-8 flex items-center justify-center bg-white dark:bg-slate-700 rounded-full shadow-sm text-gray-600 dark:text-gray-300 tactile-btn hover:text-purple-500 cursor-pointer shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <div id="calendarMonthYear" class="font-bold text-gray-800 dark:text-white capitalize text-xs sm:text-sm truncate px-2">Октябрь 2026</div>
+                <button onclick="changeMonth(1)" class="w-8 h-8 flex items-center justify-center bg-white dark:bg-slate-700 rounded-full shadow-sm text-gray-600 dark:text-gray-300 tactile-btn hover:text-purple-500 cursor-pointer shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+
+            <!-- Сетка календаря (гибкая, квадратные ячейки) -->
+            <div class="grid grid-cols-7 gap-1 mb-1 text-center text-[9px] sm:text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase shrink-0">
+                <div>Пн</div><div>Вт</div><div>Ср</div><div>Чт</div><div>Пт</div><div class="text-red-400">Сб</div><div class="text-red-400">Вс</div>
             </div>
             
-            <h3 class="text-xl font-black text-lentaDark dark:text-white mb-2 tracking-tight">Есть идеи?</h3>
-            <p class="text-sm text-gray-500 dark:text-gray-400 mb-6 font-medium leading-relaxed px-2">
-                Нашли ошибку или хотите предложить улучшение? Я перенаправлю вас в чат <b class="text-lentaBlue dark:text-blue-400">Max</b>, где вы сможете оставить свое сообщение.
-            </p>
-            
-            <button onclick="goToMax();" class="w-full bg-[#004182] hover:bg-[#003366] text-white rounded-2xl py-3.5 px-4 font-bold text-sm shadow-[0_8px_20px_rgba(0,65,130,0.2)] transition-all tactile-btn flex items-center justify-center gap-2">
-                Перейти в Max
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            <div id="calendarGrid" class="grid grid-cols-7 gap-1 mb-3 shrink-0">
+                <!-- Дни генерируются скриптом, используем aspect-square -->
+            </div>
+
+            <!-- Детали выбранного дня -->
+            <div class="flex-1 bg-gray-50 dark:bg-slate-700/50 rounded-2xl border border-gray-100 dark:border-slate-600 p-2.5 sm:p-3 flex flex-col min-h-[100px] overflow-hidden">
+                <div id="selectedDayTitle" class="text-[11px] sm:text-xs font-bold text-gray-700 dark:text-gray-300 mb-2 border-b border-gray-200 dark:border-slate-600 pb-1 flex justify-between shrink-0">
+                    <span>Выберите день</span>
+                    <span id="selectedDayCount" class="text-purple-600 dark:text-purple-400"></span>
+                </div>
+                <!-- Список смен со скроллом внутри -->
+                <div id="selectedDayShifts" class="flex-1 overflow-y-auto hide-scrollbar space-y-2 pr-1">
+                    <div class="text-center text-gray-400 dark:text-gray-500 text-xs mt-4">В этот день смен нет</div>
+                </div>
+            </div>
+
+            <!-- Кнопка выгрузки -->
+            <button onclick="exportMonthReport()" class="mt-3 shrink-0 w-full flex items-center justify-center gap-2 px-4 py-2.5 sm:py-3 bg-purple-500 hover:bg-purple-600 text-white rounded-2xl text-xs sm:text-sm font-bold transition-all tactile-btn shadow-[0_4px_15px_rgba(168,85,247,0.3)] cursor-pointer">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                Скачать отчет
             </button>
         </div>
     </div>
 
     <header class="glass-header">
-        <div class="max-w-[1600px] mx-auto px-4 sm:px-6 relative z-10 pb-4">
+        <div class="max-w-[1600px] mx-auto px-3 sm:px-6 relative z-10 pb-4">
             
-            <div class="flex flex-row items-center justify-between gap-4 mb-4">
-                <div class="flex items-center gap-3 shrink-0">
-                    <div onclick="handleLogoTap()" class="w-12 h-12 rounded-full bg-white shadow-[0_6px_15px_rgba(0,0,0,0.08)] flex items-center justify-center shrink-0 border border-gray-100 overflow-hidden relative cursor-pointer tactile-btn z-50 group" title="1 Тап: Плей/Пауза. 2 Тапа: Сброс">
+            <div class="flex flex-row items-center justify-between gap-1 sm:gap-4 mb-4">
+                <div class="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 pr-1">
+                    <div onclick="handleLogoTap()" class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white shadow-[0_6px_15px_rgba(0,0,0,0.08)] flex items-center justify-center shrink-0 border border-gray-100 overflow-hidden relative cursor-pointer tactile-btn z-50 group" title="1 Тап: Плей/Пауза. 2 Тапа: Сброс">
                         <img id="logoImage" src="icon.png" alt="Логотип" class="w-full h-full object-cover transition-transform group-hover:scale-105" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\\'http://www.w3.org/2000/svg\\' viewBox=\\'0 0 100 100\\'%3E%3Ccircle cx=\\'50\\' cy=\\'50\\' r=\\'50\\' fill=\\'%23FDCB05\\'/%3E%3Ccircle cx=\\'50\\' cy=\\'50\\' r=\\'20\\' fill=\\'%23004182\\'/%3E%3C/svg%3E'">
                         <div class="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent pointer-events-none rounded-full mix-blend-overlay"></div>
                     </div>
-                    <div>
-                        <h1 class="text-lg md:text-xl font-black text-lentaDark dark:text-blue-50 tracking-tight flex items-center gap-2">
-                            ЛЕНТА <span class="bg-lentaYellow text-lentaDark px-2 py-0.5 rounded text-[10px] font-bold shadow-sm">ЛОГИСТИКА</span>
+                    <div class="min-w-0 flex-1">
+                        <!-- На мобилках заголовок будет немного меньше и строго обрезаться, чтобы не толкать кнопки APK -->
+                        <h1 class="text-[13px] sm:text-base md:text-xl font-black text-lentaDark dark:text-blue-50 tracking-tight flex items-center gap-1.5 md:gap-2 truncate w-full">
+                            <span class="truncate">ЛЕНТА</span>
+                            <span class="bg-lentaYellow text-lentaDark px-1.5 py-0.5 md:px-2 rounded text-[8px] sm:text-[10px] font-bold shadow-sm shrink-0">ЛОГИСТИКА</span>
                         </h1>
-                        <div class="text-[11px] text-gray-500 dark:text-gray-400 font-medium mt-0.5">
+                        <div class="text-[9px] sm:text-[10px] md:text-[11px] text-gray-500 dark:text-gray-400 font-medium mt-0.5 truncate w-full">
                             Мониторинг доставок
                         </div>
                     </div>
                 </div>
                 
-                <div class="flex items-center gap-1.5 shrink-0">
-                    <div class="relative flex items-center">
-                        <button onclick="openFeedbackModal()" class="bg-blue-50 dark:bg-blue-900/40 text-lentaBlue dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-800/60 w-10 h-10 rounded-xl shadow-sm border border-blue-100 dark:border-blue-800/50 flex items-center justify-center cursor-pointer tactile-btn" title="Предложить идею">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
-                        </button>
-                        <div class="idea-tooltip absolute top-[115%] right-0 bg-[#004182] dark:bg-blue-600 text-white text-[10px] font-bold px-3 py-1.5 rounded-lg shadow-lg pointer-events-none whitespace-nowrap z-50">
-                            💡 Есть идеи? Пиши!
-                            <div class="absolute -top-1 right-3 w-2.5 h-2.5 bg-[#004182] dark:bg-blue-600 transform rotate-45"></div>
-                        </div>
-                    </div>
-                    <button id="themeToggleBtn" onclick="toggleTheme()" class="bg-gray-100 dark:bg-slate-800 text-gray-400 dark:text-gray-400 hover:text-amber-500 hover:bg-amber-50 dark:hover:bg-slate-700 w-10 h-10 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 flex items-center justify-center cursor-pointer tactile-btn" title="Сменить тему">
-                        <svg id="themeIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <!-- Блок с кнопками (адаптирован для узких экранов - меньше gap и размеры) -->
+                <div class="flex items-center gap-1 sm:gap-2 shrink-0">
+                    <!-- Кнопка Календаря -->
+                    <button id="calendarBtn" onclick="openCalendarModal()" class="bg-gray-100 dark:bg-slate-800 text-purple-500 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-slate-700 w-8 h-8 sm:w-10 sm:h-10 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 flex items-center justify-center cursor-pointer tactile-btn shrink-0" title="Мои смены">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    </button>
+                    <!-- Кнопка Темы -->
+                    <button id="themeToggleBtn" onclick="toggleTheme()" class="bg-gray-100 dark:bg-slate-800 text-gray-400 dark:text-gray-400 hover:text-amber-500 hover:bg-amber-50 dark:hover:bg-slate-700 w-8 h-8 sm:w-10 sm:h-10 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 flex items-center justify-center cursor-pointer tactile-btn shrink-0" title="Сменить тему">
+                        <svg id="themeIcon" class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                         </svg>
                     </button>
-                    <a href="app.apk" download class="flex items-center justify-center gap-1.5 bg-[#004182] hover:bg-[#003366] text-white h-10 px-3 rounded-xl shadow-[0_6px_15px_rgba(0,65,130,0.2)] transition-all tactile-btn cursor-pointer">
-                        <svg class="w-4 h-4 text-lentaYellow" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                        <span class="text-[11px] font-bold tracking-wide uppercase hidden sm:inline">APK</span>
+                    <!-- Кнопка APK -->
+                    <a href="app.apk" download class="flex items-center justify-center gap-1 bg-[#004182] hover:bg-[#003366] text-white h-8 sm:h-10 px-2 sm:px-3 rounded-xl shadow-[0_6px_15px_rgba(0,65,130,0.2)] transition-all tactile-btn cursor-pointer shrink-0">
+                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-lentaYellow" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        <span class="text-[9px] sm:text-[11px] font-bold tracking-wide uppercase">APK</span>
                     </a>
                 </div>
             </div>
@@ -739,18 +750,17 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </div>
                     <input type="text" id="searchInput" placeholder="Поиск по ТК, адресу, городу..." 
-                           class="bg-gray-100 dark:bg-slate-800 focus:bg-white dark:focus:bg-slate-900 border-2 border-transparent focus:border-lentaBlue text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 text-sm rounded-xl block w-full pl-10 pr-20 py-2.5 outline-none transition-all shadow-inner">
+                           class="bg-gray-100 dark:bg-slate-800 focus:bg-white dark:focus:bg-slate-900 border-2 border-transparent focus:border-lentaBlue text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 text-sm rounded-xl block w-full pl-10 pr-10 py-2.5 outline-none transition-all shadow-inner">
                     
-                    <div class="absolute right-2 top-[5px] flex items-center gap-1">
-                        <button id="clearSearchBtn" onclick="clearSearch();" class="hidden text-gray-400 hover:text-gray-700 bg-white dark:bg-slate-700 p-1.5 rounded-full shadow-sm cursor-pointer tactile-btn">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
-                        </button>
-                        <button id="nearMeBtn" onclick="findNearMe();" class="text-emerald-500 hover:text-emerald-600 bg-white dark:bg-slate-700 p-1.5 rounded-lg shadow-sm cursor-pointer tactile-btn" title="Найти ближайшие">
-                            <svg id="locationIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                        </button>
-                    </div>
+                    <button id="clearSearchBtn" onclick="clearSearch();" class="hidden absolute right-2 top-2 text-gray-400 hover:text-gray-700 bg-white dark:bg-slate-700 p-1 rounded-full shadow-sm cursor-pointer tactile-btn">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
                     <div id="autocompleteList" class="absolute z-[100] w-full bg-white dark:bg-slate-800 rounded-xl hidden max-h-[40vh] overflow-y-auto mt-2 text-left text-gray-800 dark:text-gray-200 shadow-[0_20px_40px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_40px_rgba(0,0,0,0.5)] border border-gray-100 dark:border-slate-700 hide-scrollbar"></div>
                 </div>
+
+                <button id="nearestBtn" onclick="sortByNearest();" class="bg-white dark:bg-slate-800 text-emerald-500 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-700 w-11 h-11 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700 flex items-center justify-center shrink-0 cursor-pointer tactile-btn transition-all duration-300" title="Ближайшие ко мне">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                </button>
 
                 <button id="voiceSearchBtn" onclick="startVoiceSearch();" class="bg-white dark:bg-slate-800 text-lentaBlue dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-700 w-11 h-11 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700 flex items-center justify-center shrink-0 cursor-pointer tactile-btn transition-all duration-300" title="Голосовой поиск">
                     <svg id="micIcon" class="w-5 h-5 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path></svg>
@@ -801,11 +811,229 @@
     <div id="toast-notification" class="fixed bottom-24 left-1/2 transform -translate-x-1/2 bg-gray-800/95 dark:bg-slate-700/95 backdrop-blur-md text-white px-5 py-3 rounded-2xl shadow-2xl z-[200] font-bold text-[13px] text-center border border-gray-700 transition-all duration-300 opacity-0 scale-95 pointer-events-none whitespace-nowrap"></div>
 
     <script>
+        // === ЛОГИКА КАЛЕНДАРЯ И СМЕН ===
+        let myShifts = JSON.parse(localStorage.getItem('lenta_shifts_v1')) || {};
+        let currentCalYear = new Date().getFullYear();
+        let currentCalMonth = new Date().getMonth();
+        let selectedDate = null;
+        const monthNames = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+
+        function getTodayStr() {
+            const d = new Date();
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        window.addToShifts = function(tk, brand, address, city) {
+            playTickSound();
+            const today = getTodayStr();
+            if (!myShifts[today]) {
+                myShifts[today] = [];
+            }
+            
+            const now = new Date();
+            const timeStr = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+            
+            myShifts[today].push({
+                tk: tk,
+                brand: brand,
+                address: address,
+                city: city,
+                time: timeStr,
+                timestamp: now.getTime()
+            });
+            
+            localStorage.setItem('lenta_shifts_v1', JSON.stringify(myShifts));
+            showToast("✅ Рейс учтен в календаре!");
+            
+            if (!document.getElementById('calendarModal').classList.contains('hidden')) {
+                renderCalendar();
+                showDayShifts(today);
+            }
+        };
+
+        window.openCalendarModal = function() {
+            playTickSound();
+            document.getElementById('calendarModal').classList.remove('hidden');
+            const today = new Date();
+            currentCalYear = today.getFullYear();
+            currentCalMonth = today.getMonth();
+            selectedDate = getTodayStr();
+            renderCalendar();
+            showDayShifts(selectedDate);
+        };
+
+        window.closeCalendarModal = function() {
+            document.getElementById('calendarModal').classList.add('hidden');
+        };
+
+        window.changeMonth = function(dir) {
+            playTickSound();
+            currentCalMonth += dir;
+            if (currentCalMonth > 11) { currentCalMonth = 0; currentCalYear++; }
+            if (currentCalMonth < 0) { currentCalMonth = 11; currentCalYear--; }
+            renderCalendar();
+        };
+
+        function renderCalendar() {
+            document.getElementById('calendarMonthYear').innerText = `${monthNames[currentCalMonth]} ${currentCalYear}`;
+            
+            const grid = document.getElementById('calendarGrid');
+            grid.innerHTML = '';
+            
+            const firstDay = new Date(currentCalYear, currentCalMonth, 1).getDay();
+            const daysInMonth = new Date(currentCalYear, currentCalMonth + 1, 0).getDate();
+            
+            let startDay = firstDay - 1;
+            if (startDay === -1) startDay = 6; 
+
+            for (let i = 0; i < startDay; i++) {
+                grid.innerHTML += `<div class="aspect-square"></div>`;
+            }
+
+            const todayStr = getTodayStr();
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const m = String(currentCalMonth + 1).padStart(2, '0');
+                const d = String(day).padStart(2, '0');
+                const dateStr = `${currentCalYear}-${m}-${d}`;
+                
+                const hasShift = myShifts[dateStr] && myShifts[dateStr].length > 0;
+                const isSelected = dateStr === selectedDate;
+                const isToday = dateStr === todayStr;
+
+                let classes = "flex flex-col items-center justify-center rounded-[10px] sm:rounded-xl cursor-pointer transition-all tactile-btn relative border aspect-square text-[11px] sm:text-[13px] ";
+                
+                if (isSelected) classes += "bg-purple-500 text-white border-purple-600 shadow-[0_4px_10px_rgba(168,85,247,0.3)] font-bold scale-[1.05] z-10 ";
+                else if (hasShift) classes += "bg-purple-50 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-700 font-bold hover:bg-purple-100 ";
+                else if (isToday) classes += "bg-gray-100 dark:bg-slate-700 text-gray-800 dark:text-gray-100 border-gray-300 dark:border-gray-500 font-bold ";
+                else classes += "bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-400 border-transparent hover:bg-gray-50 dark:hover:bg-slate-700 ";
+
+                let shiftIndicator = '';
+                if (hasShift) {
+                    shiftIndicator = `<span class="absolute bottom-0.5 sm:bottom-1 text-[8px] sm:text-[10px] leading-none">🚛</span>`;
+                }
+
+                grid.innerHTML += `
+                    <div onclick="selectDate('${dateStr}')" class="${classes}">
+                        <span class="${hasShift ? 'mb-2 sm:mb-2.5' : ''}">${day}</span>
+                        ${shiftIndicator}
+                    </div>
+                `;
+            }
+        }
+
+        window.selectDate = function(dateStr) {
+            playTickSound();
+            selectedDate = dateStr;
+            renderCalendar();
+            showDayShifts(dateStr);
+        };
+
+        window.showDayShifts = function(dateStr) {
+            const parts = dateStr.split('-');
+            document.getElementById('selectedDayTitle').innerHTML = `
+                <span>${parts[2]}.${parts[1]}.${parts[0]}</span>
+                <span class="text-purple-600 dark:text-purple-400">${myShifts[dateStr] ? myShifts[dateStr].length + ' рейс(ов)' : ''}</span>
+            `;
+            
+            const container = document.getElementById('selectedDayShifts');
+            container.innerHTML = '';
+
+            const shifts = myShifts[dateStr];
+            if (!shifts || shifts.length === 0) {
+                container.innerHTML = `<div class="text-center text-gray-400 dark:text-gray-500 text-[11px] sm:text-xs mt-4">В этот день рейсов нет</div>`;
+                return;
+            }
+
+            shifts.forEach((shift, index) => {
+                let badgeClass = "bg-lentaYellow text-lentaDark";
+                if (shift.brand === "О'КЕЙ" || shift.brand === "ОКЕЙ") badgeClass = "bg-red-600 text-white";
+                else if (shift.brand === "МОНЕТКА") badgeClass = "bg-orange-500 text-white";
+                else if (shift.brand === "РЦ МОЛЛ") badgeClass = "bg-purple-600 text-white";
+
+                let name = shift.tk !== '-' ? `ТК/РЦ ${shift.tk}` : shift.brand;
+
+                container.innerHTML += `
+                    <div class="bg-white dark:bg-slate-800 p-2 rounded-xl border border-gray-100 dark:border-slate-600 relative group animate-reveal shadow-sm">
+                        <button onclick="deleteShift('${dateStr}', ${index})" class="absolute top-1 right-1 w-6 h-6 flex items-center justify-center bg-gray-100 dark:bg-slate-700 hover:bg-red-100 hover:text-red-500 text-gray-400 rounded-full transition-colors tactile-btn" title="Удалить">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
+                        <div class="flex items-center gap-1.5 sm:gap-2 mb-1 pr-6">
+                            <span class="px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-black uppercase ${badgeClass}">${shift.brand}</span>
+                            <span class="text-[11px] sm:text-xs font-bold text-gray-800 dark:text-gray-200">${name}</span>
+                            <span class="text-[9px] sm:text-[10px] text-gray-400 ml-auto mr-1">${shift.time}</span>
+                        </div>
+                        <div class="text-[9px] sm:text-[10px] text-gray-500 dark:text-gray-400 leading-tight pr-6">${shift.city}, ${shift.address}</div>
+                    </div>
+                `;
+            });
+        };
+
+        window.deleteShift = function(dateStr, index) {
+            playTickSound();
+            if(confirm("Удалить этот рейс?")) {
+                myShifts[dateStr].splice(index, 1);
+                if (myShifts[dateStr].length === 0) delete myShifts[dateStr];
+                localStorage.setItem('lenta_shifts_v1', JSON.stringify(myShifts));
+                renderCalendar();
+                showDayShifts(dateStr);
+            }
+        };
+
+        window.exportMonthReport = function() {
+            playTickSound();
+            const m = String(currentCalMonth + 1).padStart(2, '0');
+            const prefix = `${currentCalYear}-${m}`;
+            
+            let reportText = `ОТЧЕТ О РЕЙСАХ: ${monthNames[currentCalMonth].toUpperCase()} ${currentCalYear}\n=========================================\n\n`;
+            let totalShifts = 0;
+            let daysWorked = 0;
+
+            const days = Object.keys(myShifts).filter(d => d.startsWith(prefix)).sort();
+
+            if (days.length === 0) {
+                showToast("В этом месяце нет сохраненных рейсов 🤷‍♂️");
+                return;
+            }
+
+            days.forEach(dateStr => {
+                const shifts = myShifts[dateStr];
+                if (shifts && shifts.length > 0) {
+                    daysWorked++;
+                    const [y, mo, d] = dateStr.split('-');
+                    reportText += `📅 ${d}.${mo}.${y} (Рейсов: ${shifts.length})\n-----------------------------------------\n`;
+                    shifts.forEach(s => {
+                        totalShifts++;
+                        let tkName = s.tk !== '-' ? `ТК/РЦ ${s.tk}` : s.brand;
+                        reportText += `[${s.time}] ${s.brand} ${tkName} (${s.city})\nАдрес: ${s.address}\n\n`;
+                    });
+                }
+            });
+
+            reportText += `=========================================\nИТОГО ЗА МЕСЯЦ:\nОтработано дней: ${daysWorked}\nВсего рейсов: ${totalShifts}\n\n* Отчет выгружен из приложения "ЛЕНТА: Логистика"`;
+
+            const blob = new Blob([reportText], { type: "text/plain;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Reysi_${monthNames[currentCalMonth]}_${currentCalYear}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showToast("Файл отчета скачан! 📁");
+        };
+        // === КОНЕЦ ЛОГИКИ КАЛЕНДАРЯ ===
+
         function initCounter() {
             const badge = document.getElementById('visitCounterBadge');
             const uniqueTime = Date.now(); 
-            // Имя счетчика изменено на lenta_app_v4 для сброса с нуля
-            badge.src = `https://hits.sh/garionlexa.github.io/lenta_app_v4.svg?label=%D0%92%D0%B8%D0%B7%D0%B8%D1%82%D1%8B&color=1e293b&labelColor=334155&nocache=${uniqueTime}`;
+            badge.src = `https://hits.sh/garionlexa.github.io/lenta_app_v2.svg?label=%D0%92%D0%B8%D0%B7%D0%B8%D1%82%D1%8B&color=1e293b&labelColor=334155&nocache=${uniqueTime}`;
         }
         initCounter();
 
@@ -953,6 +1181,10 @@
         });
         citySlider.style.cursor = 'grab';
 
+        // --- ЛОГИКА НАЖАТИЙ НА ПОДСОЛНУХ ---
+        let lastLogoTapTime = 0;
+        let logoTapTimeout;
+
         function handleLogoTap() {
             unlockAudio();
             const now = Date.now();
@@ -967,9 +1199,6 @@
             }
             lastLogoTapTime = now;
         }
-
-        let lastLogoTapTime = 0;
-        let logoTapTimeout;
 
         function togglePlayPause() {
             const logo = document.getElementById('logoImage');
@@ -1360,21 +1589,17 @@
                     id: 'store_' + index,
                     tk: cols[0], route: cols[1], address: cols[2], city: cols[3],
                     rc1: cols[4] || '-', rc2: cols[5] || '-', 
-                    is24_7: cols[7] === 'Да', start: cols[8] || '-', end: cols[9] || '-',
-                    distance: null 
+                    is24_7: cols[7] === 'Да', start: cols[8] || '-', end: cols[9] || '-'
                 });
             }
         });
 
-        function sortStoresDefault() {
-            stores.sort((a, b) => {
-                let indexA = cityOrder.indexOf(a.city); let indexB = cityOrder.indexOf(b.city);
-                if (indexA === -1) indexA = 999; if (indexB === -1) indexB = 999;
-                if (indexA !== indexB) return indexA - indexB;
-                return a.tk.localeCompare(b.tk, undefined, {numeric: true});
-            });
-        }
-        sortStoresDefault();
+        stores.sort((a, b) => {
+            let indexA = cityOrder.indexOf(a.city); let indexB = cityOrder.indexOf(b.city);
+            if (indexA === -1) indexA = 999; if (indexB === -1) indexB = 999;
+            if (indexA !== indexB) return indexA - indexB;
+            return a.tk.localeCompare(b.tk, undefined, {numeric: true});
+        });
 
         const cabVariants = [
             `<div class="cab w-7 md:w-8 h-9 md:h-10 bg-[#1e3a8a] border-y border-r border-b-2 border-[#172554] shadow-md rounded-tr-md rounded-br-sm relative ml-[1px] z-20"><div class="headlight-beam" style="top: 18px; right: -45px;"></div><div class="marker-light" style="right: 2px;"></div><div class="absolute top-1 right-1 w-3 md:w-3.5 h-4 md:h-5 bg-sky-100/90 rounded-tr-sm border-b border-l border-sky-300"></div><div class="absolute -bottom-1.5 right-1"><div class="w-3 md:w-3.5 h-3 md:h-3.5 bg-gray-800 rounded-full border-[2px] border-gray-300 shadow-sm"></div></div></div>`,
@@ -1488,47 +1713,10 @@
         const clearSearchBtn = document.getElementById('clearSearchBtn');
         const autocompleteList = document.getElementById('autocompleteList');
 
-        // УМНЫЙ ПАРСЕР ПОИСКА
-        function getSearchWords(query) {
-            let clean = query.toLowerCase().trim()
-                .replace(/['"`]/g, '')
-                .replace(/окэй/g, 'окей')
-                .replace(/наябрьск/g, 'ноябрьск')       // Обработка опечаток голоса
-                .replace(/екатеренбург/g, 'екатеринбург') 
-                .replace(/челяба/g, 'челябинск');
-            return clean.split(/\s+/).filter(w => w.length > 0);
-        }
-
-        // ПРОВЕРКА СОВПАДЕНИЙ МАГАЗИНА (Общая логика для поиска и выпадающего списка)
-        function checkStoreMatches(store, searchWords) {
-            let brandName = "ЛЕНТА";
-            if (store.address.includes("ОКЕЙ") || store.tk === "929929") brandName = "ОКЕЙ";
-            else if (store.address.includes("Молл")) brandName = "РЦ МОЛЛ";
-            else if (store.address.includes("Монетка") || (store.tk.startsWith("92") && store.tk.length > 3)) brandName = "МОНЕТКА";
-
-            // Синонимы для брендов
-            let brandKeywords = "";
-            if (brandName === "ОКЕЙ") brandKeywords = "окей гипермаркет";
-            else if (brandName === "РЦ МОЛЛ") brandKeywords = "рц молл монетка склад"; // Монетка теперь ищет Молл
-            else if (brandName === "МОНЕТКА") brandKeywords = "рц монетка молл склад";
-            else brandKeywords = "лента гипермаркет";
-
-            const cleanAddressTextSearch = store.address.replace(/\b\d{6}\b,?\s*/g, ''); 
-            const fullText = `тк ${store.tk} рц ${store.tk} ${store.city} ${cleanAddressTextSearch} ${brandKeywords}`.toLowerCase().replace(/['"`]/g, '');
-            
-            return searchWords.every(word => {
-                if (/^\d+$/.test(word)) {
-                    return store.tk === word || new RegExp(`\\b${word}\\b`).test(cleanAddressTextSearch.toLowerCase());
-                }
-                return fullText.includes(word);
-            });
-        }
-
         window.clearSearch = function() {
             searchInput.value = '';
             clearSearchBtn.classList.add('hidden');
             autocompleteList.classList.add('hidden');
-            sortStoresDefault(); 
             renderCards();
         };
 
@@ -1551,39 +1739,15 @@
                     el.classList.remove('active');
                 }
             });
-            sortStoresDefault(); 
             window.scrollTo({ top: 0, behavior: 'smooth' });
             renderCards();
         };
-
-        let currentNavAddress = ''; let currentNavFullAddress = ''; let currentNavTk = '';
-        window.openNavModal = function(addr, fullAddr, tk) {
-            currentNavAddress = addr; 
-            currentNavFullAddress = fullAddr;
-            currentNavTk = tk;
-            document.getElementById('navModal').classList.remove('hidden');
-        };
-        window.closeNavModal = function() { document.getElementById('navModal').classList.add('hidden'); };
 
         window.openContactsModal = function() { document.getElementById('contactsModal').classList.remove('hidden'); };
         window.closeContactsModal = function() { document.getElementById('contactsModal').classList.add('hidden'); };
 
         window.openMonetkaModal = function() { document.getElementById('monetkaModal').classList.remove('hidden'); };
         window.closeMonetkaModal = function() { document.getElementById('monetkaModal').classList.add('hidden'); };
-
-        window.openFeedbackModal = function() { 
-            playTickSound();
-            document.getElementById('feedbackModal').classList.remove('hidden'); 
-        };
-        window.closeFeedbackModal = function() { 
-            document.getElementById('feedbackModal').classList.add('hidden'); 
-        };
-        
-        window.goToMax = function() {
-            playTickSound();
-            window.open("https://max.ru/join/xpn98S2KE1ueR2mjjDXeTPxt8N0roEbd_r1KT6Q-uGY", "_blank");
-            closeFeedbackModal();
-        };
 
         function showToast(message) {
             let toast = document.getElementById('toast-notification');
@@ -1605,107 +1769,6 @@
             }, 3000);
         }
 
-        // Высчитывание расстояния (Формула Гаверсинуса)
-        function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
-            var R = 6371; 
-            var dLat = deg2rad(lat2-lat1);  
-            var dLon = deg2rad(lon2-lon1); 
-            var a = 
-                Math.sin(dLat/2) * Math.sin(dLat/2) +
-                Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-                Math.sin(dLon/2) * Math.sin(dLon/2); 
-            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-            var d = R * c; 
-            return d;
-        }
-        function deg2rad(deg) { return deg * (Math.PI/180); }
-
-        window.findNearMe = function() {
-            const btn = document.getElementById('nearMeBtn');
-            const locIcon = document.getElementById('locationIcon');
-            
-            if (!navigator.geolocation) {
-                showToast("Геолокация не поддерживается вашим устройством 📍");
-                return;
-            }
-
-            playTickSound();
-            btn.classList.add('loc-searching');
-            locIcon.classList.add('animate-spin');
-            showToast("Ищем ближайшие ТК... 🛰️");
-
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const myLat = position.coords.latitude;
-                    const myLon = position.coords.longitude;
-
-                    stores.forEach(store => {
-                        const coords = storeCoords[store.tk];
-                        if (coords) {
-                            store.distance = getDistanceFromLatLonInKm(myLat, myLon, coords.lat, coords.lon);
-                        } else {
-                            store.distance = 999999; 
-                        }
-                    });
-
-                    stores.sort((a, b) => a.distance - b.distance);
-
-                    searchInput.value = '';
-                    selectedCityFilter = 'all';
-                    document.querySelectorAll('.truck-chip').forEach(el => {
-                        el.classList.toggle('active', el.getAttribute('data-city') === 'all');
-                    });
-
-                    btn.classList.remove('loc-searching');
-                    locIcon.classList.remove('animate-spin');
-                    renderCards();
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    showToast("Магазины отсортированы по удаленности! 🎯");
-                },
-                (error) => {
-                    btn.classList.remove('loc-searching');
-                    locIcon.classList.remove('animate-spin');
-                    console.warn(error);
-                    showToast("Не удалось получить геопозицию. Проверьте разрешения 🔒");
-                },
-                { timeout: 10000, maximumAge: 60000 }
-            );
-        };
-
-        window.shareStore = async function(tk, city, address, routeUrl) {
-            playTickSound();
-            
-            let brand = tk.startsWith('92') ? 'РЦ МОНЕТКА' : (tk === '929929' ? 'О\'КЕЙ' : 'ЛЕНТА');
-            let tkInfo = tk !== '-' ? (brand === 'ЛЕНТА' ? `ТК ${tk}` : `${tk}`) : brand;
-            
-            let shareText = `🚛 ${brand} ${tkInfo}\n📍 ${city}, ${address}`;
-            if (routeUrl && routeUrl !== 'null' && routeUrl !== 'undefined') {
-                shareText += `\n🗺 Схема заезда: ${routeUrl}`;
-            }
-
-            if (navigator.share) {
-                try {
-                    await navigator.share({
-                        title: `${brand} ${tkInfo}`,
-                        text: shareText
-                    });
-                    showToast("Успешно поделились! 📤");
-                } catch (err) {
-                    if(err.name !== 'AbortError') copyFallback(shareText);
-                }
-            } else {
-                copyFallback(shareText);
-            }
-            
-            function copyFallback(text) {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast("Скопировано в буфер обмена! 📋");
-                }).catch(() => {
-                    showToast("Не удалось скопировать ❌");
-                });
-            }
-        };
-
         window.openApproachMap = function(url) {
             playTickSound();
             if (url && url !== 'undefined' && url !== 'null' && url.trim() !== '') {
@@ -1720,6 +1783,159 @@
                 showToast("Схема заезда еще не добавлена 🛠");
             }
         };
+
+        // Умная очистка адреса для навигатора (убирает всё, что ломает поиск Яндекса)
+        function getSmartNavQuery(city, address) {
+            let text = address;
+            
+            // 1. Убираем юрлица
+            text = text.replace(/ООО ["']?Лента["']?,?/gi, '')
+                       .replace(/ООО ОКЕЙ,?/gi, '')
+                       .replace(/РЦ ["']?Монетка["']?,?/gi, '')
+                       .replace(/РЦ Молл,?/gi, '');
+                       
+            // 2. Убираем индексы (6 подряд идущих цифр)
+            text = text.replace(/\b\d{6}\b,?/g, '');
+            
+            // 3. Убираем области, округа и края, которые сбивают поиск
+            text = text.replace(/Свердловская обл(?:асть|\.)?,?/gi, '')
+                       .replace(/Тюменская обл(?:асть|\.)?,?/gi, '')
+                       .replace(/Челябинская обл(?:асть|\.)?,?/gi, '')
+                       .replace(/Курганская обл(?:асть|\.)?,?/gi, '')
+                       .replace(/Ханты-?Мансийский Автономный округ.*?АО,?/gi, '')
+                       .replace(/Ханты-Мансийский Автономный округ - Югра,?/gi, '')
+                       .replace(/Ямало-Ненецкий АО,?/gi, '')
+                       .replace(/Пермский край,?/gi, '')
+                       .replace(/город Екатеринбург г\.о\.?,?/gi, '')
+                       .replace(/Екатеринбург г\.о\.?,?/gi, '')
+                       .replace(/г\.о\.,?/gi, '');
+                       
+            // 4. Убираем приставку города (например, "г. Екатеринбург"), так как мы сами вставим чистый город в начало
+            text = text.replace(/г\.\s*[А-Яа-я-]+,?/g, '');
+            text = text.replace(new RegExp(`\\b${city}\\b,`, 'gi'), ''); // на случай если город уже есть с запятой
+            
+            // 5. ВАЖНО: Заменяем слеши и запятые на пробелы, чтобы избежать ошибки ERR_HTTP2_PROTOCOL_ERROR
+            text = text.replace(/[\/\\]/g, ' ')
+                       .replace(/,/g, ' ');
+                       
+            // 6. Зачищаем лишние пробелы (двойные, тройные)
+            text = text.replace(/\s+/g, ' ').trim();
+            
+            // Итоговая строка: Город + чистая улица и номер дома
+            return city + ' ' + text;
+        }
+
+        let currentNavQuery = '';
+        window.openNavModal = function(query) {
+            currentNavQuery = query; 
+            document.getElementById('navModal').classList.remove('hidden');
+        };
+        window.closeNavModal = function() { document.getElementById('navModal').classList.add('hidden'); };
+
+        window.executeNavigation = function(type) {
+            playTickSound();
+            let navUrl = '';
+            
+            if (type === 'yandex') {
+                navUrl = `https://yandex.ru/maps/?text=${currentNavQuery}`;
+            } else if (type === '2gis') {
+                navUrl = `https://2gis.ru/search/${currentNavQuery}`;
+            } else if (type === 'google') {
+                navUrl = `https://www.google.com/maps/search/?api=1&query=${currentNavQuery}`;
+            }
+            
+            window.location.href = navUrl;
+            closeNavModal();
+        };
+
+        window.shareRoute = function(tk, brandName, address, routeUrl, e) {
+            if (e) e.stopPropagation();
+            playTickSound();
+            
+            let tkString = tk !== '-' ? (brandName === "МОНЕТКА" ? `РЦ ${tk}` : `ТК ${tk}`) : '';
+            let textToShare = `Схема заезда на выгрузку:\n${brandName} ${tkString}\n📍 ${address}`;
+            
+            if (routeUrl && routeUrl !== 'undefined' && routeUrl !== 'null' && routeUrl.trim() !== '') {
+                let finalUrl = routeUrl;
+                const match = routeUrl.match(/um=constructor%3A([a-zA-Z0-9_-]+)/);
+                if (match && match[1]) {
+                    finalUrl = `https://yandex.ru/maps/?um=constructor%3A${match[1]}`;
+                }
+                textToShare += `\n\n🗺 Открыть схему: ${finalUrl}`;
+            } else {
+                textToShare += `\n\n(Схема заезда пока не добавлена)`;
+            }
+
+            if (navigator.share) {
+                navigator.share({
+                    title: `Схема заезда ${brandName}`,
+                    text: textToShare
+                }).catch((error) => {
+                    console.log('Error sharing', error);
+                });
+            } else {
+                navigator.clipboard.writeText(textToShare).then(() => {
+                    showToast("Текст скопирован в буфер обмена 📋");
+                }).catch(err => {
+                    showToast("Не удалось скопировать 😔");
+                });
+            }
+        };
+
+        let userLocation = null;
+        let isSortedByDistance = false;
+
+        window.sortByNearest = function() {
+            playTickSound();
+            const nearestBtn = document.getElementById('nearestBtn');
+            
+            if (isSortedByDistance) {
+                isSortedByDistance = false;
+                nearestBtn.classList.remove('bg-emerald-100', 'dark:bg-emerald-900/50', 'text-emerald-700', 'border-emerald-300', 'dark:border-emerald-700');
+                nearestBtn.classList.add('bg-white', 'dark:bg-slate-800', 'text-emerald-500', 'dark:text-emerald-400');
+                renderCards();
+                return;
+            }
+
+            if (!navigator.geolocation) {
+                showToast("Геолокация не поддерживается вашим браузером 😔");
+                return;
+            }
+
+            nearestBtn.classList.add('animate-pulse');
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    userLocation = {
+                        lat: position.coords.latitude,
+                        lon: position.coords.longitude
+                    };
+                    isSortedByDistance = true;
+                    
+                    nearestBtn.classList.remove('animate-pulse', 'bg-white', 'dark:bg-slate-800', 'text-emerald-500', 'dark:text-emerald-400');
+                    nearestBtn.classList.add('bg-emerald-100', 'dark:bg-emerald-900/50', 'text-emerald-700', 'border-emerald-300', 'dark:border-emerald-700');
+                    
+                    renderCards();
+                    showToast("Сортировка по удаленности применена 📍");
+                },
+                (error) => {
+                    nearestBtn.classList.remove('animate-pulse');
+                    showToast("Ошибка геолокации. Разрешите доступ к местоположению 📍");
+                },
+                { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+            );
+        };
+
+        function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+            const R = 6371;
+            const dLat = (lat2 - lat1) * (Math.PI / 180);
+            const dLon = (lon2 - lon1) * (Math.PI / 180);
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                      Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+                      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c;
+        }
 
         function getDropdownItemHTML(store) {
             let brandColor = "text-lentaBlue dark:text-blue-300"; let bName = "ЛЕНТА"; let badgeClass = "bg-lentaYellow text-lentaDark";
@@ -1771,30 +1987,56 @@
         }
 
         function renderCards() {
-            const searchWords = getSearchWords(searchInput.value);
+            const rawSearch = searchInput.value.toLowerCase().trim();
+            const cleanSearchQuery = rawSearch.replace(/['"`]/g, '').replace('окэй', 'окей');
             
-            if (searchInput.value.trim() !== '') clearSearchBtn.classList.remove('hidden');
+            if (cleanSearchQuery) clearSearchBtn.classList.remove('hidden');
             else clearSearchBtn.classList.add('hidden');
 
             cardsGrid.innerHTML = '';
             let count = 0;
+            const searchWords = cleanSearchQuery.split(/\s+/).filter(w => w.length > 0);
 
-            stores.forEach(store => {
-                let matchesSearch = searchWords.length === 0 ? true : checkStoreMatches(store, searchWords);
-                let matchesFilter = true;
+            let displayStores = [...stores];
+
+            if (isSortedByDistance && userLocation) {
+                displayStores.forEach(s => {
+                    const coords = storeCoords[s.tk];
+                    if (coords) {
+                        s.distance = getDistanceFromLatLonInKm(userLocation.lat, userLocation.lon, coords.lat, coords.lon);
+                    } else {
+                        s.distance = 999999;
+                    }
+                });
+                displayStores.sort((a, b) => a.distance - b.distance);
+            }
+
+            displayStores.forEach(store => {
+                let brandName = "ЛЕНТА";
+                if (store.address.includes("ОКЕЙ") || store.tk === "929929") brandName = "ОКЕЙ";
+                else if (store.address.includes("Молл")) brandName = "РЦ МОЛЛ";
+                else if (store.address.includes("Монетка") || (store.tk.startsWith("92") && store.tk.length > 3)) brandName = "МОНЕТКА";
+
+                let matchesSearch = false;
+                if (searchWords.length === 0) matchesSearch = true;
+                else {
+                    const cleanAddressTextSearch = store.address.replace(/\b\d{6}\b,?\s*/g, ''); 
+                    const fullText = `тк ${store.tk} рц ${store.tk} ${store.city} ${cleanAddressTextSearch} ${brandName}`.toLowerCase().replace(/['"`]/g, '');
+                    matchesSearch = searchWords.every(word => {
+                        if (/^\d+$/.test(word)) {
+                            return store.tk === word || new RegExp(`\\b${word}\\b`).test(cleanAddressTextSearch.toLowerCase());
+                        }
+                        return fullText.includes(word);
+                    });
+                }
                 
-                if (selectedCityFilter !== 'all' && store.city !== selectedCityFilter) {
+                let matchesFilter = true;
+                if (!cleanSearchQuery && selectedCityFilter !== 'all' && store.city !== selectedCityFilter) {
                     matchesFilter = false;
                 }
 
                 if (matchesSearch && matchesFilter) {
                     count++;
-                    
-                    let brandName = "ЛЕНТА";
-                    if (store.address.includes("ОКЕЙ") || store.tk === "929929") brandName = "ОКЕЙ";
-                    else if (store.address.includes("Молл")) brandName = "РЦ МОЛЛ";
-                    else if (store.address.includes("Монетка") || (store.tk.startsWith("92") && store.tk.length > 3)) brandName = "МОНЕТКА";
-
                     let displayBrand = "ЛЕНТА"; let badgeClass = "bg-lentaYellow text-lentaDark"; let displayNumber = store.tk !== '-' ? `ТК ${store.tk}` : '';
 
                     if (brandName === "ОКЕЙ") { displayBrand = "О'КЕЙ"; badgeClass = "bg-red-600 text-white"; displayNumber = "ГИПЕРМАРКЕТ"; } 
@@ -1805,26 +2047,20 @@
                     const is24Text = store.is24_7 ? '24/7' : `${store.start} - ${store.end}`;
                     const rc1Html = store.rc1 !== '-' ? `<div class="flex flex-col items-end md:items-start"><span class="px-2 py-1 bg-emerald-500 text-white font-bold rounded-md shadow-sm text-[10px]">${store.rc1}</span> ${getTimeLeftHtml(store.rc1)}</div>` : '<span class="text-gray-300 dark:text-slate-600 font-bold">-</span>';
 
-                    let cleanNavAddress = store.city + ' ' + store.address;
-                    cleanNavAddress = cleanNavAddress.replace(/ООО ["']?Лента["']?,?\s*/gi, '').replace(/ООО ОКЕЙ,?\s*/gi, '').replace(/РЦ ["']?Монетка["']?,?\s*/gi, '').replace(/РЦ Молл,?\s*/gi, '').replace(/\b\d{6}\b,?\s*/g, ''); 
+                    // Текст адреса для отображения в карточке
                     const cleanAddressText = store.address.replace('ООО "Лента", ', '').replace('ООО "Лента" ', '').replace('РЦ "Монетка", ', '');
                     
-                    let panoUrl = `https://yandex.ru/maps/?text=${encodeURIComponent(cleanNavAddress.trim())}&l=stv,sta`;
+                    // Строки для навигатора и панорам
+                    const smartQuery = getSmartNavQuery(store.city, store.address);
+                    const encodedSmartQuery = encodeURIComponent(smartQuery);
+
+                    let panoUrl = `https://yandex.ru/maps/?text=${encodedSmartQuery}&l=stv,sta`;
                     let panoLabel = "Панорама 📸";
                     let storeCustomRouteUrl = customRoutes[store.tk] || null;
 
                     if (store.tk === '230') {
                         panoUrl = "https://yandex.ru/navi?ll=60.628613%2C56.908958&panorama%5Bpoint%5D=60.628613%2C56.908958&panorama%5Bdirection%5D=147.068375%2C6.140484&panorama%5Bid%5D=1435405587_660819353_23_1727782356&panorama%5Bspan%5D=35.690620%2C79.999992";
                         panoLabel = "Панорама 3D";
-                    }
-
-                    const encodedAddr = cleanNavAddress.trim();
-                    const encodedFullAddr = store.city + ", " + cleanAddressText;
-                    
-                    let distanceHtml = '';
-                    if (store.distance !== null && store.distance < 999999) {
-                        const distFormatted = store.distance < 10 ? store.distance.toFixed(1) : Math.round(store.distance);
-                        distanceHtml = `<div class="absolute -top-3 -right-2 bg-emerald-500 text-white text-[10px] font-black px-2 py-1 rounded-bl-xl rounded-tr-[20px] rounded-tl-sm shadow-md border-2 border-white dark:border-slate-800 z-10 flex items-center gap-1">📍 ${distFormatted} км</div>`;
                     }
 
                     let extraInfoBtn = '';
@@ -1837,17 +2073,24 @@
                         `;
                     }
 
+                    let distanceTag = '';
+                    if (isSortedByDistance && store.distance !== undefined && store.distance !== 999999) {
+                        distanceTag = `<span class="text-[11px] font-black text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30 px-2 py-1 rounded-md border border-emerald-100 dark:border-emerald-800 shrink-0">${store.distance.toFixed(1)} км</span>`;
+                    }
+
                     const card = `
-                        <div class="store-card relative flex flex-col justify-between animate-reveal bg-white dark:bg-slate-800 rounded-[24px] p-5 shadow-sm border border-gray-100 dark:border-slate-700 hover:shadow-md transition-shadow mt-2">
-                            ${distanceHtml}
+                        <div class="store-card relative flex flex-col justify-between animate-reveal bg-white dark:bg-slate-800 rounded-[24px] p-5 shadow-sm border border-gray-100 dark:border-slate-700 hover:shadow-md transition-shadow">
                             <button onclick="closeCard(this)" class="absolute top-4 right-4 text-gray-300 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-300 bg-gray-50 dark:bg-slate-700 p-2 rounded-full z-10 transition-colors cursor-pointer tactile-btn" title="Скрыть">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                             </button>
                             <div>
-                                <div class="flex items-center gap-2 mb-3 pr-8">
+                                <div class="flex flex-wrap items-center gap-2 mb-3 pr-8">
                                     <span class="px-2 py-0.5 rounded text-[10px] font-black tracking-wider uppercase shadow-sm ${badgeClass}">${displayBrand}</span>
                                     <span class="text-xs font-bold text-gray-500 dark:text-gray-300">${displayNumber}</span>
-                                    <span class="ml-auto text-[11px] font-extrabold text-lentaBlue dark:text-blue-300 bg-blue-50 dark:bg-slate-700/50 px-2 py-1 rounded-md border border-blue-100 dark:border-slate-600">${store.city}</span>
+                                    <div class="ml-auto flex items-center gap-1.5 shrink-0">
+                                        ${distanceTag}
+                                        <span class="text-[11px] font-extrabold text-lentaBlue dark:text-blue-300 bg-blue-50 dark:bg-slate-700/50 px-2 py-1 rounded-md border border-blue-100 dark:border-slate-600 shrink-0">${store.city}</span>
+                                    </div>
                                 </div>
                                 <div class="text-sm font-semibold text-gray-800 dark:text-white leading-snug mb-5" title='${store.address}'>${cleanAddressText}</div>
                             </div>
@@ -1863,29 +2106,30 @@
                                 
                                 ${extraInfoBtn}
 
-                                <div class="flex flex-wrap items-stretch gap-2 pt-2">
-                                    
-                                    <div class="flex flex-col gap-0.5 flex-1 min-w-[120px]">
-                                        <button onclick="openApproachMap('${storeCustomRouteUrl}')" title="Схема заезда на разгрузку" class="w-full h-full flex items-center justify-center gap-1 px-2 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-xs font-bold transition-all tactile-btn shadow-[0_4px_10px_rgba(16,185,129,0.3)] cursor-pointer">
-                                            <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
-                                            Подъезд
-                                        </button>
-                                    </div>
-                                    
-                                    <button onclick="playTickSound(); openNavModal('${encodedAddr.replace(/'/g, "\\'")}', '${encodedFullAddr.replace(/'/g, "\\'")}', '${store.tk}');" class="flex-1 min-w-[120px] flex items-center justify-center gap-1 px-2 py-2 bg-lentaBlue hover:bg-[#003366] text-white rounded-xl text-xs font-bold transition-all tactile-btn shadow-[0_4px_10px_rgba(0,65,130,0.2)] cursor-pointer">
-                                        <svg class="w-4 h-4 text-lentaYellow shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" /></svg>
-                                        Навигатор
-                                    </button>
+                                <button onclick="addToShifts('${store.tk}', '${displayBrand}', '${cleanAddressText.replace(/'/g, "\\'")}', '${store.city}')" class="w-full flex items-center justify-center gap-2 px-3 py-2 bg-purple-50 dark:bg-purple-900/20 hover:bg-purple-100 dark:hover:bg-purple-900/40 text-purple-600 dark:text-purple-400 border border-purple-200 dark:border-purple-800/50 rounded-xl text-xs font-bold transition-all tactile-btn cursor-pointer">
+                                    <span class="text-sm">📝</span> Учесть
+                                </button>
 
-                                    <!-- Кнопки иконками -->
-                                    <div class="flex gap-2">
-                                        <a href="${panoUrl}" target="_blank" onclick="playTickSound()" title="${panoLabel}" class="w-10 flex items-center justify-center bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-600 dark:text-gray-200 rounded-xl transition-all tactile-btn">
-                                            <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                                        </a>
-                                        <button onclick="shareStore('${store.tk}', '${store.city}', '${cleanAddressText.replace(/'/g, "\\'")}', '${storeCustomRouteUrl}')" title="Поделиться" class="w-10 flex items-center justify-center bg-blue-50 dark:bg-slate-700 hover:bg-blue-100 dark:hover:bg-slate-600 text-lentaBlue dark:text-blue-400 rounded-xl transition-all tactile-btn cursor-pointer">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
-                                        </button>
-                                    </div>
+                                <div class="grid grid-cols-2 gap-2 pt-2">
+                                    <button onclick="openApproachMap('${storeCustomRouteUrl}')" title="Схема заезда на разгрузку" class="flex items-center justify-center gap-1.5 px-2 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-xs font-bold transition-all tactile-btn shadow-[0_4px_10px_rgba(16,185,129,0.3)] cursor-pointer">
+                                        <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+                                        <span class="truncate">Подъезд</span>
+                                    </button>
+                                    
+                                    <button onclick="playTickSound(); openNavModal('${encodedSmartQuery}');" class="flex items-center justify-center gap-1.5 px-2 py-2 bg-lentaBlue hover:bg-[#003366] text-white rounded-xl text-xs font-bold transition-all tactile-btn shadow-[0_4px_10px_rgba(0,65,130,0.2)] cursor-pointer">
+                                        <svg class="w-4 h-4 text-lentaYellow shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" /></svg>
+                                        <span class="truncate">Навигатор</span>
+                                    </button>
+                                    
+                                    <a href="${panoUrl}" target="_blank" onclick="playTickSound()" class="flex items-center justify-center gap-1.5 px-2 py-2 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-600 dark:text-gray-200 rounded-xl text-xs font-bold transition-all tactile-btn">
+                                        <svg class="w-4 h-4 shrink-0 text-gray-400 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                        <span class="truncate">Панорама</span>
+                                    </a>
+                                    
+                                    <button onclick="shareRoute('${store.tk}', '${displayBrand}', '${cleanAddressText.replace(/'/g, "\\'")}', '${storeCustomRouteUrl}', event)" class="flex items-center justify-center gap-1.5 px-2 py-2 bg-gray-100 dark:bg-slate-700 hover:bg-blue-50 dark:hover:bg-slate-600 text-gray-600 dark:text-gray-300 hover:text-lentaBlue dark:hover:text-blue-400 border border-transparent hover:border-blue-200 dark:hover:border-slate-500 rounded-xl transition-all tactile-btn cursor-pointer" title="Поделиться схемой заезда">
+                                        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
+                                        <span class="truncate">Отправить</span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -1898,13 +2142,28 @@
 
         searchInput.addEventListener('input', function() {
             renderCards(); 
-            const searchWords = getSearchWords(this.value);
+            const rawSearch = this.value.toLowerCase().trim();
+            const cleanSearchQuery = rawSearch.replace(/['"`]/g, '').replace('окэй', 'окей');
             autocompleteList.innerHTML = ''; 
             
-            if (searchWords.length === 0) { autocompleteList.classList.add('hidden'); return; }
+            if (!cleanSearchQuery) { autocompleteList.classList.add('hidden'); return; }
+            const searchWords = cleanSearchQuery.split(/\s+/).filter(w => w.length > 0);
 
             let suggestions = stores.filter(store => {
-                const matchesSearch = checkStoreMatches(store, searchWords);
+                let brandName = "ЛЕНТА";
+                if (store.address.includes("ОКЕЙ") || store.tk === "929929") brandName = "ОКЕЙ";
+                else if (store.address.includes("Молл")) brandName = "РЦ МОЛЛ";
+                else if (store.address.includes("Монетка") || (store.tk.startsWith("92") && store.tk.length > 3)) brandName = "МОНЕТКА";
+
+                const cleanAddressTextSearch = store.address.replace(/\b\d{6}\b,?\s*/g, ''); 
+                const fullText = `тк ${store.tk} рц ${store.tk} ${store.city} ${cleanAddressTextSearch} ${brandName}`.toLowerCase().replace(/['"`]/g, '');
+                const matchesSearch = searchWords.every(word => {
+                    if (/^\d+$/.test(word)) {
+                        return store.tk === word || new RegExp(`\\b${word}\\b`).test(cleanAddressTextSearch.toLowerCase());
+                    }
+                    return fullText.includes(word);
+                });
+                
                 let matchesFilter = true;
                 if (selectedCityFilter !== 'all' && store.city !== selectedCityFilter) matchesFilter = false;
                 return matchesSearch && matchesFilter;
@@ -1995,28 +2254,6 @@
                 icon.className = 'absolute -bottom-1 -right-2 w-4 h-4 bg-amber-50 border-amber-200 flex items-center justify-center text-[8px] shadow-sm border rounded-full';
             }
         }
-
-        window.executeNavigation = function(type) {
-            playTickSound();
-            let navUrl = '';
-            const encFullAddr = encodeURIComponent(currentNavFullAddress);
-            
-            if (type === 'yandex') {
-                const coords = storeCoords[currentNavTk];
-                if (coords) {
-                    navUrl = `https://yandex.ru/maps/?rtext=~${coords.lat},${coords.lon}&rtt=auto`;
-                } else {
-                    navUrl = `https://yandex.ru/maps/?rtext=~${encFullAddr}&rtt=auto`;
-                }
-            } else if (type === '2gis') {
-                navUrl = `https://2gis.ru/routeSearch/rsType/car/to/${encFullAddr}/go`;
-            } else if (type === 'google') {
-                navUrl = `https://www.google.com/maps/dir/?api=1&destination=${encFullAddr}&travelmode=driving`;
-            }
-            
-            window.location.href = navUrl;
-            closeNavModal();
-        };
 
         // ==========================================
         // ЛОГИКА СЦЕНОК (ЮМОР ЛОГИСТИКИ)
