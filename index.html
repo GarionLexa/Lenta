@@ -89,7 +89,6 @@
         .record-spin { animation: recordSpin 4s linear infinite; }
         @keyframes recordSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* --- АНИМАЦИЯ МИКРОФОНА --- */
         @keyframes pulse-ring {
             0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
             70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
@@ -339,7 +338,6 @@
         .story-bubble.actor-marina::after, .story-bubble.actor-marina .story-bubble-inner::after { right: 40px; }
         .story-bubble.actor-mech::after, .story-bubble.actor-mech .story-bubble-inner::after { left: 50%; margin-left: -5px; }
 
-        /* Стили для скроллбара в деталях смены */
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
@@ -430,6 +428,7 @@
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
                     </div>
                 </a>
+
             </div>
         </div>
     </div>
@@ -444,7 +443,6 @@
             <h3 class="text-lg font-black text-lentaDark dark:text-white mb-2 tracking-tight uppercase pr-8 mt-1">Инструкция РЦ Монетка</h3>
             
             <div class="overflow-y-auto pr-2 pb-2 space-y-4 text-sm text-gray-700 dark:text-gray-300">
-                
                 <div class="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-2xl p-4">
                     <div class="font-bold text-blue-800 dark:text-blue-300 flex items-center gap-2 mb-1">
                         <span class="text-lg">❄️</span> ВАЖНО: ЗАМОРОЗКА
@@ -507,6 +505,71 @@
         </div>
     </div>
 
+    <!-- Модал Памятки от Механика (Правила автохозяйства) -->
+    <div id="rulesModal" class="fixed inset-0 z-[100] bg-gray-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 transition-opacity">
+        <div class="glass-modal rounded-[32px] p-6 max-w-md w-full relative animate-reveal bg-white dark:bg-slate-800 shadow-2xl flex flex-col max-h-[90vh]">
+            <button onclick="closeRulesModal();" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white bg-gray-100 dark:bg-slate-700 p-2.5 rounded-full transition-colors cursor-pointer tactile-btn z-10">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            
+            <h3 class="text-lg font-black text-lentaDark dark:text-white mb-2 tracking-tight uppercase pr-8 mt-1 flex items-center gap-2">
+                <span>Памятка от механика</span>
+            </h3>
+            
+            <div class="overflow-y-auto pr-2 pb-2 space-y-3 text-sm text-gray-700 dark:text-gray-300 mt-2">
+                
+                <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/50 rounded-2xl p-4">
+                    <div class="font-black text-red-700 dark:text-red-400 flex items-center gap-2 mb-1 uppercase tracking-wide text-xs">
+                        <span class="text-lg">‼️</span> Ограничение скорости
+                    </div>
+                    <p class="text-sm font-bold text-red-900 dark:text-red-300 leading-relaxed">Напоминаю, что скорость <span class="bg-red-200 dark:bg-red-800 px-1.5 rounded">80 км/час!</span></p>
+                    <p class="text-[11px] text-red-700 dark:text-red-400 mt-1">Прошу учесть погодные условия и правильно выбирать скоростной режим.</p>
+                </div>
+
+                <div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-900/50 rounded-2xl p-4">
+                    <div class="font-black text-amber-700 dark:text-amber-400 flex items-center gap-2 mb-1 uppercase tracking-wide text-xs">
+                        <span class="text-lg">🛑</span> Путевые листы
+                    </div>
+                    <p class="text-xs text-amber-900 dark:text-amber-300 leading-relaxed font-medium">Путевые листы <b class="uppercase">закрываем после каждого рейса</b>, на руках не держим.</p>
+                    <div class="mt-2 flex items-center justify-center gap-2 text-xs font-black text-amber-700 dark:text-amber-500 bg-amber-100 dark:bg-amber-900/50 py-1.5 rounded-lg border border-amber-200 dark:border-amber-800">
+                        Приехали ➜ Закрыли ➜ Принесли
+                    </div>
+                    <p class="text-xs font-bold text-red-600 dark:text-red-400 mt-2 text-center uppercase tracking-wide">Не сидим в машине с путевками!</p>
+                </div>
+
+                <div class="space-y-2 pt-2">
+                    <div class="bg-gray-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-gray-100 dark:border-slate-600 flex gap-3">
+                        <div class="text-xl">🚛</div>
+                        <div>
+                            <div class="font-bold text-gray-900 dark:text-white text-xs mb-0.5">Осмотр вагона на РЦ</div>
+                            <div class="text-xs text-gray-600 dark:text-gray-400 leading-tight">По прибытию на распределительный центр <b>звоним механику</b> и подъезжаем на осмотр к вагону.</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-gray-100 dark:border-slate-600 flex gap-3">
+                        <div class="text-xl">📦</div>
+                        <div>
+                            <div class="font-bold text-gray-900 dark:text-white text-xs mb-0.5">Возврат тары</div>
+                            <div class="text-xs text-gray-600 dark:text-gray-400 leading-tight">Соблюдаем РТО. Не забываем ставить карту тахографа. <b>Мы забираем тару.</b></div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 dark:bg-slate-700/50 p-3.5 rounded-xl border border-gray-100 dark:border-slate-600 flex gap-3">
+                        <div class="text-xl">📄</div>
+                        <div>
+                            <div class="font-bold text-gray-900 dark:text-white text-xs mb-0.5">Внимание к документам</div>
+                            <div class="text-xs text-gray-600 dark:text-gray-400 leading-tight">Смотрим внимательно документы, <b>куда ехать</b>.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center font-bold text-gray-400 dark:text-gray-500 text-[10px] uppercase tracking-widest mt-4">
+                    Желаю всем хорошей смены 🤝
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Модал Календаря Смен -->
     <div id="calendarModal" class="fixed inset-0 z-[100] bg-gray-900/60 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-5 transition-opacity">
         <div class="glass-modal rounded-[24px] sm:rounded-[32px] p-4 sm:p-6 w-full max-w-sm relative animate-reveal bg-white dark:bg-slate-800 shadow-2xl flex flex-col max-h-[90vh]">
@@ -562,40 +625,47 @@
     <header class="glass-header">
         <div class="max-w-[1600px] mx-auto px-3 sm:px-6 relative z-10 pb-4">
             
-            <div class="flex flex-row items-center justify-between gap-1 sm:gap-4 mb-4">
+            <div class="flex flex-row items-center justify-between gap-2 sm:gap-4 mb-4">
                 <div class="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 pr-1">
                     <div onclick="handleLogoTap()" class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white shadow-[0_6px_15px_rgba(0,0,0,0.08)] flex items-center justify-center shrink-0 border border-gray-100 overflow-hidden relative cursor-pointer tactile-btn z-50 group" title="1 Тап: Плей/Пауза. 2 Тапа: Сброс">
-                        <img id="logoImage" src="icon.png" alt="Логотип" class="w-full h-full object-cover transition-transform group-hover:scale-105" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\\'http://www.w3.org/2000/svg\\' viewBox=\\'0 0 100 100\\'%3E%3Ccircle cx=\\'50\\' cy=\\'50\\' r=\\'50\\' fill=\\'%23FDCB05\\'/%3E%3Ccircle cx=\\'50\\' cy=\\'50\\' r=\\'20\\' fill=\\'%23004182\\'/%3E%3C/svg%3E'">
+                        <img id="logoImage" src="icon.png" alt="" class="w-full h-full object-cover transition-transform group-hover:scale-105" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\\'http://www.w3.org/2000/svg\\' viewBox=\\'0 0 100 100\\'%3E%3Ccircle cx=\\'50\\' cy=\\'50\\' r=\\'50\\' fill=\\'%23FDCB05\\'/%3E%3Ccircle cx=\\'50\\' cy=\\'50\\' r=\\'20\\' fill=\\'%23004182\\'/%3E%3C/svg%3E'">
                         <div class="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent pointer-events-none rounded-full mix-blend-overlay"></div>
                     </div>
                     <div class="min-w-0 flex-1">
-                        <!-- На мобилках заголовок будет немного меньше и строго обрезаться, чтобы не толкать кнопки APK -->
-                        <h1 class="text-[13px] sm:text-base md:text-xl font-black text-lentaDark dark:text-blue-50 tracking-tight flex items-center gap-1.5 md:gap-2 truncate w-full">
-                            <span class="truncate">ЛЕНТА</span>
-                            <span class="bg-lentaYellow text-lentaDark px-1.5 py-0.5 md:px-2 rounded text-[8px] sm:text-[10px] font-bold shadow-sm shrink-0">ЛОГИСТИКА</span>
+                        <h1 class="text-[14px] sm:text-base md:text-xl font-black text-lentaDark dark:text-blue-50 tracking-tight flex items-center gap-1.5 md:gap-2 w-full">
+                            <span>ЛЕНТА</span>
+                            <span class="bg-lentaYellow text-lentaDark px-1.5 py-0.5 md:px-2 rounded text-[9px] sm:text-[10px] font-bold shadow-sm shrink-0">ЛОГИСТИКА</span>
                         </h1>
-                        <div class="text-[9px] sm:text-[10px] md:text-[11px] text-gray-500 dark:text-gray-400 font-medium mt-0.5 truncate w-full">
+                        <div class="text-[10px] sm:text-[11px] text-gray-500 dark:text-gray-400 font-medium mt-0.5 truncate w-full">
                             Мониторинг доставок
                         </div>
                     </div>
                 </div>
                 
-                <!-- Блок с кнопками (адаптирован для узких экранов - меньше gap и размеры) -->
-                <div class="flex items-center gap-1 sm:gap-2 shrink-0">
+                <!-- Блок с кнопками (Компактный топовый дизайн) -->
+                <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                    
+                    <!-- Кнопка Предложений / Разработчику (Максу) - Иконка чата -->
+                    <a href="https://max.ru/join/xpn98S2KE1ueR2mjjDXeTPxt8N0roEbd_r1KT6Q-uGY" target="_blank" onclick="playTickSound()" class="bg-indigo-50 dark:bg-slate-800 text-indigo-500 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-slate-700 w-8 h-8 sm:w-10 sm:h-10 rounded-xl shadow-sm border border-indigo-100 dark:border-slate-700 flex items-center justify-center cursor-pointer tactile-btn shrink-0 transition-colors" title="Написать Максу (Идеи/Ошибки)">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                    </a>
+                    
                     <!-- Кнопка Календаря -->
-                    <button id="calendarBtn" onclick="openCalendarModal()" class="bg-gray-100 dark:bg-slate-800 text-purple-500 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-slate-700 w-8 h-8 sm:w-10 sm:h-10 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 flex items-center justify-center cursor-pointer tactile-btn shrink-0" title="Мои смены">
+                    <button id="calendarBtn" onclick="openCalendarModal()" class="bg-gray-100 dark:bg-slate-800 text-purple-500 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-slate-700 w-8 h-8 sm:w-10 sm:h-10 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 flex items-center justify-center cursor-pointer tactile-btn shrink-0 transition-colors" title="Мои смены">
                         <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     </button>
+                    
                     <!-- Кнопка Темы -->
-                    <button id="themeToggleBtn" onclick="toggleTheme()" class="bg-gray-100 dark:bg-slate-800 text-gray-400 dark:text-gray-400 hover:text-amber-500 hover:bg-amber-50 dark:hover:bg-slate-700 w-8 h-8 sm:w-10 sm:h-10 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 flex items-center justify-center cursor-pointer tactile-btn shrink-0" title="Сменить тему">
+                    <button id="themeToggleBtn" onclick="toggleTheme()" class="bg-gray-100 dark:bg-slate-800 text-gray-400 dark:text-gray-400 hover:text-amber-500 hover:bg-amber-50 dark:hover:bg-slate-700 w-8 h-8 sm:w-10 sm:h-10 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 flex items-center justify-center cursor-pointer tactile-btn shrink-0 transition-colors" title="Сменить тему">
                         <svg id="themeIcon" class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                         </svg>
                     </button>
-                    <!-- Кнопка APK -->
-                    <a href="app.apk" download class="flex items-center justify-center gap-1 bg-[#004182] hover:bg-[#003366] text-white h-8 sm:h-10 px-2 sm:px-3 rounded-xl shadow-[0_6px_15px_rgba(0,65,130,0.2)] transition-all tactile-btn cursor-pointer shrink-0">
-                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-lentaYellow" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                        <span class="text-[9px] sm:text-[11px] font-bold tracking-wide uppercase">APK</span>
+                    
+                    <!-- Кнопка APK (Компактная на мобильных) -->
+                    <a href="app.apk" download onclick="playTickSound()" class="flex items-center justify-center gap-1.5 bg-[#004182] hover:bg-[#003366] text-white w-8 h-8 sm:w-auto sm:px-3 sm:h-10 rounded-xl shadow-[0_6px_15px_rgba(0,65,130,0.2)] transition-all tactile-btn cursor-pointer shrink-0">
+                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-lentaYellow shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        <span class="hidden sm:block text-[11px] font-bold tracking-wide uppercase">APK</span>
                     </a>
                 </div>
             </div>
@@ -735,8 +805,8 @@
                     <div class="text-[9px] text-gray-400 font-bold uppercase tracking-widest mt-0 text-center w-full z-20 relative">Контакты</div>
                 </div>
                 
-                <div id="speedContainer" class="flex flex-col items-center justify-center cursor-default shrink-0 min-w-[50px] z-10" title="Ограничение скорости на этот сезон">
-                    <div class="w-10 h-10 rounded-full border-[3px] border-red-500 bg-white dark:bg-gray-100 flex items-center justify-center shadow-[0_4px_10px_rgba(239,68,68,0.2)] relative">
+                <div id="speedContainer" onclick="openRulesModal();" class="flex flex-col items-center justify-center cursor-pointer tactile-btn shrink-0 min-w-[50px] z-10 group" title="Памятка от механика (Ограничение скорости и правила)">
+                    <div class="w-10 h-10 rounded-full border-[3px] border-red-500 bg-white dark:bg-gray-100 flex items-center justify-center shadow-[0_4px_10px_rgba(239,68,68,0.2)] relative group-hover:scale-105 transition-transform">
                         <span id="speedLimitNumber" class="text-slate-800 font-black text-base leading-none tracking-tighter">80</span>
                         <div id="seasonIcon" class="absolute -bottom-1 -right-2 w-4 h-4 rounded-full flex items-center justify-center text-[8px] shadow-sm border"></div>
                     </div>
@@ -1033,7 +1103,7 @@
         function initCounter() {
             const badge = document.getElementById('visitCounterBadge');
             const uniqueTime = Date.now(); 
-            badge.src = `https://hits.sh/garionlexa.github.io/lenta_app_v2.svg?label=%D0%92%D0%B8%D0%B7%D0%B8%D1%82%D1%8B&color=1e293b&labelColor=334155&nocache=${uniqueTime}`;
+            badge.src = `https://hits.sh/garionlexa.github.io/lenta_app_v3.svg?label=%D0%92%D0%B8%D0%B7%D0%B8%D1%82%D1%8B&color=1e293b&labelColor=334155&nocache=${uniqueTime}`;
         }
         initCounter();
 
@@ -1749,6 +1819,13 @@
         window.openMonetkaModal = function() { document.getElementById('monetkaModal').classList.remove('hidden'); };
         window.closeMonetkaModal = function() { document.getElementById('monetkaModal').classList.add('hidden'); };
 
+        // Новая функция для модала "Памятка от механика"
+        window.openRulesModal = function() { 
+            playTickSound();
+            document.getElementById('rulesModal').classList.remove('hidden'); 
+        };
+        window.closeRulesModal = function() { document.getElementById('rulesModal').classList.add('hidden'); };
+
         function showToast(message) {
             let toast = document.getElementById('toast-notification');
             if (!toast) {
@@ -1784,20 +1861,16 @@
             }
         };
 
-        // Умная очистка адреса для навигатора (убирает всё, что ломает поиск Яндекса)
         function getSmartNavQuery(city, address) {
             let text = address;
             
-            // 1. Убираем юрлица
             text = text.replace(/ООО ["']?Лента["']?,?/gi, '')
                        .replace(/ООО ОКЕЙ,?/gi, '')
                        .replace(/РЦ ["']?Монетка["']?,?/gi, '')
                        .replace(/РЦ Молл,?/gi, '');
                        
-            // 2. Убираем индексы (6 подряд идущих цифр)
             text = text.replace(/\b\d{6}\b,?/g, '');
             
-            // 3. Убираем области, округа и края, которые сбивают поиск
             text = text.replace(/Свердловская обл(?:асть|\.)?,?/gi, '')
                        .replace(/Тюменская обл(?:асть|\.)?,?/gi, '')
                        .replace(/Челябинская обл(?:асть|\.)?,?/gi, '')
@@ -1810,18 +1883,12 @@
                        .replace(/Екатеринбург г\.о\.?,?/gi, '')
                        .replace(/г\.о\.,?/gi, '');
                        
-            // 4. Убираем приставку города (например, "г. Екатеринбург"), так как мы сами вставим чистый город в начало
             text = text.replace(/г\.\s*[А-Яа-я-]+,?/g, '');
-            text = text.replace(new RegExp(`\\b${city}\\b,`, 'gi'), ''); // на случай если город уже есть с запятой
+            text = text.replace(new RegExp(`\\b${city}\\b,`, 'gi'), ''); 
             
-            // 5. ВАЖНО: Заменяем слеши и запятые на пробелы, чтобы избежать ошибки ERR_HTTP2_PROTOCOL_ERROR
-            text = text.replace(/[\/\\]/g, ' ')
-                       .replace(/,/g, ' ');
-                       
-            // 6. Зачищаем лишние пробелы (двойные, тройные)
+            text = text.replace(/[\/\\]/g, ' ').replace(/,/g, ' ');
             text = text.replace(/\s+/g, ' ').trim();
             
-            // Итоговая строка: Город + чистая улица и номер дома
             return city + ' ' + text;
         }
 
@@ -2047,10 +2114,8 @@
                     const is24Text = store.is24_7 ? '24/7' : `${store.start} - ${store.end}`;
                     const rc1Html = store.rc1 !== '-' ? `<div class="flex flex-col items-end md:items-start"><span class="px-2 py-1 bg-emerald-500 text-white font-bold rounded-md shadow-sm text-[10px]">${store.rc1}</span> ${getTimeLeftHtml(store.rc1)}</div>` : '<span class="text-gray-300 dark:text-slate-600 font-bold">-</span>';
 
-                    // Текст адреса для отображения в карточке
                     const cleanAddressText = store.address.replace('ООО "Лента", ', '').replace('ООО "Лента" ', '').replace('РЦ "Монетка", ', '');
                     
-                    // Строки для навигатора и панорам
                     const smartQuery = getSmartNavQuery(store.city, store.address);
                     const encodedSmartQuery = encodeURIComponent(smartQuery);
 
@@ -2317,6 +2382,27 @@
                     { actor: 'sveta', text: 'Где фура с мороженым?', time: 2000, action: 'none' },
                     { actor: 'marina', text: 'По ГЛОНАССУ она посреди озера...', time: 2500, action: 'sweat' },
                     { actor: 'mech', text: 'Надеюсь, караси любят пломбир.', time: 2500, action: 'laughing' }
+                ]
+            },
+            {
+                dialogues: [
+                    { actor: 'mech', text: 'Кто опять с путевками в кабине сидит?!', time: 2500, action: 'sweat' },
+                    { actor: 'sveta', text: 'Они ими укрываются, холодно же.', time: 2500, action: 'laughing' },
+                    { actor: 'mech', text: 'Приехал - закрыл - принес! Не держим на руках!', time: 3000, action: 'none' }
+                ]
+            },
+            {
+                dialogues: [
+                    { actor: 'mech', text: 'Приехали на РЦ — звоним мне! И на осмотр к вагону.', time: 3000, action: 'sweat' },
+                    { actor: 'marina', text: 'А если водитель стесняется?', time: 2500, action: 'laughing' },
+                    { actor: 'mech', text: 'Главное, чтоб карту в тахограф не стеснялся ставить!', time: 3000, action: 'none' }
+                ]
+            },
+            {
+                dialogues: [
+                    { actor: 'mech', text: 'Напоминаю всем: скорость 80! И тару забираем!', time: 3000, action: 'sweat' },
+                    { actor: 'sveta', text: 'А если в документах другой адрес написан?', time: 2500, action: 'none' },
+                    { actor: 'mech', text: 'Вот поэтому внимательно смотрим документы, куда ехать!', time: 3500, action: 'none' }
                 ]
             }
         ];
