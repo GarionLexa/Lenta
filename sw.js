@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'lenta-v23-2026-10-21';
+const CACHE_VERSION = 'lenta-v25-2026-10-21';
 const CORE_ASSETS = [
   './', './index.html', './manifest.json', './icon.png', './road-icon.png', 
   './data.js', './data_services.js', './music.mp3',
