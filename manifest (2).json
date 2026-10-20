@@ -1,0 +1,23 @@
+{
+"name": "ЛЕНТА: Мониторинг доставок",
+"short_name": "Лента Логистика",
+"description": "База гипермаркетов и схем заездов для логистики",
+"start_url": "./index.html",
+"display": "standalone",
+"background_color": "#001A3D",
+"theme_color": "#001A3D",
+"icons": [
+{
+"src": "./icon.png",
+"sizes": "192x192",
+"type": "image/png",
+"purpose": "any maskable"
+},
+{
+"src": "./icon.png",
+"sizes": "512x512",
+"type": "image/png",
+"purpose": "any maskable"
+}
+]
+}
