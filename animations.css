@@ -1,0 +1,57 @@
+/* --- АНИМАЦИИ ДЛЯ МИКРОФОНА И РАДАРА --- */
+@keyframes micPulse {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); background-color: rgba(239, 68, 68, 0.1); color: #ef4444 !important; }
+  70% { box-shadow: 0 0 0 12px rgba(239, 68, 68, 0); background-color: rgba(239, 68, 68, 0.2); color: #ef4444 !important; }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); background-color: rgba(239, 68, 68, 0.1); color: #ef4444 !important; }
+}
+.mic-listening {
+  animation: micPulse 1.5s infinite !important;
+  color: #ef4444 !important;
+  border-color: #ef4444 !important;
+}
+
+@keyframes radarWave {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(2.5); opacity: 0; }
+}
+.radar-active {
+  position: relative;
+  color: #10b981 !important;
+  border-color: #10b981 !important;
+  z-index: 10;
+}
+.radar-active::before,
+.radar-active::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  border: 2px solid #10b981;
+  transform: translate(-50%, -50%);
+  animation: radarWave 2s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+  pointer-events: none;
+  z-index: 0;
+}
+.radar-active::after {
+  animation-delay: 0.8s;
+}
+.radar-active svg {
+  position: relative;
+  z-index: 10;
+}
+
+/* --- ТАНЦЫ И ДИСКОШАР --- */
+.dancing #girlsGroup, .dancing #svetaBody, .dancing #marinaBody { animation: danceGirls 0.5s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); transform-origin: center bottom; }
+.dancing #mechGroup, .dancing #mechBody { animation: danceMech 0.5s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); transform-origin: center bottom; }
+@keyframes danceGirls { 0% { transform: translateY(0) rotate(0deg); } 100% { transform: translateY(-4px) rotate(4deg); } }
+@keyframes danceMech { 0% { transform: translateY(0) rotate(0deg); } 100% { transform: translateY(-4px) rotate(-4deg); } }
+
+.disco-ball { position: absolute; top: 0; left: 50%; transform: translate(-50%, -150%); transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease; opacity: 0; z-index: 40; pointer-events: none; }
+.disco-ball.dropped { transform: translate(-50%, 5px); opacity: 1; }
+.disco-ball-inner { width: 40px; height: 40px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #fff, #d1d5db, #6b7280); box-shadow: inset -5px -5px 10px rgba(0,0,0,0.4), 0 0 20px rgba(255,255,255,0.4); position: relative; z-index: 2; }
+.disco-rays { position: absolute; top: 50%; left: 50%; width: 200px; height: 200px; margin-left: -100px; margin-top: -100px; background: conic-gradient(from 0deg, transparent 0deg 20deg, rgba(255, 255, 255, 0.4) 20deg 40deg, transparent 40deg 60deg, rgba(255, 255, 255, 0.4) 60deg 80deg, transparent 80deg 100deg, rgba(255, 255, 255, 0.4) 100deg 120deg, transparent 120deg 140deg, rgba(255, 255, 255, 0.4) 140deg 160deg, transparent 160deg 180deg, rgba(255, 255, 255, 0.4) 180deg 200deg, transparent 200deg 220deg, rgba(255, 255, 255, 0.4) 220deg 240deg, transparent 240deg 260deg, rgba(255, 255, 255, 0.4) 260deg 280deg, transparent 280deg 300deg, rgba(255, 255, 255, 0.4) 300deg 320deg, transparent 320deg 340deg, rgba(255, 255, 255, 0.4) 340deg 360deg); border-radius: 50%; opacity: 0; transition: opacity 0.3s; animation: spinRays 6s linear infinite; z-index: 1; }
+.disco-ball.dropped .disco-rays { opacity: 1; }
+@keyframes spinRays { 100% { transform: rotate(360deg); } }
