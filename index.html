@@ -439,7 +439,6 @@ html.very-large-text .text-sm   { font-size: 18px !important; }
 
   <div id="controlPanel" class="flex-1 w-full xl:w-auto bg-white/60 dark:bg-black/30 backdrop-blur-xl rounded-[28px] shadow-sm border border-white/40 dark:border-white/5 py-2 px-4 flex items-center justify-between transition-all duration-700 min-h-[80px]">
     <div id="visitContainer" class="flex flex-col items-center justify-center shrink-0 min-w-[70px] z-10" title="Счётчик визитов">
-      <!-- ЗАМЕНА СЧЕТЧИКА НА ЛОКАЛЬНЫЙ С ВОЗМОЖНОСТЬЮ СБРОСА -->
       <div id="visitCounterBadge" onclick="handleVisitReset()" class="bg-slate-800 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm cursor-pointer select-none tactile-btn" title="Двойной клик для сброса">0 ВИЗИТОВ</div>
     </div>
     <div id="centerStage" class="relative flex flex-col items-center flex-1 max-w-lg cursor-pointer tactile-btn mx-3 group z-20" onclick="playTickSound(); openContactsModal();">
@@ -1196,16 +1195,20 @@ function renderCards() {
       
       const phoneLink = st.phone ? `<a href="tel:${st.phone.replace(/[^0-9+]/g, '')}" class="inline-flex items-center text-[11px] font-bold text-blue-600 dark:text-blue-400 underline decoration-blue-600/30 underline-offset-2 hover:decoration-blue-600 whitespace-nowrap mt-1">📞 ${st.phone}</a>` : '';
       
-      // ЛОГИКА ДЛЯ КНОПКИ "ПОЕХАТЬ" (ВОЗВРАЩАЕМ СТАРЫЙ АЛГОРИТМ ДЛЯ ТОЧЕК)
+      // ЛОГИКА ДЛЯ КНОПКИ "ПОЕХАТЬ"
       const navQ = st.address || '';
       const coordsStr = (st.lat && st.lon) ? `${st.lat},${st.lon}` : '';
       const encQ = navQ.replace(/'/g, "\\'");
       const safeCoords = coordsStr.replace(/'/g, "\\'");
       
+      // Если в адресе есть "км" или "километр" (трассовая точка) - надёжнее только координаты.
+      // Для остальных сервисов - гибрид (адрес + координаты), чтобы Яндекс искал по адресу.
+      const isHighwayRoute = /км|километр/i.test(navQ);
       let navOnClick = '';
-      if (coordsStr) {
-          // Если есть координаты, отправляем ТОЛЬКО их (старый алгоритм)
+      if (coordsStr && isHighwayRoute) {
           navOnClick = `openNavModal('${safeCoords}')`;
+      } else if (coordsStr) {
+          navOnClick = `openNavModal('${encQ}', '${safeCoords}')`;
       } else {
           navOnClick = `openNavModal('${encQ}')`;
       }
@@ -1518,3 +1521,4 @@ if (!navigator.onLine) { const b = document.getElementById('offlineBanner'); if 
 </script>
 </body>
 </html>
+
